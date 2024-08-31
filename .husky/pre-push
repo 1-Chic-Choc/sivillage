@@ -1,11 +1,17 @@
 #!/bin/bash
 protected_branches='main develop'
-current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
-for protected_branch in $protected_branches; do
-    if [ $protected_branch = $current_branch ]; then
-        echo "You're about to push protected branch ($(echo $protected_branch))."
-        exit 1 # push will not execute
-    fi
+
+# 커밋을 푸시하려는 대상에 대한 정보를 받아옴
+while read local_ref local_sha remote_ref remote_sha; do
+    # 원격 브랜치 이름 추출
+    branch_name=$(echo $remote_ref | sed 's/refs\/heads\///')
+
+    for protected_branch in $protected_branches; do
+        if [ $protected_branch = $branch_name ]; then
+            echo "You're about to push to a protected branch ($protected_branch). Push has been denied."
+            exit 1 # push will not execute
+        fi
+    done
 done
 
 exit 0 # push will execute
