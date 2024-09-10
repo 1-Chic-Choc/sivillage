@@ -1,4 +1,4 @@
-import ColoredImage from "@/components/test/ColoredImage2";
+import ColoredImage from "@/components/colored-image-test/ColoredImage";
 import Image from "next/image";
 
 const color_classes = [
