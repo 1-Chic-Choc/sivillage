@@ -1,12 +1,13 @@
 import BrandHeader from "@/components/headers/BrandHeader";
-import BrandTabNav from "@/components/layouts/brand/BrandTabNav";
+import BrandTabNavBar from "@/components/navbars/BrandTabNavBar";
+
 import React from "react";
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <BrandHeader />
-      <BrandTabNav />
+      <BrandTabNavBar />
       {children}
     </>
   );
