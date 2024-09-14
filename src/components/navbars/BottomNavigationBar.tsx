@@ -28,6 +28,7 @@ export default function BottomNavigationBar() {
       >
         {paths.map(({ text, path, icon }) => (
           <div
+            key={path}
             className={cn(
               "w-full h-full border-t-[1px] border-[#e0e0e0]",
               "flex justify-center items-center",
