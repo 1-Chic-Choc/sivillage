@@ -8,17 +8,19 @@ import { Form } from "@/components/ui/form";
 import FormSection from "../FormSection";
 import { CheckboxFieldData, InputFieldData } from "../form-interface";
 import InputWithClear from "../../inputs/InputWithClear";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const inputFieldDatas: InputFieldData[] = [
   {
     name: "email",
     inputElement: InputWithClear,
-    placeholder: "아이디(이메일주소)를 입력해주세요",
+    placeholder: "아이디(이메일주소)",
   },
   {
     name: "password",
     inputElement: InputWithClear,
-    placeholder: "비밀번호를 입력해주세요",
+    placeholder: "비밀번호",
     props: { type: "password" },
   },
 ];
@@ -48,8 +50,16 @@ export default function SignInForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormSection {...{ form, inputFieldDatas, checkboxFieldDatas }} />
-        <button type="submit">로그인</button>
+        {/* <FormSection {...{ form, inputFieldDatas, checkboxFieldDatas }} /> */}
+
+        <div className="mt-[28px]">
+          <Button
+            type="submit"
+            className={cn("w-full h-[48px] rounded-none leading-[normal]")}
+          >
+            로그인
+          </Button>
+        </div>
       </form>
     </Form>
   );

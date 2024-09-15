@@ -81,11 +81,17 @@ function AddressInput(
 
   return (
     <div className={cn("grid grid-cols-[1fr_80px]")}>
-      <InputWithClear value={address.fullAddress} disabled />
+      <p className="flex items-center text-[14px] text-[#A0A0A0] h-[40px]">
+        {address.fullAddress || "주소를 입력해 주세요."}
+      </p>
 
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline" onClick={() => setIsOpen(true)}>
+          <Button
+            variant="outline"
+            className={cn("w-[80px] h-[40px] rounded-none")}
+            onClick={() => setIsOpen(true)}
+          >
             주소검색
           </Button>
         </DialogTrigger>

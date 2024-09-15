@@ -56,6 +56,11 @@ const checkboxFieldDatas: CheckboxFieldData[] = [
   },
 ];
 
-export default function AgreementField({ form }: any) {
-  return <FormSection {...{ form, checkboxFieldDatas }} />;
+export default function AgreementField({ form, className }: any) {
+  return (
+    <FormSection
+      {...{ className, form, checkboxFieldDatas }}
+      title="이용약관"
+    />
+  );
 }

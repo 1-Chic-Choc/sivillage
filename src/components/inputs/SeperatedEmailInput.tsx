@@ -52,28 +52,32 @@ function SeperatedEmailInput(
   }
 
   return (
-    <div className={cn("grid grid-cols-4")}>
+    <div className={cn("flex items-center")}>
       <InputWithClear
         ref={id_ref}
         onChange={handleEmailChange}
         onClear={clearId}
+        className="w-full"
       />
 
-      <div className={cn("flex justify-center items-center")}>@</div>
+      <span className={cn("mx-[9px] text-[14px]")}>@</span>
 
       <InputWithClear
         ref={domain_ref}
         onChange={handleEmailChange}
         onClear={clearDomain}
         value={isCustomDomain() ? selectedDomain : ""}
+        className="w-full"
         disabled={isCustomDomain()}
       />
 
-      <Select
-        defaultValue={selectedDomain}
-        onValueChange={selectDomain}
-        items={domains}
-      />
+      <div className={cn("w-full ml-[8px]")}>
+        <Select
+          defaultValue={selectedDomain}
+          onValueChange={selectDomain}
+          items={domains}
+        />
+      </div>
     </div>
   );
 }

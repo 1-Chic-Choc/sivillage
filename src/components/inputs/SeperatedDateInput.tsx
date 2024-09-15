@@ -71,27 +71,32 @@ function SeperatedDateInput(
   }, [name, date, setValue, trigger]);
 
   return (
-    <div className={cn("grid grid-cols-3")}>
-      <Select
-        onValueChange={handleYearChange}
-        items={yearItems}
-        placeholder="년도"
-        itemText={(year) => `${year}년`}
-      />
+    <div className={cn("flex")}>
+      <div className={cn("w-full")}>
+        <Select
+          onValueChange={handleYearChange}
+          items={yearItems}
+          placeholder="년도"
+          itemText={(year) => `${year}년`}
+        />
+      </div>
 
-      <Select
-        onValueChange={handleMonthChange}
-        items={monthItems}
-        placeholder="월"
-        itemText={(month) => `${month}월`}
-      />
-
-      <Select
-        onValueChange={handleDayChange}
-        items={dayItems}
-        placeholder="일"
-        itemText={(day) => `${day}일`}
-      />
+      <div className={cn("w-full ml-[8px]")}>
+        <Select
+          onValueChange={handleMonthChange}
+          items={monthItems}
+          placeholder="월"
+          itemText={(month) => `${month}월`}
+        />
+      </div>
+      <div className={cn("w-full ml-[8px]")}>
+        <Select
+          onValueChange={handleDayChange}
+          items={dayItems}
+          placeholder="일"
+          itemText={(day) => `${day}일`}
+        />
+      </div>
     </div>
   );
 }

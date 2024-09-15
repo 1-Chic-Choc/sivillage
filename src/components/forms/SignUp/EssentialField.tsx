@@ -47,6 +47,11 @@ const checkboxFieldDatas: CheckboxFieldData[] = [
   },
 ];
 
-export default function EssentialField({ form }: any) {
-  return <FormSection {...{ form, inputFieldDatas, checkboxFieldDatas }} />;
+export default function EssentialField({ className, form }: any) {
+  return (
+    <FormSection
+      {...{ className, form, inputFieldDatas, checkboxFieldDatas }}
+      title="필수항목"
+    />
+  );
 }

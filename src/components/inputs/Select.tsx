@@ -5,6 +5,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface SelectProps {
   defaultValue?: string;
@@ -23,7 +24,9 @@ export default function Select({
 }: SelectProps) {
   return (
     <ShadcnSelect {...{ defaultValue, onValueChange }}>
-      <SelectTrigger>
+      <SelectTrigger
+        className={cn("h-[48px] rounded-none pl-[16px] leading-[normal]")}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

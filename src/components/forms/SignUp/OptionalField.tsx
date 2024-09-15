@@ -33,13 +33,16 @@ const checkboxFieldDatas: CheckboxFieldData[] = [
     ),
     description: (
       <>
-        <strong className="underline">
+        <span className="underline font-[700] text-[#404040] text-wrap">
           수신 미동의 시 신세계인터내셔날에서 진행하는 이벤트 및 할인,
           인기/신상품 등의 정보를 받아보실 수 없으며, 이벤트 및 추가 혜택 제공
           대상에서 제외될 수 있습니다.
-        </strong>
-        <br />- 회원가입/구매/회사의 주요정책 관련 정보는 수신동의와 관계없이
-        모든 회원에게 발송됩니다.
+        </span>
+        <br />
+        <span className="font-[400] text-[12px] text-[#787878] text-wrap">
+          - 회원가입/구매/회사의 주요정책 관련 정보는 수신동의와 관계없이 모든
+          회원에게 발송됩니다.
+        </span>
       </>
     ),
   },
@@ -70,6 +73,11 @@ const checkboxFieldDatas: CheckboxFieldData[] = [
   },
 ];
 
-export default function OptionalField({ form }: any) {
-  return <FormSection {...{ form, inputFieldDatas, checkboxFieldDatas }} />;
+export default function OptionalField({ className, form }: any) {
+  return (
+    <FormSection
+      {...{ className, form, inputFieldDatas, checkboxFieldDatas }}
+      title="선택항목"
+    />
+  );
 }

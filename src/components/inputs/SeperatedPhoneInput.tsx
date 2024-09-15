@@ -42,21 +42,28 @@ function PhoneInput(
   }
 
   return (
-    <div className={cn("grid grid-cols-[90px_1fr_90px]")}>
-      <Select
-        defaultValue={selectedPrefix}
-        onValueChange={selectPrefix}
-        items={prefixes}
-      />
+    <div className={cn("flex items-center")}>
+      <div className={cn("w-[90px] mr-[8px]")}>
+        <Select
+          defaultValue={selectedPrefix}
+          onValueChange={selectPrefix}
+          items={prefixes}
+        />
+      </div>
 
       <InputWithClear
         ref={phone_ref}
+        className="flex-grow"
         onChange={handlePhoneChange}
         onClear={clearPhone}
+        placeholder="휴대폰번호"
         maxLength={8}
       />
 
-      <Button type="button" className={cn("rounded-none")}>
+      <Button
+        type="button"
+        className={cn("w-[90px] h-[48px] ml-[8px] rounded-none")}
+      >
         인증하기
       </Button>
     </div>
