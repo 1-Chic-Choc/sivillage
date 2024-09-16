@@ -50,7 +50,7 @@ export default function SignInForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        {/* <FormSection {...{ form, inputFieldDatas, checkboxFieldDatas }} /> */}
+        <FormSection {...{ form, inputFieldDatas, checkboxFieldDatas }} />
 
         <div className="mt-[28px]">
           <Button
