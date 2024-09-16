@@ -4,10 +4,12 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 interface GlobalNavigationBarProps {
+  className?: string;
   children: React.ReactNode;
 }
 
 export default function GlobalNavigationBar({
+  className,
   children,
 }: GlobalNavigationBarProps): JSX.Element {
   const [isVisible, setIsVisible] = useState(true);
@@ -27,12 +29,15 @@ export default function GlobalNavigationBar({
     };
   }, [lastScrollY]);
 
-  const className = cn(
-    "sticky",
-    "w-full",
-    "bg-white",
-    isVisible ? "top-14" : "top-0",
+  return (
+    <nav
+      className={cn(
+        "sticky w-full bg-white",
+        className,
+        isVisible ? "top-14" : "top-0",
+      )}
+    >
+      {children}
+    </nav>
   );
-
-  return <nav {...{ className }}>{children}</nav>;
 }
