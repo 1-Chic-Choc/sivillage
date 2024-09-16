@@ -23,26 +23,22 @@ const name = z
   .string({ message: "이름을 입력해 주세요." })
   .min(1, { message: "이름을 입력해 주세요." });
 
-const phone = z
-  .string({ message: "핸드폰 번호를 입력해주세요/" })
-  .regex(new RegExp("^[\\d]{10,11}$"), {
-    message: "형식이 유효하지 않습니다.",
-  });
+const phone = z.string({ message: "핸드폰 번호를 입력해주세요." });
 
 const birth = z.string();
-
 const address = z.object({
   zonecode: z.string(),
   fullAddress: z.string(),
 });
 
-const shouldBeOver14 = z
+const over14 = z
   .array(z.string())
-  .refine((value) => value.some((item) => item === "shouldBeOver14"), {
+  .refine((value) => value.some((item) => item === "over14"), {
     message: "",
   });
 
-const marketingAgreements = z.array(z.string());
+const marketingAgreement = z.array(z.string());
+const marketingAgreementDetails = z.array(z.string());
 
 export const signInSchema = z.object({
   email: z
@@ -60,13 +56,14 @@ export const signUpEssential = z.object({
   passwordCheck,
   name,
   phone,
-  shouldBeOver14,
+  over14,
 });
 
 export const signUpOptional = z.object({
   birth,
   address,
-  marketingAgreements,
+  marketingAgreement,
+  marketingAgreementDetails,
 });
 
 export const signUpAgreements = z
@@ -75,8 +72,7 @@ export const signUpAgreements = z
     (value) =>
       value.includes("website") &&
       value.includes("member") &&
-      value.includes("personalInfo") &&
-      value.includes("membership"),
+      value.includes("personalInfo"),
     { message: "" },
   );
 

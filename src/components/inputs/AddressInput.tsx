@@ -38,7 +38,7 @@ interface IAddress {
 }
 
 function AddressInput(
-  { name }: { name: string },
+  { name, className }: { name: string; className?: string },
   ref: ForwardedRef<HTMLInputElement>,
 ) {
   const { setValue, trigger } = useFormContext();
@@ -80,7 +80,7 @@ function AddressInput(
   }
 
   return (
-    <div className={cn("grid grid-cols-[1fr_80px]")}>
+    <div className={cn("grid grid-cols-[1fr_81px]", className)}>
       <p className="flex items-center text-[14px] text-[#A0A0A0] h-[40px]">
         {address.fullAddress || "주소를 입력해 주세요."}
       </p>
@@ -89,14 +89,18 @@ function AddressInput(
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={cn("w-[80px] h-[40px] rounded-none")}
+            className={cn(
+              "w-[81px] h-[40px] rounded-none",
+
+              "text-[14px] font-[500] leading-[normal]",
+            )}
             onClick={() => setIsOpen(true)}
           >
             주소검색
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>주소검색</DialogTitle>
             <DialogDescription></DialogDescription>

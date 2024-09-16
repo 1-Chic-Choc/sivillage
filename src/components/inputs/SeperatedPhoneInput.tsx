@@ -62,7 +62,10 @@ function PhoneInput(
 
       <Button
         type="button"
-        className={cn("w-[90px] h-[48px] ml-[8px] rounded-none")}
+        className={cn(
+          "w-[90px] h-[48px] ml-[8px] rounded-none",
+          "text-[14px] font-[500] leading-[normal]",
+        )}
       >
         인증하기
       </Button>

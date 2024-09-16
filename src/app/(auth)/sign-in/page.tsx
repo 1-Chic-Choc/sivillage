@@ -6,8 +6,9 @@ import Link from "next/link";
 export default function page() {
   return (
     <div className="w-full h-screen">
-      <div className={cn("px-[24px]")}>
+      <div className={cn("pt-[28px] pb-[112px] px-[24px]")}>
         <SignInForm />
+
         <SNSLoignButtons />
 
         <div
@@ -19,6 +20,7 @@ export default function page() {
         >
           <Link href="sign-up">회원가입</Link>
         </div>
+
         <div
           className={cn(
             "w-full h-[20px] mt-[25px]",
