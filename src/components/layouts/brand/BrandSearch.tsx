@@ -1,6 +1,6 @@
 "use client";
 
-import SearchIcon from "@/icons/MainHeader/SearchIcon";
+import SearchIcon from "@/icons/Header/SearchIcon";
 import React, { useEffect, useRef, useState } from "react";
 
 export function TextClear() {
