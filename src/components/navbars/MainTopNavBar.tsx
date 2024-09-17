@@ -21,6 +21,7 @@ function MainNavBarLink({
       className={cn(
         "h-[48px] mx-[9px] border-b-[2px]",
         "flex flex-wrap items-center",
+        "overflow-hidden",
         text === "Home" && "px-[1px]",
         is_current ? "border-[#131922]" : "border-white",
       )}
