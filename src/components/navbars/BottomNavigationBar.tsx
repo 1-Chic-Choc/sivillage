@@ -17,7 +17,7 @@ const paths = [
 
 export default function BottomNavigationBar() {
   return (
-    <div className={cn("border-b", "fixed bottom-0", "w-full h-[56px]")}>
+    <div className={cn("border-b", "fixed bottom-0", "w-full h-[56px] z-50")}>
       <nav
         className={cn(
           "w-full h-[56px]",
