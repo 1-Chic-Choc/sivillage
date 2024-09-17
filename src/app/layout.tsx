@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/footer/Footer";
+import Aos from "@/components/layout/Aos";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body className={cn(roboto.className)}>
         {children}
         <Footer />
+        <Aos />
       </body>
     </html>
   );
