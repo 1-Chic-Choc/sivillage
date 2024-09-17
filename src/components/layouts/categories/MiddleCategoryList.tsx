@@ -1,53 +1,56 @@
 "use client";
 
-import {
-  middleCategoryData1,
-  middleCategoryData2,
-  middleCategoryData3,
-} from "@/datas/dummy/categoriesData";
-import { quickMenuEventData } from "@/datas/dummy/quickMenuEventData";
-import { quickMenuType } from "@/types/initialType";
-import { middleCategoryType } from "@/types/ResponseTypes";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { quickMenuEventData } from "@/datas/dummy/quickMenuEventData";
+import { categoryData } from "@/datas/dummy/categoriesData";
 
 function MiddleCategoryList({
   categoryName,
 }: {
   categoryName?: string | null;
 }) {
-  const data = middleCategoryData1 as middleCategoryType[];
-  const data2 = middleCategoryData2 as middleCategoryType[];
-  const data3 = middleCategoryData3 as middleCategoryType[];
-  const image = quickMenuEventData as quickMenuType[];
+  const selectedCategory = categoryData.find(
+    (cat) => cat.ctg_name === categoryName,
+  );
+  const filteredImages = quickMenuEventData.filter(
+    (event) => event.ctg_no === selectedCategory?.ctg_no,
+  );
+  const subCategories = categoryData.filter(
+    (cat) => cat.parent_ctg_no === selectedCategory?.ctg_no,
+  );
+
+  console.log(filteredImages);
 
   return (
-    <div className="h-screen pl-4 col-span-9 border-l borer-[#e0e0e0] overflow-y-auto">
+    <div className="h-screen pl-4 col-span-9 border-l border-[#e0e0e0] overflow-y-auto">
       <div className="py-4 pr-5">
-        {image.map((event) => (
-          <div>
+        {filteredImages.map((event) => (
+          <div key={event.id}>
             <Link href={event.link}>
-              <div key={event.id}>
-                <Image
-                  src={event.imgUrl}
-                  alt={event.name}
-                  width={600}
-                  height={100}
-                ></Image>
-              </div>
+              <Image
+                src={event.imgUrl}
+                alt={event.name}
+                width={600}
+                height={100}
+              />
             </Link>
           </div>
         ))}
       </div>
-      <nav>
-        <ul>
-          {/* {data.map((category) => (
-            <li key={category.middleCategoryCode}>
-              {category.middleCategoryName}
+      <nav className="p-4">
+        <ul className="list-none">
+          {subCategories.map((category) => (
+            <li key={category.ctg_no} className="py-2">
+              <Link
+                href={`/categories/${category.ctg_name}`}
+                className="text-gray-700 hover:text-black"
+              >
+                {category.ctg_name}
+              </Link>
             </li>
-          ))} */}
-          {categoryName}
+          ))}
         </ul>
       </nav>
     </div>

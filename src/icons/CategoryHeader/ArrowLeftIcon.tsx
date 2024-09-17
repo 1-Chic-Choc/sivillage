@@ -1,8 +1,17 @@
+"use client";
+
 import React from "react";
 
 function ArrowLeftIcon() {
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      window.history.back(); // 브라우저의 뒤로 가기 기능 호출
+    }
+  };
+
   return (
     <svg
+      onClick={handleBack}
       width="32"
       height="32"
       viewBox="0 0 32 32"

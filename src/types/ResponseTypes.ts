@@ -1,16 +1,8 @@
-export interface topCategoryType {
-  topCategoryCode: string;
-  topCategoryName: string;
-}
-
-export interface middleCategoryType {
-  middleCategoryCode: string;
-  middleCategoryName: string;
-  topCategoryCode: string;
-}
-
-export interface bottomCategoryType {
-  bottomCategoryCode: string;
-  bottomCategoryName: string;
-  topCategoryCode: string;
+export interface CategoryType {
+  ctg_name: string;
+  ctg_no: string;
+  depth: number;
+  parent_ctg_name: string | null;
+  parent_ctg_no: string | null;
+  is_leaf: boolean;
 }

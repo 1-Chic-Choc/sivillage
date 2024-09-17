@@ -1,17 +1,17 @@
 "use client";
 
-import { topcategoryData } from "@/datas/dummy/categoriesData";
-import { topCategoryType } from "@/types/ResponseTypes";
+import { categoryData } from "@/datas/dummy/categoriesData";
+import { CategoryType } from "@/types/ResponseTypes";
 import React, { useState } from "react";
 import MiddleCategoryList from "./MiddleCategoryList";
 
 function TopCategoryList() {
-  const data = topcategoryData as topCategoryType[];
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const data = categoryData as CategoryType[];
+  const [selectedCategory, setSelectedCategory] = useState<string>("여성의류");
+  const topLevelCategories = data.filter((category) => category.depth === 0);
 
   const handleCategoryClick = (categoryName: string) => {
     console.log(categoryName);
-
     setSelectedCategory(categoryName);
   };
 
@@ -19,17 +19,17 @@ function TopCategoryList() {
     <section className="flex flex-row h-screen">
       <nav className="w-[50%] overflow-clip">
         <ul>
-          {data.map((category: topCategoryType) => (
+          {topLevelCategories.map((category: CategoryType) => (
             <li
-              key={category.topCategoryCode}
-              className={`p-4 cursor-pointer ${
-                selectedCategory === category.topCategoryName
+              key={category.ctg_no}
+              className={`p-4 cursor-pointer whitespace-nowrap ${
+                selectedCategory === category.ctg_name
                   ? "bg-black text-white"
                   : "bg-white"
               }`}
-              onClick={() => handleCategoryClick(category.topCategoryName)}
+              onClick={() => handleCategoryClick(category.ctg_name)}
             >
-              {category.topCategoryName}
+              {category.ctg_name}
             </li>
           ))}
         </ul>
