@@ -21,8 +21,6 @@ function MiddleCategoryList({
     (cat) => cat.parent_ctg_no === selectedCategory?.ctg_no,
   );
 
-  console.log(filteredImages);
-
   return (
     <div className="h-screen pl-4 col-span-9 border-l border-[#e0e0e0] overflow-y-auto">
       <div className="py-4 pr-5">

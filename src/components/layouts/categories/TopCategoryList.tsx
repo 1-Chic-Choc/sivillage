@@ -11,12 +11,11 @@ function TopCategoryList() {
   const topLevelCategories = data.filter((category) => category.depth === 0);
 
   const handleCategoryClick = (categoryName: string) => {
-    console.log(categoryName);
     setSelectedCategory(categoryName);
   };
 
   return (
-    <section className="flex flex-row h-screen">
+    <section className="flex flex-row overflow-hidden">
       <nav className="w-[50%] overflow-clip">
         <ul>
           {topLevelCategories.map((category: CategoryType) => (
