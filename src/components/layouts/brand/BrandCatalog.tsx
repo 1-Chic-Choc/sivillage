@@ -46,6 +46,15 @@ function BrandCatalog() {
     }
   };
 
+  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+
+  const toggleFavorite = (brandNo: string) => {
+    setFavorites((prev) => ({
+      ...prev,
+      [brandNo]: !prev[brandNo],
+    }));
+  };
+
   return (
     <div className="p-4">
       <div className="flex gap-2 mb-2 items-center">
@@ -97,7 +106,17 @@ function BrandCatalog() {
                       {brand.brand_name_ko}
                     </p>
                   </div>
-                  <span className="text-lg">♡</span>
+                  <button onClick={() => toggleFavorite(brand.ctg_no)}>
+                    <img
+                      src={
+                        favorites[brand.ctg_no]
+                          ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
+                          : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
+                      }
+                      alt="heart-icon"
+                      className="w-6 h-6"
+                    />
+                  </button>
                 </li>
               ))}
             </ul>
