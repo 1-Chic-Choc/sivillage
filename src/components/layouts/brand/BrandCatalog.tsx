@@ -13,14 +13,6 @@ function BrandCatalog() {
     sectionRef.current[char]?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
-  const toggleFavorite = (brandNo: string) => {
-    setFavorites((prev) => ({
-      ...prev,
-      [brandNo]: !prev[brandNo],
-    }));
-  };
-
   const brands = brandData.reduce((acc: any, brand) => {
     const firstLetter = brand.brand_index_letter[0].toUpperCase();
     const koreanFirstLetter = brand.brand_index_letter.charAt(0);
@@ -105,17 +97,7 @@ function BrandCatalog() {
                       {brand.brand_name_ko}
                     </p>
                   </div>
-                  <button onClick={() => toggleFavorite(brand.ctg_no)}>
-                    <img
-                      src={
-                        favorites[brand.ctg_no]
-                          ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
-                          : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
-                      }
-                      alt="heart-icon"
-                      className="w-6 h-6"
-                    />
-                  </button>
+                  <span className="text-lg">♡</span>
                 </li>
               ))}
             </ul>
