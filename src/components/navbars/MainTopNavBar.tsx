@@ -20,7 +20,7 @@ function MainNavBarLink({
       href={href}
       className={cn(
         "h-[48px] mx-[9px] border-b-[2px]",
-        "flex flex-wrap items-center",
+        "inline-flex flex-shrink-0 flex-wrap items-center",
         "overflow-hidden",
         text === "Home" && "px-[1px]",
         is_current ? "border-[#131922]" : "border-white",
@@ -55,7 +55,9 @@ export default function MainNavBar() {
 
   return (
     <TopNavigationBar
-      className={cn("flex flex-nowrap items-center px-[15px] leading-[normal]")}
+      className={cn(
+        "flex flex-nowrap items-center px-[15px] leading-[normal] overflow-x-auto scrollbar-hide",
+      )}
     >
       {paths.map(({ text, path }) => (
         <MainNavBarLink
