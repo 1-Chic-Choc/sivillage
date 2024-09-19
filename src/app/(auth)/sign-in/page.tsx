@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function page() {
   return (
-    <div className="w-full h-screen">
+    <main className="w-full">
       <div className={cn("pt-[28px] pb-[112px] px-[24px]")}>
         <SignInForm />
 
@@ -31,6 +31,6 @@ export default function page() {
           <Link href="/not-implemented">비회원 주문조회</Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

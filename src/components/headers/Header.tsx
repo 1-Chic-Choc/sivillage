@@ -25,7 +25,7 @@ export default function Header({ children }: HeaderProps): JSX.Element {
     };
   }, []);
 
-  const className = cn("sticky", "w-full", "bg-white", isVisible && "top-0");
+  const className = cn("sticky w-full bg-white z-50", isVisible && "top-0");
 
   return <header className={className}>{children}</header>;
 }

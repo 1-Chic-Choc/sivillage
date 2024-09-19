@@ -32,7 +32,7 @@ export default function GlobalNavigationBar({
   return (
     <nav
       className={cn(
-        "sticky w-full bg-white",
+        "sticky w-full bg-white z-50",
         className,
         isVisible ? "top-14" : "top-0",
       )}
