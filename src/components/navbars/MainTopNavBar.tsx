@@ -16,20 +16,26 @@ function MainNavBarLink({
   is_current: boolean;
 }) {
   return (
-    <Link href={href}>
-      <div
+    <Link
+      href={href}
+      className={cn(
+        "h-[48px] mx-[9px] border-b-[2px]",
+        "flex flex-wrap items-center",
+        "overflow-hidden",
+        text === "Home" && "px-[1px]",
+        is_current ? "border-[#131922]" : "border-white",
+      )}
+      target={text === "SSG DF" ? "_blank" : ""}
+      rel={text === "SSG DF" ? "noopener noreferrer" : ""}
+    >
+      <span
         className={cn(
-          "h-12",
-          "flex justify-center items-center",
-          "border-b-2",
-          "px-2",
-          is_current ? "border-black text-black" : "border-white text-gray-400",
+          "text-[16px] font-[500] leading-[24px] tracking-[0.4px] text-nowrap",
+          is_current ? "text-[#131922]" : "text-[#929292]",
         )}
       >
-        <span className="text-base">
-          {is_current ? <strong>{text}</strong> : text}
-        </span>
-      </div>
+        {is_current ? <strong>{text}</strong> : text}
+      </span>
     </Link>
   );
 }
@@ -41,23 +47,24 @@ const paths = [
   { text: "Best", path: "/best" },
   { text: "S.I.LIVE", path: "/live" },
   { text: "Content", path: "/content" },
+  { text: "SSG DF", path: "https://www.ssgdfs.com/kr/main/initMain" },
 ];
 
 export default function MainNavBar() {
   const current_path = usePathname();
 
   return (
-    <TopNavigationBar>
-      <div className={cn("flex items-center pl-4 gap-1")}>
-        {paths.map(({ text, path }) => (
-          <MainNavBarLink
-            key={text}
-            href={path}
-            text={text}
-            is_current={current_path == path}
-          />
-        ))}
-      </div>
+    <TopNavigationBar
+      className={cn("flex flex-nowrap items-center px-[15px] leading-[normal]")}
+    >
+      {paths.map(({ text, path }) => (
+        <MainNavBarLink
+          key={text}
+          href={path}
+          text={text}
+          is_current={current_path == path}
+        />
+      ))}
     </TopNavigationBar>
   );
 }

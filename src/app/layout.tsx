@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Footer from "@/components/footer/Footer";
+import Aos from "@/components/layout/Aos";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -30,14 +32,18 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ko"
       className={cn(
         roboto.className,
         roboto.variable,
         regularBoldCello.variable,
       )}
     >
-      <body className={cn(roboto.className)}>{children}</body>
+      <body className={cn(roboto.className)}>
+        {children}
+        <Footer />
+        <Aos />
+      </body>
     </html>
   );
 }
