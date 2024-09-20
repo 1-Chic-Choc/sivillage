@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/footer/Footer";
-import Aos from "@/components/layout/Aos";
+import Aos from "@/components/aos/Aos";
 
 const roboto = Roboto({
   subsets: ["latin"],
