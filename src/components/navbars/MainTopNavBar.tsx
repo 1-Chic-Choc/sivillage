@@ -41,7 +41,7 @@ function MainNavBarLink({
 }
 
 const paths = [
-  { text: "Home", path: "/main" },
+  { text: "Home", path: "/" },
   { text: "Event", path: "/event" },
   { text: "Deal", path: "/deal" },
   { text: "Best", path: "/best" },
