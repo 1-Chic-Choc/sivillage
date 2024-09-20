@@ -1,9 +1,8 @@
-export interface quickMenuType {
+export interface quickMenuImageType {
   id: number;
   name: string;
   imgUrl: string;
   link: string;
-}
 
 export interface brandMenuType {
   id: number;
