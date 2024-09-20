@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { brandDataModi } from "@/datas/dummy/brandNameData";
+import Image from "next/image";
 
 function BrandCatalog() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -107,13 +108,15 @@ function BrandCatalog() {
                     </p>
                   </div>
                   <button onClick={() => toggleFavorite(brand.ctg_no)}>
-                    <img
+                    <Image
                       src={
                         favorites[brand.ctg_no]
                           ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
                           : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
                       }
                       alt="heart-icon"
+                      width={24}
+                      height={24}
                       className="w-6 h-6"
                     />
                   </button>
