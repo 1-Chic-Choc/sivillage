@@ -1,5 +1,4 @@
-import SearchIcon from "@/icons/MainHeader/SearchIcon";
-import React from "react";
+import SearchIcon from "@/icons/Header/SearchIcon";
 import Header from "./Header";
 import ArrowLeftIcon from "@/icons/CategoryHeader/ArrowLeftIcon";
 

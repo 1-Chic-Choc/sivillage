@@ -10,7 +10,7 @@ import React from "react";
 const paths = [
   { text: "Category", path: "/category", icon: <CategoryIcon /> },
   { text: "BRAND", path: "/brandAtoZ", icon: <BrandAtoZ /> },
-  { text: null, path: "/main", icon: <HomeIcon /> },
+  { text: null, path: "/", icon: <HomeIcon /> },
   { text: "MY", path: "/my", icon: <MyPageIcon /> },
   { text: "Recent", path: "/recent", icon: <EmptyCartIcon /> },
 ];

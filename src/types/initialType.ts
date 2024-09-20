@@ -3,6 +3,8 @@ export interface quickMenuImageType {
   name: string;
   imgUrl: string;
   link: string;
+  ctg_no: string;
+}
 
 export interface brandMenuType {
   id: number;

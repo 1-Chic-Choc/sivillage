@@ -1,3 +1,4 @@
+import Footer from "@/components/footer/Footer";
 import MainHeader from "@/components/headers/MainHeader";
 import BottomNavigationBar from "@/components/navbars/BottomNavigationBar";
 import MainNavBar from "@/components/navbars/MainTopNavBar";
@@ -19,6 +20,7 @@ export default function RootLayout({
       <MainNavBar />
       {children}
       <BottomNavigationBar />
+      <Footer />
     </>
   );
 }

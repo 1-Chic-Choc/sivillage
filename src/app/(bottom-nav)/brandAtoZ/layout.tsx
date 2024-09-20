@@ -1,3 +1,4 @@
+import Footer from "@/components/footer/Footer";
 import BrandHeader from "@/components/headers/BrandHeader";
 import BrandTabNavBar from "@/components/navbars/BrandTabNavBar";
 
@@ -9,6 +10,7 @@ function layout({ children }: { children: React.ReactNode }) {
       <BrandHeader />
       <BrandTabNavBar />
       {children}
+      <Footer />
     </>
   );
 }

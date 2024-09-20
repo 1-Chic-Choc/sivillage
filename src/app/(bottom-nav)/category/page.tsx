@@ -1,5 +1,5 @@
 import React from "react";
-import TopCategoryList from "@/components/layouts/categories/TopCategoryList";
+import TopCategoryList from "@/components/layouts/category/TopCategoryList";
 
 function Categories() {
   return (

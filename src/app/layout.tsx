@@ -41,7 +41,6 @@ export default function RootLayout({
     >
       <body className={cn(roboto.className)}>
         {children}
-        <Footer />
         <Aos />
       </body>
     </html>
