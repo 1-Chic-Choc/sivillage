@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { brandDataModi } from "@/datas/dummy/brandNameData";
+import Link from "next/link";
+import Image from "next/image";
 
 function BrandCatalog() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

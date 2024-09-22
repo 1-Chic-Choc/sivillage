@@ -44,7 +44,7 @@ function MiddleCategoryList({
           {subCategories.map((category) => (
             <li key={category.ctg_no} className="py-2">
               <Link
-                href={`/categories/${category.ctg_name}`}
+                href={`/categories/${formatCategoryName(category.parent_ctg_name)}/${formatCategoryName(category.ctg_name)}`}
                 className="text-gray-700 hover:text-black"
               >
                 {category.ctg_name}
