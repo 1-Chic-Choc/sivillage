@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { brandDataModi } from "@/datas/dummy/brandNameData";
-import Image from "next/image";
 
 function BrandCatalog() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -56,6 +55,8 @@ function BrandCatalog() {
     }));
   };
 
+  const formatbrandName = (name: any) => name.replace(/\//g, "-");
+
   return (
     <div className="p-4">
       <div className="flex gap-2 mb-2 items-center">
@@ -101,12 +102,14 @@ function BrandCatalog() {
                   key={brand.ctg_no}
                   className="flex justify-between items-center py-2"
                 >
-                  <div>
-                    <span className="font-bold">{brand.brand_name}</span>
-                    <p className="text-sm text-gray-500">
-                      {brand.brand_name_ko}
-                    </p>
-                  </div>
+                  <Link href={`/brand/${formatbrandName(brand.brand_name)}`}>
+                    <div>
+                      <span className="font-bold">{brand.brand_name}</span>
+                      <p className="text-sm text-gray-500">
+                        {brand.brand_name_ko}
+                      </p>
+                    </div>
+                  </Link>
                   <button onClick={() => toggleFavorite(brand.ctg_no)}>
                     <Image
                       src={
