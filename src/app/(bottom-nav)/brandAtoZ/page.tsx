@@ -10,7 +10,7 @@ function page() {
   return (
     <main>
       <section id="brandSearch">
-        <BrandSearch />
+        <BrandSearch data={data} />
       </section>
       <section id="brandCategory">
         <BrandCatalog data={data} />
