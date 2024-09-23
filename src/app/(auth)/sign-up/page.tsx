@@ -1,4 +1,4 @@
-import SignUpForm from "@/components/forms/SignUp/SignUpForm";
+import SignUpForm from "@/components/organism/form/SignUp/SignUpForm";
 import { cn } from "@/lib/utils";
 
 export default function page() {

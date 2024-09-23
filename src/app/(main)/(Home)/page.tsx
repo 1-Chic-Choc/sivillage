@@ -1,20 +1,20 @@
 import FadeUp from "@/components/aos/FadeUp";
-import MainVi from "@/components/main/1-MainVi";
-import MainCategory from "@/components/main/2-MainCategory";
-import MainBrandBanner from "@/components/main/3-MainBrandBanner";
-import MainHighlight from "@/components/main/4-MainHighlight";
-import MainCuration from "@/components/main/5-MainCuration";
-import MainDailyLook from "@/components/main/6-MainDailyLook";
-import MainTodayBest from "@/components/main/7-MainTodayBest";
-import MainTimeDeal from "@/components/main/8-MainTimeDeal";
-import MainPromotion from "@/components/main/9-MainPromotion";
-import MainBrandPick from "@/components/main/A-MainBrandPick";
-import StyleNow from "@/components/main/B-StyleNow";
-import MainReview from "@/components/main/C-MainReview";
-import MainVTV from "@/components/main/D-MainVTV";
-import MainHotVideo from "@/components/main/E-MainHotVideo";
-import MainBrandLink from "@/components/main/F-MainBrandLink";
-import BandShapeBanner from "@/components/main/reuable/BandShapeBanner";
+import MainVi from "@/components/template/page/main/1-MainVi";
+import MainCategory from "@/components/template/page/main/2-MainCategory";
+import MainBrandBanner from "@/components/template/page/main/3-MainBrandBanner";
+import MainHighlight from "@/components/template/page/main/4-MainHighlight";
+import MainCuration from "@/components/template/page/main/5-MainCuration";
+import MainDailyLook from "@/components/template/page/main/6-MainDailyLook";
+import MainTodayBest from "@/components/template/page/main/7-MainTodayBest";
+import MainTimeDeal from "@/components/template/page/main/8-MainTimeDeal";
+import MainPromotion from "@/components/template/page/main/9-MainPromotion";
+import MainBrandPick from "@/components/template/page/main/A-MainBrandPick";
+import StyleNow from "@/components/template/page/main/B-StyleNow";
+import MainReview from "@/components/template/page/main/C-MainReview";
+import MainVTV from "@/components/template/page/main/D-MainVTV";
+import MainHotVideo from "@/components/template/page/main/E-MainHotVideo";
+import MainBrandLink from "@/components/template/page/main/F-MainBrandLink";
+import BandShapeBanner from "@/components/template/page/main/reuable/BandShapeBanner";
 
 export default function Home() {
   return (
