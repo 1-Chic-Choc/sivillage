@@ -134,5 +134,3 @@ function BrandCatalog() {
     </div>
   );
 }
-
-export default BrandCatalog;
