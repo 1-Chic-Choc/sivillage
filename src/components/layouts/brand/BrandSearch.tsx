@@ -1,12 +1,11 @@
 "use client";
 
 import SearchIcon from "@/icons/Header/SearchIcon";
-import { brandNameType } from "@/types/initialType";
 import Search from "./Search";
 
-function BrandSearch({ data }: { data: brandNameType[] }) {
+function BrandSearch() {
   return (
-    <div className="grid grid-cols-12 px-4 py-8">
+    <div className="grid grid-cols-12 px-4 pt-4">
       <div className="col-span-1">
         <SearchIcon />
       </div>
