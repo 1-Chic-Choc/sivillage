@@ -11,7 +11,13 @@ export default function MainHeader() {
     <Header>
       <div className={cn("h-14", "flex justify-between items-center", "pr-4")}>
         <Link href="/">
-          <Image src="/logo.gif" width={184} height={56} alt="로고 이미지" />
+          <Image
+            src="/logo.webp"
+            width={184}
+            height={56}
+            alt="로고 이미지"
+            unoptimized
+          />
         </Link>
         <div className="w-20 h-8 flex justify-between items-center">
           <Link href="/search">

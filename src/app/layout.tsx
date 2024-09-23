@@ -13,7 +13,7 @@ const roboto = Roboto({
 });
 
 const regularBoldCello = localFont({
-  src: "./RegularBoldCello-Heavy.ttf",
+  src: "RegularBoldCello-Heavy.ttf",
   weight: "900",
   display: "swap",
   variable: "--font-regular-bold-cello",
@@ -30,15 +30,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={cn(
-        roboto.className,
-        roboto.variable,
-        regularBoldCello.variable,
-      )}
-    >
-      <body className={cn(roboto.className)}>
+    <html lang="ko">
+      <body
+        className={cn(
+          roboto.variable,
+          regularBoldCello.variable,
+          roboto.className,
+        )}
+      >
         {children}
         <Aos />
       </body>
