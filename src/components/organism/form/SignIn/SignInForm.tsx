@@ -14,6 +14,8 @@ import InputFormField, {
 } from "@/components/organism/form/InputFormField";
 import Link from "next/link";
 import { signInSchema } from "@/schema/form-schema";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const inputFormFields: Omit<InputFormFieldProps, "form">[] = [
   {
@@ -47,17 +49,33 @@ const autoLogin: Omit<CheckboxFormFieldProps, "form"> = {
 };
 
 export default function SignInForm() {
+  const params = useSearchParams();
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     mode: "onSubmit",
     defaultValues: {
       email: "",
       password: "",
-      autoLogin: [],
+      autoSignIn: [],
     },
   });
   function onSubmit(values: z.infer<typeof signInSchema>) {
-    console.log(values);
+    const { email, password } = values;
+    const autoSignIn = values.autoSignIn.includes("autoSignIn");
+    const oauthProvider = params.get("oauthProvider") || undefined;
+    const oauthId = params.get("oauthId") || undefined;
+    const oauthEmail = params.get("oauthEmail") || undefined;
+
+    signIn("credentials", {
+      email,
+      password,
+      autoSignIn,
+      oauthProvider,
+      oauthId,
+      oauthEmail,
+      redirect: true,
+    });
   }
 
   return (

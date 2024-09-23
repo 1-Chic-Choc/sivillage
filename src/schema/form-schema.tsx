@@ -5,7 +5,7 @@ const email = z
   .min(1, { message: "아이디(이메일주소)를 입력해주세요" })
   .email({ message: "아이디는 영문, 숫자로 된 이메일 주소만 가능합니다." });
 
-const autoLogin = z.array(z.string());
+const autoSignIn = z.array(z.string());
 
 const password = z
   .string({ message: "비밀번호를 입력해주세요." })
@@ -47,7 +47,7 @@ export const signInSchema = z.object({
   password: z
     .string({ message: "비밀번호를 입력해주세요." })
     .min(1, { message: "비밀번호를 입력해주세요." }),
-  autoLogin,
+  autoSignIn,
 });
 
 export const signUpEssential = z.object({
