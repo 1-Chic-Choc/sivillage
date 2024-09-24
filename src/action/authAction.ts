@@ -2,9 +2,10 @@
 
 import { SignInRequestType, SignUpResquestType } from "@/types/RequestTypes";
 
+const headers = { "Content-Type": "application/json" };
+
 export async function signInAction(credentials: SignInRequestType) {
   const method = "POST";
-  const headers = { "Content-Type": "application/json" };
   const body = JSON.stringify(credentials);
 
   return await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/auth/sign-in`, {
@@ -17,7 +18,6 @@ export async function signInAction(credentials: SignInRequestType) {
 
 export async function signUpAction(signUpData: SignUpResquestType) {
   const method = "POST";
-  const headers = { "Content-Type": "application/json" };
   const body = JSON.stringify(signUpData);
 
   const res = await fetch(
