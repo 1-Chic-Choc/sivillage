@@ -1,5 +1,6 @@
-import SNSLoignButtons from "@/components/buttons/group/SNSLoignButtons";
-import SignInForm from "@/components/forms/SignIn/SignInForm";
+import OauthSignInButtonGroup from "@/components/molecule/button/OauthSignInButtonGroup";
+import SignInForm from "@/components/organism/form/SignIn/SignInForm";
+import OauthSignUpLink from "@/components/template/page/oauth/OauthSignUpLink";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -9,7 +10,7 @@ export default function page() {
       <div className={cn("pt-[28px] pb-[112px] px-[24px]")}>
         <SignInForm />
 
-        <SNSLoignButtons />
+        <OauthSignInButtonGroup />
 
         <div
           className={cn(
@@ -18,7 +19,8 @@ export default function page() {
             "text-[14px] font-[500] leading-[normal]",
           )}
         >
-          <Link href="sign-up">회원가입</Link>
+          {/* <Link href="sign-up">회원가입</Link> */}
+          <OauthSignUpLink>회원가입</OauthSignUpLink>
         </div>
 
         <div

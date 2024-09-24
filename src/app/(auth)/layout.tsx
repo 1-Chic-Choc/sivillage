@@ -1,8 +1,6 @@
-import Footer from "@/components/footer/Footer";
-import AuthHeader from "@/components/headers/AuthHeader";
-import MainHeader from "@/components/headers/MainHeader";
-import BottomNavigationBar from "@/components/navbars/BottomNavigationBar";
-import MainNavBar from "@/components/navbars/MainTopNavBar";
+import Footer from "@/components/template/layout/Footer";
+import AuthHeader from "@/components/template/layout/header/AuthHeader";
+import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

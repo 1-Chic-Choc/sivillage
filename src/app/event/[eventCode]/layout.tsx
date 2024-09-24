@@ -1,5 +1,5 @@
-import Footer from "@/components/footer/Footer";
-import BottomNavigationBar from "@/components/navbars/BottomNavigationBar";
+import Footer from "@/components/template/layout/Footer";
+import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
