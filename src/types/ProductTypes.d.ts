@@ -1,3 +1,15 @@
+export interface Category {
+  id: number;
+  name: string;
+  depth: number;
+}
+
+export interface ProductCategory {
+  id: number;
+  productId: string;
+  categoryId: number;
+}
+
 export interface Product {
   productId: number;
   productUuid: string;

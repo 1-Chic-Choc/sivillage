@@ -51,11 +51,11 @@ export default async function ProductCard({
           )}
           <span>{discountPrice || price}</span>
         </p>
-        {colorIds.length > 1
+        {/* {colorIds.length > 1
           ? colorIds.map((colorId) => (
               <ProductColor key={colorId} {...{ colorId }} />
             ))
-          : null}
+          : null} */}
       </div>
     </Link>
   );

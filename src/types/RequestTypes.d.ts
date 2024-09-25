@@ -44,8 +44,14 @@ export interface ProductListRequestType {
   keywords?: string;
 }
 
+export type CategoryByPathRequestType = Record<"path", string[]>;
+export type CategpryListRequestType = Record<"parentId", number>;
+
+export type ProductID = Record<"productId", string>;
 export type ProductUUID = Record<"productUuid", string>;
 
+export type ProductCategoryRequestType = ProductID;
+export type ProductSingleRequestType = ProductUUID;
 export type ProductOptionListRequestType = ProductUUID;
 export type ProductInfoListRequestType = ProductUUID;
 export type ProductHashtagListRequestType = ProductUUID;
@@ -65,3 +71,5 @@ export type EtcOptionRequestType = Record<"id", number>;
 
 export type BrandRequestType = Record<"brandUuid", string>;
 export type BrandMediaListRequestType = Record<"brandUuid", string>;
+
+export type ProductReviewListRequestType = ProductUUID;

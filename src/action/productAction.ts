@@ -3,22 +3,28 @@
 import {
   BrandMediaListRequestType,
   BrandRequestType,
+  CategoryByPathRequestType,
+  CategpryListRequestType,
   ColorRequestType,
   EtcOptionRequestType,
   MediaRequestType,
+  ProductCategoryRequestType,
   ProductDetailRequestType,
   ProductInfoListRequestType,
   ProductListRequestType,
   ProductMediaRequestType,
   ProductOptionListRequestType,
+  ProductSingleRequestType,
   SizeRequestType,
 } from "@/types/RequestTypes";
 import {
   Brand,
+  Category,
   Color,
   EtcOption,
   Media,
   Product,
+  ProductCategory,
   ProductDetail,
   ProductHashtag,
   ProductInfo,
@@ -30,6 +36,74 @@ import { CommonResType } from "@/types/ResponseTypes";
 
 const headers = { "Content-Type": "application/json" };
 
+export async function getCategoryList(
+  req: CategpryListRequestType,
+): Promise<Category[] | null> {
+  const method = "GET";
+  const { parentId } = req || { parentId: "" };
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/category?parentId=${parentId}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProuctCategory(
+  req: ProductCategoryRequestType,
+): Promise<ProductCategory[] | null> {
+  const method = "GET";
+  const { productId } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/category/product?productId=${productId}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getCategoryByPath(
+  req: CategoryByPathRequestType,
+): Promise<Category | null> {
+  const method = "GET";
+  const { path } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/category/path?path=${path}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
 export async function getProductList(
   req: ProductListRequestType,
 ): Promise<Product[] | null> {
@@ -37,6 +111,28 @@ export async function getProductList(
   const searchParams = new URLSearchParams(Object.entries(req));
   const res = await fetch(
     `${process.env.BACKEND_BASE_URL}/api/v1/products?${searchParams}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductSingle(
+  req: ProductSingleRequestType,
+): Promise<Product | null> {
+  const method = "GET";
+  const { productUuid } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/products/one/${productUuid}`,
     {
       method,
       headers,

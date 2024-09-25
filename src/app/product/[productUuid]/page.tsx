@@ -1,20 +1,22 @@
 import {
+  getBrand,
+  getColor,
   getProductDetailList,
   getProductHashtagList,
   getProductOptionList,
+  getProductSingle,
 } from "@/action/productAction";
 import ProductDetailVi from "@/components/template/page/product/ProductDetailVi";
 import { productDetailClassName } from "@/lib/classNames";
 import Link from "next/link";
-import IframeResizer from "@iframe-resizer/react";
-import ProductDetailIframe from "@/components/template/page/product/ProductDetailIframe";
 
 export default async function page({
   params: { productUuid },
 }: {
   params: { productUuid: string };
 }) {
-  const [productOptionList, productHashtagList] = await Promise.all([
+  const [product, productOptionList, productHashtagList] = await Promise.all([
+    getProductSingle({ productUuid }),
     getProductOptionList({ productUuid }),
     getProductHashtagList({ productUuid }),
   ]);
@@ -24,22 +26,26 @@ export default async function page({
   }
 
   const { productOptionUuid } = productOptionList[0];
-  const productDetailList =
-    (await getProductDetailList({ productOptionUuid })) || [];
+  // const productDetailList =
+  //   (await getProductDetailList({ productOptionUuid })) || [];
+  const [productDetailList, brand, color] = await Promise.all([
+    getProductDetailList({ productOptionUuid }),
+    getBrand({ brandUuid: product!.brandUuid }),
+    getColor({ id: productOptionList[0].colorId }),
+  ]);
 
   return (
     <main>
-      {productUuid}
       <ProductDetailVi productOptionUuid={productOptionUuid} />
       <div className={productDetailClassName.infoContainer}>
-        <h2 className={productDetailClassName.infoBrand}>DELLA LANA</h2>
+        <h2 className={productDetailClassName.infoBrand}>{brand?.name}</h2>
         <p className={productDetailClassName.infoDescription}>
-          투 턱 플리츠 스트레이트 팬츠
+          {product?.name}
         </p>
         <div className={productDetailClassName.infoPrice}>
           <div className={productDetailClassName.infoPriceMember}>
             <span className={productDetailClassName.infoPriceCurrent}>
-              <b>558,000</b>
+              <b>{productOptionList[0].price}</b>
               <span>원</span>
             </span>
           </div>
@@ -58,7 +64,7 @@ export default async function page({
       </div>
       <div className={productDetailClassName.tapInfoDetail}>
         <iframe
-          src={productDetailList[0].productDetailUrl}
+          src={productDetailList![0].productDetailUrl}
           className="w-full h-[2000px]"
         />
         {/* <ProductDetailIframe

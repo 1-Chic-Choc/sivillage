@@ -17,5 +17,12 @@ export default async function ProductThumbnail({
 
   if (!media) return null;
 
-  return <Image src={media.mediaUrl} alt={media.description || ""} fill />;
+  return (
+    <Image
+      src={media.mediaUrl}
+      alt={media.description || ""}
+      fill
+      className="object-cover"
+    />
+  );
 }

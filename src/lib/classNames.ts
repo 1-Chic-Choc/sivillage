@@ -11,7 +11,7 @@ export const productClassName = {
     "h-[18px] mb-[2px]",
     "text-[12px] font-[400]",
     "leading-[18px] tracking-[-0.06px]",
-    "text-ellipsis",
+    "text-ellipsis text-nowrap overflow-hidden",
   ),
   price: cn(
     "h-[18px]",

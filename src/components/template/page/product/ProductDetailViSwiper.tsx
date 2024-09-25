@@ -21,7 +21,13 @@ export default function ProductDetailViSwiper({
       {productMediaList.map((media) => (
         <SwiperSlide key={media.id}>
           <div className={productClassName.image}>
-            <Image src={media.mediaUrl} alt={media.description || ""} fill />
+            <Image
+              src={media.mediaUrl}
+              alt={media.description || ""}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute top-[0px] w-full h-[32%] bg-gradient-to-t from-transparent to-[rgba(0,0,0,0.25)]"></div>
           </div>
         </SwiperSlide>
       ))}
