@@ -15,7 +15,6 @@ import InputFormField, {
 import Link from "next/link";
 import { signInSchema } from "@/schema/form-schema";
 
-
 const inputFormFields: Omit<InputFormFieldProps, "form">[] = [
   {
     name: "email",
@@ -33,11 +32,11 @@ const inputFormFields: Omit<InputFormFieldProps, "form">[] = [
   },
 ];
 
-const autoLogin: Omit<CheckboxFormFieldProps, "form"> = {
-  name: "autoLogin",
+const autoSignIn: Omit<CheckboxFormFieldProps, "form"> = {
+  name: "autoSignIn",
   items: [
     {
-      id: "autoLogin",
+      id: "autoSignIn",
       className: "space-y-0 flex items-center",
       label: {
         children: "자동로그인",
@@ -48,19 +47,17 @@ const autoLogin: Omit<CheckboxFormFieldProps, "form"> = {
 };
 
 export default function SignInForm() {
-
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     mode: "onSubmit",
     defaultValues: {
       email: "",
       password: "",
-      autoLogin: [],
+      autoSignIn: [],
     },
   });
   function onSubmit(values: z.infer<typeof signInSchema>) {
     console.log(values);
-
   }
 
   return (
@@ -71,7 +68,7 @@ export default function SignInForm() {
         ))}
 
         <div className="mt-[16px] flex justify-between items-center">
-          <CheckboxFormField {...autoLogin} form={form} />
+          <CheckboxFormField {...autoSignIn} form={form} />
           <Link
             href="/find-ID-PW"
             className="text-[14px] text-[#787878] font-[400] leading-[20px] underline"

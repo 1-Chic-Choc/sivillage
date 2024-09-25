@@ -1,5 +1,6 @@
 import OauthSignInButtonGroup from "@/components/molecule/button/OauthSignInButtonGroup";
 import SignInForm from "@/components/organism/form/SignIn/SignInForm";
+import OauthSignUpLink from "@/components/template/page/oauth/OauthSignUpLink";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 

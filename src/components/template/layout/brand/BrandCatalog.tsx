@@ -114,7 +114,7 @@ function BrandCatalog({ data }: { data: brandNameType[] }) {
     }));
   };
 
-  const formatbrandName = (name: any) => name.replace(/\//g, "-");
+  const formatbrandName = (name: any) => name.replace(/\//g, "_");
 
   return (
     <div className="px-4 pt-1">
@@ -209,7 +209,6 @@ function BrandCatalog({ data }: { data: brandNameType[] }) {
           ))}
         </div>
       )}
-
     </div>
   );
 }
