@@ -60,6 +60,7 @@ export const options: NextAuthOptions = {
 
           const res = await oauthUserInfoAction(oauthData);
           const data = (await res.json()) as CommonResType<UserUUID>;
+          console.log(data);
           if (data.httpStatus === "OK") {
             user.uuid = data.result.uuid;
             user.email = user.email;
