@@ -1,6 +1,9 @@
-import { redirect } from "next/navigation";
+import SignOutButton from "@/components/molecule/button/SignOutButton";
 
 export default function page() {
-  redirect("/sign-in");
-  return <div>page</div>;
+  return (
+    <main>
+      <SignOutButton />
+    </main>
+  );
 }
