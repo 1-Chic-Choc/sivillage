@@ -26,8 +26,11 @@ export default async function page({
       </h2>
       <div className={productClassName.list}>
         {products.map((product) => (
-          <Suspense fallback={<ProductCardSkeleton />}>
-            <ProductCard key={product.productUuid} product={product} />
+          <Suspense
+            key={product.productUuid}
+            fallback={<ProductCardSkeleton />}
+          >
+            <ProductCard product={product} />
           </Suspense>
         ))}
       </div>

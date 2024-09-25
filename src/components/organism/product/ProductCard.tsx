@@ -32,11 +32,8 @@ export default async function ProductCard({
   const colorIds = productOptionList.map(({ colorId }) => colorId);
 
   return (
-    <Link
-      href={`/product/${productUuid}`}
-      className={"w-[calc(50%-4.5px)] mb-[36px]"}
-    >
-      <div className={productClassName.thumnail}>
+    <Link href={`/product/${productUuid}`} className={productClassName.item}>
+      <div className={productClassName.image}>
         <Suspense fallback={<Skeleton className="size-full" />}>
           <ProductThumbnail {...{ productOptionUuid }} />
         </Suspense>
@@ -66,8 +63,8 @@ export default async function ProductCard({
 
 export async function ProductCardSkeleton() {
   return (
-    <div className={"w-[calc(50%-4.5px)] mb-[36px]"}>
-      <div className={productClassName.thumnail}>
+    <div className={productClassName.item}>
+      <div className={productClassName.image}>
         <Skeleton className="size-full" />
       </div>
 
