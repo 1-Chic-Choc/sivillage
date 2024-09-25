@@ -1,6 +1,6 @@
-import BrandCatalog from "@/components/layouts/brand/BrandCatalog";
-import BrandSearch from "@/components/layouts/brand/BrandSearch";
-import BottomNavigationBar from "@/components/navbars/BottomNavigationBar";
+import BrandCatalog from "@/components/template/layout/brand/BrandCatalog";
+import BrandSearch from "@/components/template/layout/brand/BrandSearch";
+import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import { brandDataModi } from "@/datas/dummy/brandNameData";
 import React from "react";
 
