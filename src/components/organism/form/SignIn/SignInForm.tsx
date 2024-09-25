@@ -14,6 +14,8 @@ import InputFormField, {
 } from "@/components/organism/form/InputFormField";
 import Link from "next/link";
 import { signInSchema } from "@/schema/form-schema";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const inputFormFields: Omit<InputFormFieldProps, "form">[] = [
   {
@@ -32,11 +34,11 @@ const inputFormFields: Omit<InputFormFieldProps, "form">[] = [
   },
 ];
 
-const autoSignIn: Omit<CheckboxFormFieldProps, "form"> = {
-  name: "autoSignIn",
+const autoLogin: Omit<CheckboxFormFieldProps, "form"> = {
+  name: "autoLogin",
   items: [
     {
-      id: "autoSignIn",
+      id: "autoLogin",
       className: "space-y-0 flex items-center",
       label: {
         children: "자동로그인",
@@ -47,6 +49,8 @@ const autoSignIn: Omit<CheckboxFormFieldProps, "form"> = {
 };
 
 export default function SignInForm() {
+  const params = useSearchParams();
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     mode: "onSubmit",
@@ -57,7 +61,21 @@ export default function SignInForm() {
     },
   });
   function onSubmit(values: z.infer<typeof signInSchema>) {
-    console.log(values);
+    const { email, password } = values;
+    const autoSignIn = values.autoSignIn.includes("autoSignIn");
+    const oauthProvider = params.get("oauthProvider") || undefined;
+    const oauthId = params.get("oauthId") || undefined;
+    const oauthEmail = params.get("oauthEmail") || undefined;
+
+    signIn("credentials", {
+      email,
+      password,
+      autoSignIn,
+      oauthProvider,
+      oauthId,
+      oauthEmail,
+      redirect: true,
+    });
   }
 
   return (
@@ -68,7 +86,7 @@ export default function SignInForm() {
         ))}
 
         <div className="mt-[16px] flex justify-between items-center">
-          <CheckboxFormField {...autoSignIn} form={form} />
+          <CheckboxFormField {...autoLogin} form={form} />
           <Link
             href="/find-ID-PW"
             className="text-[14px] text-[#787878] font-[400] leading-[20px] underline"
