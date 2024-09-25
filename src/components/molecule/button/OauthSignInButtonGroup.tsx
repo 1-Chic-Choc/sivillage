@@ -6,7 +6,6 @@ import KakaoIcon from "@/components/atom/icon/oauth/KakaoIcon";
 import NaverIcon from "@/components/atom/icon/oauth/NaverIcon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { signIn } from "next-auth/react";
 
 interface SNSButtonData {
   Icon: JSX.Element;
@@ -16,23 +15,19 @@ interface SNSButtonData {
 const snsButtonDatas: SNSButtonData[] = [
   {
     Icon: <CellphoneIcon />,
-    onClick: () => alert("지원하지 않는 로그인 방식입니다."),
+    onClick: () => {},
   },
   {
     Icon: <KakaoIcon />,
-    onClick: () => {
-      signIn("kakao", { callbackUrl: "/" });
-    },
+    onClick: () => {},
   },
   {
     Icon: <NaverIcon />,
-    onClick: () => {
-      signIn("naver", { callbackUrl: "/" });
-    },
+    onClick: () => {},
   },
   {
     Icon: <AppleIcon />,
-    onClick: () => alert("지원하지 않는 로그인 방식입니다."),
+    onClick: () => {},
   },
 ];
 

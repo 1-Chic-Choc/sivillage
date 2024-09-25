@@ -21,6 +21,7 @@ function MiddleCategoryList({
     (cat) => cat.parent_ctg_no === selectedCategory?.ctg_no,
   );
 
+  const formatCategoryName = (name: any) => name.replace(/\//g, "-");
   return (
     <div className="h-screen pl-4 col-span-9 border-l border-[#e0e0e0] overflow-y-auto">
       <div className="py-4 pr-5">
@@ -42,7 +43,7 @@ function MiddleCategoryList({
           {subCategories.map((category) => (
             <li key={category.ctg_no} className="py-2">
               <Link
-                href={`/category/${category.ctg_name}`}
+                href={`/categories/${formatCategoryName(category.parent_ctg_name)}/${formatCategoryName(category.ctg_name)}`}
                 className="text-gray-700 hover:text-black"
               >
                 {category.ctg_name}
