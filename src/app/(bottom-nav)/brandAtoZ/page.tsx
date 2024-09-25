@@ -2,6 +2,7 @@ import BrandCatalog from "@/components/template/layout/brand/BrandCatalog";
 import BrandSearch from "@/components/template/layout/brand/BrandSearch";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import { brandDataModi } from "@/datas/dummy/brandNameData";
+
 import React from "react";
 
 function page() {

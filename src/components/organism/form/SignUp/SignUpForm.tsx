@@ -13,6 +13,7 @@ import AgreementFieldSection from "./AgreementFieldSection";
 import { signUpSchema } from "@/schema/form-schema";
 
 export default function SignUpForm() {
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     mode: "all",
@@ -30,7 +31,7 @@ export default function SignUpForm() {
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     console.log(values);
-  }
+ }
 
   return (
     <Form {...form}>

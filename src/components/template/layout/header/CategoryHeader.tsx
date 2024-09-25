@@ -1,6 +1,6 @@
-import SearchIcon from "@/components/atom/icon/SearchIcon";
+import { ArrowLeftIcon } from "lucide-react";
 import Header from "./Header";
-import LeftArrowBracketIcon from "@/components/atom/icon/LeftArrowBracketIcon";
+import SearchIcon from "@/components/atom/icon/SearchIcon";
 
 export default function CategoryHeader() {
   return (
@@ -8,7 +8,7 @@ export default function CategoryHeader() {
       <nav id="tabNav" className="sticky bg-slate-50 p-4">
         <ul className="grid grid-cols-12">
           <li className="col-span-2">
-            <LeftArrowBracketIcon />
+            <ArrowLeftIcon />
           </li>
           <ul className="flex col-span-10 border-b-2">
             <li>

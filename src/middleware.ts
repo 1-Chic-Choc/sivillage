@@ -1,17 +1,55 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { routes } from "@/config/routes";
+import { getToken } from "next-auth/jwt";
 
-export function middleware(request: NextRequest) {
-  // 예: 요청의 pathname과 query parameters를 로그에 기록하기
-  const pathname = request.nextUrl.pathname;
-  const query = request.nextUrl.searchParams.toString();
+const withAuth = async (req: NextRequest, token: boolean) => {
+  const url = req.nextUrl.clone();
+  const { pathname } = req.nextUrl;
+  if (!token) {
+    url.pathname = routes.signIn;
+    url.search = `callbackUrl=${pathname}`;
 
-  const response = NextResponse.next();
-  response.headers.set("siv-pathname", pathname); // 헤더에 pathname 추가
-  response.headers.set("siv-query", query); // 헤더에 query 파라미터 추가
+    return NextResponse.redirect(url);
+  }
+};
 
-  return response;
+const FALLBACK_URL = "/";
+const withOutAuth = async (
+  req: NextRequest,
+  token: boolean,
+  to: string | null,
+) => {
+  const url = req.nextUrl.clone();
+
+  if (token) {
+    url.pathname = to ?? FALLBACK_URL;
+    url.search = "";
+
+    return NextResponse.redirect(url);
+  }
+};
+
+const withAuthList = [routes.cart, routes.mypage];
+const withOutAuthList = [routes.signIn, routes.signup];
+
+export default async function middleware(request: NextRequest) {
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+  const accessToken = token?.accessToken;
+  const { searchParams } = request.nextUrl;
+  const callbackUrl = searchParams.get("callbackUrl");
+  const { pathname } = request.nextUrl;
+  const isWithAuth = withAuthList.includes(pathname);
+  const isWithOutAuth = withOutAuthList.includes(pathname);
+
+  if (isWithAuth) return withAuth(request, !!accessToken);
+  else if (isWithOutAuth)
+    return withOutAuth(request, !!accessToken, callbackUrl);
 }
 
-// export const config = {
-//   matcher: ['/*'], // Middleware를 적용할 경로를 설정
-// };
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|fonts|images).*)"],
+};

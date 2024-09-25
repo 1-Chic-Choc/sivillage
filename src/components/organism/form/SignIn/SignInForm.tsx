@@ -15,6 +15,7 @@ import InputFormField, {
 import Link from "next/link";
 import { signInSchema } from "@/schema/form-schema";
 
+
 const inputFormFields: Omit<InputFormFieldProps, "form">[] = [
   {
     name: "email",
@@ -47,6 +48,7 @@ const autoLogin: Omit<CheckboxFormFieldProps, "form"> = {
 };
 
 export default function SignInForm() {
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     mode: "onSubmit",
@@ -58,6 +60,7 @@ export default function SignInForm() {
   });
   function onSubmit(values: z.infer<typeof signInSchema>) {
     console.log(values);
+
   }
 
   return (

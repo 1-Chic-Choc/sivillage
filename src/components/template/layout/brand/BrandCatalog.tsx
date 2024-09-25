@@ -37,6 +37,7 @@ function BrandCatalog({ data }: { data: brandNameType[] }) {
   const keyword = searchParams.get("keyword");
   const [filteredData, setFilteredData] = useState<brandNameType[]>(data);
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const korean = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ".split("");
   const [currentSet, setCurrentSet] = useState<string>("alphabet");
@@ -208,6 +209,7 @@ function BrandCatalog({ data }: { data: brandNameType[] }) {
           ))}
         </div>
       )}
+
     </div>
   );
 }

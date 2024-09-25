@@ -18,7 +18,8 @@ export default function page() {
             "text-[14px] font-[500] leading-[normal]",
           )}
         >
-          <Link href="sign-up">회원가입</Link>
+          {/* <Link href="sign-up">회원가입</Link> */}
+          <OauthSignUpLink>회원가입</OauthSignUpLink>
         </div>
 
         <div
