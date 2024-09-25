@@ -48,6 +48,12 @@ export default async function middleware(request: NextRequest) {
   if (isWithAuth) return withAuth(request, !!accessToken);
   else if (isWithOutAuth)
     return withOutAuth(request, !!accessToken, callbackUrl);
+
+  const response = NextResponse.next();
+  response.headers.set("siv-pathname", pathname); // 헤더에 pathname 추가
+  response.headers.set("siv-params", searchParams.toString());
+
+  return response;
 }
 
 export const config = {
