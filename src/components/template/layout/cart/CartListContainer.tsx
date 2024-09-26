@@ -81,7 +81,7 @@ export default function CartListContainer({
     setCurrentId(id);
 
     try {
-      await deleteCartItem(id); // 삭제 API 호출
+      await deleteCartItem({ cartUuid: id }); // 삭제 API 호출
       setCartList((prevList) =>
         prevList.filter((item) => item.cartUuid !== id),
       );

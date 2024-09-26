@@ -231,22 +231,22 @@ export async function deleteCartItem(cartUuids: { cartUuid: string }[]) {
   }
 }
 
-// export async function deleteCartItem(cartUuids: { cartUuid: string }[]) {
-//   "use server";
+export async function deleteCartItem(cartUuids: { cartUuid: string }[]) {
+  "use server";
 
-//   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/cart`;
-//   console.log("API URL:", apiUrl);
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/cart`;
+  console.log("API URL:", apiUrl);
 
-//   const response = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/cart`, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(cartUuids),
-//   });
+  const response = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/cart`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cartUuids),
+  });
 
-//   revalidateTag("deleteCart");
-// }
+  revalidateTag("deleteCart");
+}
 
 export async function deleteCartList(ids: string[]): Promise<boolean> {
   "use server";

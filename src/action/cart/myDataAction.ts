@@ -191,7 +191,7 @@ export const cartCheckUpdate = async (
   }
 };
 
-export async function deleteCartItem(cartUuids: { cartUuid: string }[]) {
+export async function deleteCartItem(cartUuids: { cartUuid: string }) {
   "use server";
 
   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/cart`;
@@ -208,18 +208,36 @@ export async function deleteCartItem(cartUuids: { cartUuid: string }[]) {
   revalidateTag("deleteCart");
 }
 
-export async function deleteCartList(ids: string[]): Promise<boolean> {
+export async function deleteCartList(cartUuid: string[]): Promise<boolean> {
   "use server";
-  console.log("ids", ids);
-  const deletePromises = ids.map(
-    async (id) =>
-      await fetch(`http://localhost:3100/carts/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+
+  try {
+    // 각 항목에 대해 DELETE 요청을 보냄
+    const deletePromises = cartUuid.map(async (id) => {
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/api/v1/cart/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      }),
-  );
+      );
+
+      // 요청이 성공했는지 확인
+      if (!response.ok) {
+        throw new Error(`Failed to delete item with UUID: ${id}`);
+      }
+    });
+
+    // 모든 요청이 성공했는지 확인
+    await Promise.all(deletePromises);
+
+    return true; // 모든 요청이 성공하면 true 반환
+  } catch (error) {
+    console.error("Error deleting cart items:", error);
+    return false; // 에러가 발생하면 false 반환
+  }
 }
 
 export const addCartItem = async (item: cartItemType): Promise<boolean> => {
