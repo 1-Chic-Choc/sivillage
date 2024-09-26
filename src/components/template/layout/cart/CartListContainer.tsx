@@ -93,7 +93,7 @@ export default function CartListContainer({
   };
 
   // 선택된 항목 또는 전체 항목 삭제
-  const handleDeleteList = async (isAllorSelected: boolean) => {
+  const deleteCartItem = async (isAllorSelected: boolean) => {
     const ids = isAllorSelected
       ? cartList.map((item) => item.cartUuid)
       : selectedList.map((item) => item.cartUuid);
