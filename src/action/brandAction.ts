@@ -2,7 +2,7 @@ import { BrandApiResponse } from "@/types/ResponseTypes";
 
 // 브랜드 목록을 가져오는 API 함수
 export async function fetchBrandList(): Promise<BrandApiResponse> {
-  const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/v1/brand`; // 환경 변수에서 URL 가져오기
+  const apiUrl = "https://sivillage.shop/api/v1/brand"; // 환경 변수에서 URL 가져오기
 
   try {
     const response = await fetch(apiUrl, {

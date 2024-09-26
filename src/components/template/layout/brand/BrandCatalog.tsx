@@ -224,6 +224,7 @@ import { useSearchParams } from "next/navigation";
 import { fetchBrandList } from "@/action/brandAction"; // API 호출 함수 임포트
 import { brandNameType } from "@/types/ResponseTypes";
 
+// 스크롤 부드럽게 이동하는 함수
 const smoothScrollTo = (targetY: number, duration: number) => {
   const startY = window.scrollY;
   const distance = targetY - startY;
@@ -252,20 +253,26 @@ const easeInOutQuad = (t: number) => {
 function BrandCatalog() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword");
-  const [filteredData, setFilteredData] = useState<brandNameType[]>([]);
+
+  const [brandData, setBrandData] = useState<brandNameType[]>([]); // API 데이터를 저장
+  const [filteredData, setFilteredData] = useState<brandNameType[]>([]); // 필터링된 데이터
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [error, setError] = useState<string | null>(null); // 에러 상태 추가
+
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const korean = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ".split("");
   const [currentSet, setCurrentSet] = useState<string>("alphabet");
+
   const sectionRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
+  // API에서 브랜드 목록을 불러오는 함수
   useEffect(() => {
     const fetchBrands = async () => {
       try {
         const response = await fetchBrandList();
-        setFilteredData(response.result); // API로부터 받은 브랜드 목록 설정
+        setBrandData(response.result); // API로부터 받은 브랜드 목록 설정
+        setFilteredData(response.result); // 필터링된 데이터 초기화
         setLoading(false);
       } catch (error: any) {
         setError(error.message);
@@ -276,7 +283,7 @@ function BrandCatalog() {
     fetchBrands();
   }, []);
 
-  // 스크롤 스무스
+  // 스크롤 섹션 이동 함수
   const scrollToSection = (char: string) => {
     const section = sectionRef.current[char];
     if (section) {
@@ -285,26 +292,33 @@ function BrandCatalog() {
     }
   };
 
-  // 검색 키워드 처리
+  // 검색 키워드에 따른 필터링 처리
   useEffect(() => {
     if (keyword) {
       const lowerKeyword = keyword.toLowerCase();
-      const filtered = filteredData.filter(
+      const filtered = brandData.filter(
         (brand) =>
           brand.name.toLowerCase().includes(lowerKeyword) ||
           brand.nameKo.includes(lowerKeyword),
       );
       setFilteredData(filtered);
+    } else {
+      setFilteredData(brandData); // 키워드가 없을 때는 전체 데이터
     }
-  }, [keyword, filteredData]);
+  }, [keyword, brandData]); // brandData만 의존성으로
 
+  // 로딩 중일 때 처리
   if (loading) return <div>Loading...</div>;
+
+  // 에러가 발생한 경우 처리
   if (error) return <div>Error: {error}</div>;
 
+  // 알파벳/한글 탭 전환
   const handleSetChange = (set: string) => {
     setCurrentSet(set);
   };
 
+  // 즐겨찾기 토글 기능
   const toggleFavorite = (brandNo: string) => {
     setFavorites((prev) => ({
       ...prev,
@@ -312,26 +326,28 @@ function BrandCatalog() {
     }));
   };
 
+  // 브랜드 이름 포맷팅 함수
   const formatbrandName = (name: any) => name.replace(/\//g, "_");
 
   return (
     <div className="px-4 pt-1">
-      <p className="pb-5 pl-9">
-        <span>{keyword}</span>로 검색한 결과입니다.
-      </p>
+      {/* 검색 결과 표시 */}
+      {keyword && (
+        <p className="pb-5 pl-9">
+          <span>{keyword}</span>로 검색한 결과입니다.
+        </p>
+      )}
+
+      {/* 알파벳/한글 선택 탭 */}
       <div className="flex gap-2 mb-2 items-center">
         <button
-          className={`min-w-[40px] h-9 border ${
-            currentSet === "alphabet" ? "font-bold" : ""
-          }`}
+          className={`min-w-[40px] h-9 border ${currentSet === "alphabet" ? "font-bold" : ""}`}
           onClick={() => handleSetChange("alphabet")}
         >
           A-Z
         </button>
         <button
-          className={`min-w-[40px] h-9 text-sm border ${
-            currentSet === "korean" ? "font-bold" : ""
-          }`}
+          className={`min-w-[40px] h-9 text-sm border ${currentSet === "korean" ? "font-bold" : ""}`}
           onClick={() => handleSetChange("korean")}
         >
           ㄱ-ㅎ
@@ -351,30 +367,35 @@ function BrandCatalog() {
         </div>
       </div>
 
+      {/* 브랜드 목록 */}
       <div>
-        {filteredData.map((brand, idx) => (
-          <div key={idx} className="p-2">
-            <Link href={`/brand/${formatbrandName(brand.name)}`}>
-              <div>
-                <span className="font-bold">{brand.name}</span>
-                <p>{brand.nameKo}</p>
-              </div>
-            </Link>
-            <button onClick={() => toggleFavorite(brand.brandUuid)}>
-              <Image
-                src={
-                  favorites[brand.brandUuid]
-                    ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
-                    : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
-                }
-                alt="heart-icon"
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-            </button>
-          </div>
-        ))}
+        {filteredData.length > 0 ? (
+          filteredData.map((brand, idx) => (
+            <div key={idx} className="p-2">
+              <Link href={`/brand/${formatbrandName(brand.name)}`}>
+                <div>
+                  <span className="font-bold">{brand.name}</span>
+                  <p>{brand.nameKo}</p>
+                </div>
+              </Link>
+              <button onClick={() => toggleFavorite(brand.brandUuid)}>
+                <Image
+                  src={
+                    favorites[brand.brandUuid]
+                      ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
+                      : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
+                  }
+                  alt="heart-icon"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No brands found.</p>
+        )}
       </div>
     </div>
   );
