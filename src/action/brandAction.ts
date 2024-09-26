@@ -22,6 +22,7 @@ export async function fetchBrandList(): Promise<BrandApiResponse> {
 
     // 성공 여부 확인
     if (data.isSuccess) {
+      console.log(data);
       return data; // 성공적인 응답 반환
     } else {
       throw new Error(`API Error: ${data.message}`);
