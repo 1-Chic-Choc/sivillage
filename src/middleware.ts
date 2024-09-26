@@ -30,7 +30,7 @@ const withOutAuth = async (
   }
 };
 
-const withAuthList = [routes.cart, routes.mypage];
+const withAuthList = [routes.mypage];
 const withOutAuthList = [routes.signIn, routes.signup];
 
 export default async function middleware(request: NextRequest) {
