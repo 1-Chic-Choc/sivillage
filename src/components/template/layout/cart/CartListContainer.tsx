@@ -8,9 +8,10 @@ import {
   cartCheckUpdate,
   deleteCartItem,
   deleteCartList,
-} from "@/action/cart/myDataAction";
+} from "@/action/cart/cartActions";
 import { cartItemType } from "@/types/ResponseTypes";
 import { HrUi } from "@/components/ui/HrUi";
+import { getCartData, getProductData } from "@/action/cart/cartActions";
 
 export default function CartListContainer({
   cartItemList,
@@ -19,12 +20,15 @@ export default function CartListContainer({
   cartItemList: cartItemType[];
   selectedItem: cartItemType[];
 }) {
+  console.log(cartItemList);
   const [isLoading, setIsLoading] = useState(false);
   const [curruntId, setCurrentId] = useState<string>("");
-  const [cartList, setCartList] = useState<cartItemType[]>(cartItemList);
+  // const [cartList, setCartList] = useState<cartItemType[]>(cartItemList);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedList, setSelectedList] =
     useState<cartItemType[]>(selectedItem);
+
+  const [cartList, setCartList] = useState<cartItemType[]>([]);
 
   // 전체 선택
   const handleCheckAll = async (checked: boolean) => {
@@ -48,6 +52,27 @@ export default function CartListContainer({
       setIsLoading(false);
     }
   };
+
+  // 제품 데이터를 가져와서 cartItemList에 반영하는 함수
+  const fetchProductDetails = async (cartItems: cartItemType[]) => {
+    const updatedCartItems = await Promise.all(
+      cartItems.map(async (item) => {
+        try {
+          const productData = await getProductData(item.productOptionUuid);
+          return productData; // productData 필드 추가
+        } catch (error) {
+          console.error(
+            "Failed to fetch product data for item:",
+            item.cartUuid,
+          );
+          return item;
+        }
+      }),
+    );
+  };
+  useEffect(() => {
+    fetchProductDetails(cartItemList);
+  }, [cartItemList]);
 
   // 개별 항목 선택 처리
   const handleChangeChecked = async (item: cartItemType) => {
@@ -81,7 +106,7 @@ export default function CartListContainer({
     setCurrentId(id);
 
     try {
-      await deleteCartItem({ cartUuid: id }); // 삭제 API 호출
+      await deleteCartItem([{ cartUuid: id }]); // 삭제 API 호출
       setCartList((prevList) =>
         prevList.filter((item) => item.cartUuid !== id),
       );
@@ -93,10 +118,10 @@ export default function CartListContainer({
   };
 
   // 선택된 항목 또는 전체 항목 삭제
-  const deleteCartItem = async (isAllorSelected: boolean) => {
+  const handleDeleteList = async (isAllorSelected: boolean) => {
     const ids = isAllorSelected
-      ? cartList.map((item) => item.cartUuid)
-      : selectedList.map((item) => item.cartUuid);
+      ? cartList.map((item) => item.cartUuid) // 전체 삭제
+      : selectedList.map((item) => item.cartUuid); // 선택된 항목 삭제
 
     try {
       await deleteCartList(ids); // 삭제 API 호출

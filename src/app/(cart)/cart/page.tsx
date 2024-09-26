@@ -4,13 +4,10 @@ import CartBottom from "@/components/template/layout/cart/CartBottom";
 import RecommandBanner from "@/components/template/layout/cart/RecommandBanner";
 import ShoppingBanner from "@/components/template/layout/cart/ShoppingBanner";
 import ShoppingGuide from "@/components/template/layout/cart/ShoppingGuide";
-import {
-  fetchCartItemList,
-  getCartData,
-  getProductData,
-} from "@/action/cart/myDataAction";
+
 import CartListContainer from "@/components/template/layout/cart/CartListContainer";
 import { cartItemType } from "@/types/ResponseTypes";
+import { getCartData, getProductData } from "@/action/cart/cartActions";
 
 async function page() {
   const cartItemList = await getCartData();

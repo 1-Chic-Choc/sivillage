@@ -29,7 +29,7 @@ export interface cartItemType {
   cartUuid: string;
   productUuid: string;
   productOptionUuid: String;
-  amount: number;
+  quantity: number;
   isSelected: boolean;
 
   // id: string;
@@ -54,4 +54,16 @@ export interface ProductDataType {
   name: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ProductOptionDataType {
+  productOptionUuid: string;
+  productId: number;
+  sizeId: number;
+  colorId: number;
+  etcOptionId: number;
+  saleStatus: string;
+  price: number;
+  discountRate: number;
+  discountPrice: number;
 }

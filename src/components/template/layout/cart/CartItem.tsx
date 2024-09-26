@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { cartItemType } from "@/types/ResponseTypes";
+import { getProductData } from "@/action/cart/cartActions";
 
 // 개별 CartItem 컴포넌트 분리
 export default function CartItem({
@@ -28,11 +29,12 @@ export default function CartItem({
   // handleDecrease: () => void;
   // totalPrice: number;
 }) {
-  const [quantity, setQuantity] = useState(item.amount);
+  console.log("item", item);
+  const [quantity, setQuantity] = useState(item.quantity);
 
   // quantity 상태가 부모 컴포넌트의 item.quantity와 동기화되도록 useEffect 추가
   useEffect(() => {
-    setQuantity(item.amount);
+    setQuantity(item.quantity);
   }, [item]);
 
   const handleIncrease = () => {
@@ -48,7 +50,13 @@ export default function CartItem({
       handleUpdateQuantity(item.cartUuid, newQuantity); // 부모 컴포넌트에 업데이트 전달
     }
   };
-
+  const fetchData = async () => {
+    const data = await getProductData(item.productOptionUuid);
+    console.log(data);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   // const totalPrice = item. * quantity;
 
   return (
@@ -103,7 +111,7 @@ export default function CartItem({
             >
               옵션변경
             </Button>
-            <p className="pl-4 pt-2">원</p>
+            <p className="pl-4 pt-2">{}원</p>
           </div>
           <div className="flex justify-end pr-3 pt-2">
             <Button
@@ -114,7 +122,7 @@ export default function CartItem({
             >
               <Minus size={16} />
             </Button>
-            <span className="h-6 w-8 border text-center">{quantity}</span>
+            <span className="h-6 w-8 border text-center">{item.quantity}</span>
             <Button
               className="h-6 w-6"
               size="icon"
