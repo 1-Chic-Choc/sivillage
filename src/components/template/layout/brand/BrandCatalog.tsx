@@ -305,7 +305,7 @@ function BrandCatalog() {
     } else {
       setFilteredData(brandData); // 키워드가 없을 때는 전체 데이터
     }
-  }, [keyword, brandData]); // brandData만 의존성으로
+  }, [keyword, brandData]);
 
   // 로딩 중일 때 처리
   if (loading) return <div>Loading...</div>;
