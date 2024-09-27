@@ -1,4 +1,5 @@
 import Footer from "@/components/template/layout/Footer";
+import AuthHeader from "@/components/template/layout/header/AuthHeader";
 import BrandProductHeader from "@/components/template/layout/header/BrandProductHeader";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import SearchTopNavBar from "@/components/template/layout/navbar/SearchTopNavBar";
@@ -25,7 +26,7 @@ export default function RootLayout({
 
   return (
     <>
-      <BrandProductHeader>키워드 검색</BrandProductHeader>
+      <AuthHeader />
       <SearchTopNavBar keywords={keyword} />
       {children}
       <BottomNavigationBar />

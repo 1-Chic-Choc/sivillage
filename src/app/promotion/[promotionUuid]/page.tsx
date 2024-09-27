@@ -42,16 +42,18 @@ export default async function page({ params: { promotionUuid } }: pageProps) {
             <div key={productUuid}>{promotionType}</div>
           ))}
       </div>
-      {/* <div>
-        {promotionMediaList && promotionMediaList.map(({ mediaId, mediaOrder }) => (
-          <div key={mediaId}>{mediaOrder}</div>
-        ))}
+      <div>
+        {promotionMediaList &&
+          promotionMediaList.map(({ mediaId, mediaOrder }) => (
+            <div key={mediaId}>{mediaId}</div>
+          ))}
       </div>
       <div>
-        {promotionBenefitList && promotionBenefitList.map(({ benefitContent }) => (
-          <div key={benefitContent}>{benefitContent}</div>
-        ))}
-      </div> */}
+        {promotionBenefitList &&
+          promotionBenefitList.map(({ benefitContent }) => (
+            <div key={benefitContent}>{benefitContent}</div>
+          ))}
+      </div>
     </main>
   );
 }

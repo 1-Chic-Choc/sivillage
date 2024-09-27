@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SectionWrapper from "./reuable/SectionWrapper";
+import SectionWrapper from "../reuable/SectionWrapper";
 import Link from "next/link";
-import ProductList from "./reuable/ProductList";
+import ProductList from "../reuable/ProductList";
 import { Product } from "@/types/ProductTypes";
 import { getProductList } from "@/action/productAction";
 import { Suspense } from "react";
@@ -17,29 +17,18 @@ interface CurationData {
   products: Product[];
 }
 
-interface MainCurationProps {
-  title?: string;
-  defaultIndex?: number;
-  page?: number;
-}
-
-export default async function MainCuration({
-  title = "따뜻한 감성, 섬세한 이야기",
-  defaultIndex = 0,
-  page = 1,
-}: MainCurationProps) {
+export default async function MainCuration() {
   const productsList = await Promise.all([
-    getProductList({ brands: ["UGG"], perPage: 6, page }),
-    getProductList({ keywords: "니트웨어", perPage: 6, page }),
+    getProductList({ brands: ["UGG"], perPage: 6 }),
+    getProductList({ keywords: "니트웨어", perPage: 6 }),
     getProductList({
       keywords: "가을캠핑의 낭만을 준비하세요",
       categories: ["스포츠/레저"],
       perPage: 6,
-      page,
     }),
-    getProductList({ keywords: "향테리어", perPage: 6, page }),
+    getProductList({ keywords: "향테리어", perPage: 6 }),
   ]);
-  let curationDatas: CurationData[] = [
+  const curationDatas: CurationData[] = [
     {
       title: "UGG",
       banner: {
@@ -78,11 +67,9 @@ export default async function MainCuration({
     },
   ];
 
-  curationDatas = [...curationDatas, ...curationDatas].splice(defaultIndex, 4);
-
   return (
     <Suspense fallback={null}>
-      <SectionWrapper title={title}>
+      <SectionWrapper title="따뜻한 감성, 섬세한 이야기">
         <Tabs defaultValue={curationDatas[0].title}>
           <TabsList className="px-[24px] mb-[16px] bg-white ">
             {curationDatas.map((data, index) => (

@@ -10,7 +10,7 @@ export async function getPromotionList(): Promise<Promotion[] | null> {
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/promotion`, {
     method,
     headers,
-    cache: "default",
+    cache: "force-cache",
   });
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
@@ -78,6 +78,7 @@ export async function getPromotionMediaList(
     },
   );
   const data = (await res.json()) as CommonResType<any>;
+  console.log("promotion media", data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
@@ -92,7 +93,7 @@ export async function getPromotionBenefitList(
   const method = "GET";
   const { promotionUuid } = req;
   const res = await fetch(
-    `${process.env.BACKEND_BASE_URL}/api/v1/promotionBenefit/promotionBenefit/${promotionUuid}`,
+    `${process.env.BACKEND_BASE_URL}/api/v1/promotion/promotionBenefit/${promotionUuid}`,
     {
       method,
       headers,
@@ -100,6 +101,9 @@ export async function getPromotionBenefitList(
     },
   );
   const data = (await res.json()) as CommonResType<any>;
+
+  console.log("benefit", data);
+
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
