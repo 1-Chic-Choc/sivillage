@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "lucide-react";
 import Header from "./Header";
 import SearchIcon from "@/components/atom/icon/SearchIcon";
+import SearchButton from "@/components/molecule/button/SeachButton";
 
 export default function CategoryHeader() {
   return (
@@ -12,7 +13,7 @@ export default function CategoryHeader() {
           </li>
           <ul className="flex col-span-10 border-b-2">
             <li>
-              <SearchIcon />
+              <SearchButton />
             </li>
             <li>
               <p className="text-slate-500 pt-1">

@@ -2,13 +2,16 @@ import React from "react";
 import Link from "next/link";
 import Header from "./Header";
 import { cn } from "@/lib/utils";
-import PathText from "./PathText";
 import HistoryBackButton from "@/components/molecule/button/HistoryBackButton";
 import SearchIcon from "@/components/atom/icon/SearchIcon";
 import ShoppingBagIcon from "@/components/atom/icon/ShoppingBagIcon";
 import SearchButton from "@/components/molecule/button/SeachButton";
 
-export default function AuthHeader() {
+export default function BrandProductHeader({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <Header>
       <div className={cn("h-[56px]", "flex justify-center items-center")}>
@@ -25,7 +28,7 @@ export default function AuthHeader() {
             "leading-[normal]",
           )}
         >
-          <PathText />
+          {children}
         </Link>
 
         <div

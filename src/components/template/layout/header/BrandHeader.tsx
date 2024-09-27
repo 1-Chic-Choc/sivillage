@@ -3,6 +3,7 @@ import Header from "./Header";
 import LeftArrowBracketIcon from "@/components/atom/icon/LeftArrowBracketIcon";
 import SearchIcon from "@/components/atom/icon/SearchIcon";
 import ShoppingBagIcon from "@/components/atom/icon/ShoppingBagIcon";
+import SearchButton from "@/components/molecule/button/SeachButton";
 
 export default function BrandHeader() {
   return (
@@ -17,7 +18,7 @@ export default function BrandHeader() {
           </li>
           <ul className="flex gap-4">
             <li>
-              <SearchIcon />
+              <SearchButton />
             </li>
             <li>
               <ShoppingBagIcon />

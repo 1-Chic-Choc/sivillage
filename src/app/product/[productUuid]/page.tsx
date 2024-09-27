@@ -54,7 +54,7 @@ export default async function page({
       <div className={productDetailClassName.hashtagContainer}>
         {productHashtagList?.map((hashtag) => (
           <Link
-            href={`/search?keywords=${hashtag}`}
+            href={`/search/${hashtag.hashtagContent.replace("#", "")}`}
             key={hashtag.id}
             className={productDetailClassName.hastag}
           >
@@ -62,15 +62,14 @@ export default async function page({
           </Link>
         ))}
       </div>
-      <div className={productDetailClassName.tapInfoDetail}>
-        <iframe
-          src={productDetailList![0].productDetailUrl}
-          className="w-full h-[2000px]"
-        />
-        {/* <ProductDetailIframe
-          productDetailUrl={productDetailList[0].productDetailUrl}
-        /> */}
-      </div>
+      {productDetailList![0]?.productDetailUrl ? (
+        <div className={productDetailClassName.tapInfoDetail}>
+          <iframe
+            src={productDetailList![0]?.productDetailUrl}
+            className="w-full h-[2000px]"
+          />
+        </div>
+      ) : null}
 
       <div className={productDetailClassName.tabReviewBasic}>
         <div className={productDetailClassName.wrap}>

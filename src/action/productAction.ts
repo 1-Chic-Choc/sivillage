@@ -37,7 +37,7 @@ import { CommonResType } from "@/types/ResponseTypes";
 const headers = { "Content-Type": "application/json" };
 
 export async function getCategoryList(
-  req: CategpryListRequestType,
+  req?: CategpryListRequestType,
 ): Promise<Category[] | null> {
   const method = "GET";
   const { parentId } = req || { parentId: "" };
@@ -87,7 +87,7 @@ export async function getCategoryByPath(
   const method = "GET";
   const { path } = req;
   const res = await fetch(
-    `${process.env.BACKEND_BASE_URL}/api/v1/category/path?path=${path}`,
+    `${process.env.BACKEND_BASE_URL}/api/v1/category/path?path=${path.join(",")}`,
     {
       method,
       headers,
