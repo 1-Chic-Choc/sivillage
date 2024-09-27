@@ -73,3 +73,5 @@ export type BrandRequestType = Record<"brandUuid", string>;
 export type BrandMediaListRequestType = Record<"brandUuid", string>;
 
 export type ProductReviewListRequestType = ProductUUID;
+
+//cart

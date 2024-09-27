@@ -1,7 +1,7 @@
 import Footer from "@/components/template/layout/Footer";
 import BrandProductHeader from "@/components/template/layout/header/BrandProductHeader";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
-import BrandProductTopNavBar from "@/components/template/layout/navbar/BrandPoructTopNavBar";
+import SearchTopNavBar from "@/components/template/layout/navbar/SearchTopNavBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,24 +11,22 @@ export const metadata: Metadata = {
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: { brandName: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { keyword: string };
 }
 
 export default function RootLayout({
   children,
-  params: { brandName },
-  searchParams,
+  params: { keyword },
 }: LayoutProps) {
-  brandName = decodeURI(brandName).replace("_", "/");
+  keyword = decodeURI(keyword);
 
   // const categories = path.map((i) => decodeURI(i));
   // const filtering = { ...searchParams, categories };
 
   return (
     <>
-      <BrandProductHeader>{brandName}</BrandProductHeader>
-      <BrandProductTopNavBar {...{ brandName }} />
+      <BrandProductHeader>키워드 검색</BrandProductHeader>
+      <SearchTopNavBar keywords={keyword} />
       {children}
       <BottomNavigationBar />
       <Footer />
