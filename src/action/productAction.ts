@@ -37,7 +37,7 @@ import { CommonResType } from "@/types/ResponseTypes";
 const headers = { "Content-Type": "application/json" };
 
 export async function getCategoryList(
-  req: CategpryListRequestType,
+  req?: CategpryListRequestType,
 ): Promise<Category[] | null> {
   const method = "GET";
   const { parentId } = req || { parentId: "" };
