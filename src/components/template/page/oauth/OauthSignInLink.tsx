@@ -6,9 +6,15 @@ import React from "react";
 
 export default function OauthSignInLink({
   children,
+  className,
 }: {
   children: React.ReactNode;
+  className?: string;
 }) {
   const params = useSearchParams();
-  return <Link href={`/sign-in?${params}`}>{children}</Link>;
+  return (
+    <Link href={`/sign-in?${params}`} className={className}>
+      {children}
+    </Link>
+  );
 }
