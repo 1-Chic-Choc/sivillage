@@ -12,13 +12,11 @@ export const metadata: Metadata = {
 interface LayoutProps {
   children: React.ReactNode;
   params: { brandName: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export default function RootLayout({
   children,
   params: { brandName },
-  searchParams,
 }: LayoutProps) {
   brandName = decodeURI(brandName).replace("_", "/");
 
