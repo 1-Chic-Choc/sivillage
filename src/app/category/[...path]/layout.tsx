@@ -12,16 +12,13 @@ export const metadata: Metadata = {
 interface LayoutProps {
   children: React.ReactNode;
   params: { path: string[] };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export default function RootLayout({
   children,
   params: { path },
-  searchParams,
 }: LayoutProps) {
   const categories = path.map((i) => decodeURI(i));
-  const filtering = { ...searchParams, categories };
 
   return (
     <>
