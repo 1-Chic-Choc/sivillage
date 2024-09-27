@@ -31,7 +31,6 @@ export async function signUpAction(signUpData: SignUpResquestType) {
   );
 
   const data = await res.json();
-  console.log(data);
   if (data?.httpStatus === "OK") {
     return data.result;
   } else {

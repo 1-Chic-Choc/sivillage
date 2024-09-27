@@ -6,6 +6,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/autoplay";
+import { Suspense, useEffect, useState } from "react";
+import { getPromotionList } from "@/action/promotionAction";
+import Link from "next/link";
 
 interface ViItem {
   img_src: string;
@@ -46,6 +49,15 @@ const viItems: ViItem[] = [
 ];
 
 export default function MainVi() {
+  const [promotionList, setPromotionList] = useState<Promotion[]>([]);
+  useEffect(() => {
+    getPromotionList().then((data) => {
+      if (data) {
+        setPromotionList(data.slice(0, 10));
+      }
+    });
+  }, []);
+
   return (
     <div className="mb-[48px]">
       <Swiper
@@ -65,25 +77,49 @@ export default function MainVi() {
         modules={[Autoplay, EffectCreative]}
         loop
       >
-        {viItems.map(({ img_src, brand, title, subtitle }, i) => (
-          <SwiperSlide key={i}>
-            <div className="relative w-full aspect-[375/574]">
-              <Image src={img_src} alt={title || ""} fill />
-            </div>
-            <div className="absolute bottom-[0px] w-full aspect-[375/574] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.4)]"></div>
-            <div className="w-full absolute bottom-[2.4rem] flex flex-col  items-center mb-[8px] text-center">
-              <p className="text-[14px] text-white font-[700] leading-[20px] mb-[8px]">
+        {promotionList.length > 0
+          ? promotionList.map(
+              ({ promotionUuid, title, description, thumbnailUrl }, i) => (
+                <SwiperSlide key={promotionUuid}>
+                  <Link href={`/promotion/${promotionUuid}`}>
+                    <div className="relative w-full aspect-[375/574]">
+                      <Image src={thumbnailUrl} alt={title || ""} fill />
+                    </div>
+                    <div className="absolute bottom-[0px] w-full aspect-[375/574] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.4)]"></div>
+                    <div className="w-full absolute bottom-[2.4rem] flex flex-col  items-center mb-[8px] text-center">
+                      {/* <p className="text-[14px] text-white font-[700] leading-[20px] mb-[8px]">
                 {`${brand[0]}${brand.length > 1 ? " & more" : ""}`}
-              </p>
-              <p className="text-[34px] text-white font-[700] leading-[42px] whitespace-pre-wrap">
-                {title}
-              </p>
-              <p className="text-[16px] text-white font-[400] leading-[24px] mt-[8px]">
-                {subtitle}
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
+              </p> */}
+                      <p className="text-[24px] text-white font-[700] leading-[42px] whitespace-pre-wrap">
+                        {title}
+                      </p>
+                      <p className="text-[16px] text-white font-[400] leading-[24px] mt-[8px]">
+                        {description}
+                      </p>
+                    </div>
+                  </Link>
+                </SwiperSlide>
+              ),
+            )
+          : viItems.map(({ img_src, brand, title, subtitle }, i) => (
+              <SwiperSlide key={i}>
+                <div className="relative w-full aspect-[375/574]">
+                  <Image src={img_src} alt={title || ""} fill />
+                </div>
+                <div className="absolute bottom-[0px] w-full aspect-[375/574] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.4)]"></div>
+                <div className="w-full absolute bottom-[2.4rem] flex flex-col  items-center mb-[8px] text-center">
+                  <p className="text-[14px] text-white font-[700] leading-[20px] mb-[8px]">
+                    {`${brand[0]}${brand.length > 1 ? " & more" : ""}`}
+                  </p>
+                  <p className="text-[34px] text-white font-[700] leading-[42px] whitespace-pre-wrap">
+                    {title}
+                  </p>
+                  <p className="text-[16px] text-white font-[400] leading-[24px] mt-[8px]">
+                    {subtitle}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
       </Swiper>
     </div>
   );
