@@ -74,4 +74,12 @@ export type BrandMediaListRequestType = Record<"brandUuid", string>;
 
 export type ProductReviewListRequestType = ProductUUID;
 
+// promotion
+export type PromotionUUID = Record<"promotionUuid", string>;
+
+export type PromotionRequestType = PromotionUUID;
+export type PromotionProductListRequestType = PromotionUUID;
+export type PromotionMediaListRequestType = PromotionUUID;
+export type PromotionBenefitListRequestType = PromotionUUID;
+
 //cart
