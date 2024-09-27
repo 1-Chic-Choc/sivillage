@@ -6,8 +6,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { cartItemType } from "@/types/ResponseTypes";
 import { getProductData } from "@/action/cart/cartActions";
+import CartDrawer from "./CartDrawer";
 
-// 개별 CartItem 컴포넌트 분리
 export default function CartItem({
   item,
   isLoading,
@@ -15,9 +15,6 @@ export default function CartItem({
   handleChangeChecked,
   handleDelete,
   handleUpdateQuantity,
-  // handleIncrease,
-  // handleDecrease,
-  // totalPrice,
 }: {
   item: cartItemType;
   isLoading: boolean;
@@ -25,115 +22,147 @@ export default function CartItem({
   handleChangeChecked: (item: cartItemType) => void;
   handleDelete: (id: string) => void;
   handleUpdateQuantity: (id: string, newQuantity: number) => void;
-  // handleIncrease: () => void;
-  // handleDecrease: () => void;
-  // totalPrice: number;
 }) {
-  console.log("item", item);
-  const [quantity, setQuantity] = useState(item.quantity);
-
+  const [quantity, setQuantity] = useState<number>(1);
+  const [productData, setProductData] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isThrottling, setIsThrottling] = useState<boolean>(false);
+  const [clickCount, setClickCount] = useState<number>(0);
   // quantity 상태가 부모 컴포넌트의 item.quantity와 동기화되도록 useEffect 추가
   useEffect(() => {
     setQuantity(item.quantity);
   }, [item]);
 
-  const handleIncrease = () => {
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
-    handleUpdateQuantity(item.cartUuid, newQuantity); // 부모 컴포넌트에 업데이트 전달
+  // 컴포넌트가 마운트될 때 데이터 패칭
+  useEffect(() => {
+    // 상품 데이터를 패치하는 함수
+    const fetchData = async () => {
+      try {
+        const data = await getProductData(item.productOptionUuid);
+        console.log("Fetched product data:", data);
+        setProductData(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    if (item.productOptionUuid) {
+      fetchData();
+    }
+  }, [item.productOptionUuid]);
+
+  const handleCounter = (changeType: string) => {
+    if (changeType === "decrease") {
+      setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+    setClickCount(clickCount + 1);
+    setIsThrottling(true);
   };
 
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      const newQuantity = quantity - 1;
-      setQuantity(newQuantity);
-      handleUpdateQuantity(item.cartUuid, newQuantity); // 부모 컴포넌트에 업데이트 전달
-    }
-  };
-  const fetchData = async () => {
-    const data = await getProductData(item.productOptionUuid);
-    console.log(data);
-  };
   useEffect(() => {
-    fetchData();
-  }, []);
-  // const totalPrice = item. * quantity;
+    if (clickCount > 0) {
+      setTimeout(() => {
+        console.log("fetch...");
+        setClickCount(0);
+      }, 1000);
+      return;
+    } else {
+      setIsThrottling(false);
+      console.log("wating");
+    }
+  }, [clickCount]);
+
+  // 가격 정보 출력
+  const priceInfo = productData
+    ? `${productData.price ?? 0}원 / 할인: ${productData.discountPrice ?? 0}원`
+    : "가격 정보를 불러오는 중...";
 
   return (
-    <fieldset className="flex justify-between gap-4 pt-4 pb-8 items-center border-b border-gray-300">
-      <div className="pl-2">
-        <ul className="flex w-full items-center gap-2 text-sm">
-          <li>
-            {isLoading && item.cartUuid === curruntId ? (
-              <CircleDashed
-                strokeWidth={0.8}
-                className="size-[24px] animate-spin"
-              />
-            ) : (
-              <Checkbox
-                className="size-[24px] data-[state=checked]:bg-black"
-                checked={item.isSelected}
-                onClick={() => handleChangeChecked(item)}
-                name={item.cartUuid}
-                id={item.cartUuid}
-              />
-            )}
-          </li>
-          <li>
-            <p className="w-60 text-center">{item.cartUuid}</p>
-          </li>
-          <li className="pl-4">
-            <Button
-              size={"sm"}
-              variant={"ghost"}
-              onClick={() => handleDelete(item.cartUuid)}
-            >
-              <X size={16} />
-            </Button>
-          </li>
-        </ul>
-        <div className="flex">
-          <Image
-            className="h-70 mr-8"
-            src="https://image.sivillage.com/upload/C00001/s3/goods/org/123/240221009160123.jpg?RS=200&SP=1"
-            alt={item.cartUuid}
-            width={50}
-            height={50}
-          />
-          <span className="item pl-4">options</span>
-        </div>
-        <div className="grid grid-cols-2">
+    <>
+      <fieldset className="flex justify-between gap-4 pt-4 pb-8 items-center border-b border-gray-300">
+        <div className="pl-2">
+          <ul className="flex w-full items-center gap-2 text-sm">
+            <li>
+              {isLoading && item.cartUuid === curruntId ? (
+                <CircleDashed
+                  strokeWidth={0.8}
+                  className="size-[24px] animate-spin"
+                />
+              ) : (
+                <Checkbox
+                  className="size-[24px] data-[state=checked]:bg-black"
+                  checked={item.isSelected}
+                  onClick={() => handleChangeChecked(item)}
+                  name={item.cartUuid}
+                  id={item.cartUuid}
+                />
+              )}
+            </li>
+            <li>
+              <p className="w-60 text-center">{item.cartUuid}</p>
+            </li>
+            <li className="pl-4">
+              <Button
+                size={"sm"}
+                variant={"ghost"}
+                onClick={() => handleDelete(item.cartUuid)}
+              >
+                <X size={16} />
+              </Button>
+            </li>
+          </ul>
+          <div className="flex">
+            <Image
+              className="h-70 mr-8"
+              src="https://image.sivillage.com/upload/C00001/s3/goods/org/123/240221009160123.jpg?RS=200&SP=1"
+              alt={item.cartUuid}
+              width={50}
+              height={50}
+            />
+            <span className="item pl-4">{priceInfo}</span>
+          </div>
           <div className="grid grid-cols-2">
-            <Button
-              className="text-xs text-slate-500 underline underline-offset-4"
-              variant={"ghost"}
-              size="sm"
-            >
-              옵션변경
-            </Button>
-            <p className="pl-4 pt-2">{}원</p>
-          </div>
-          <div className="flex justify-end pr-3 pt-2">
-            <Button
-              className="h-6 w-6"
-              size="icon"
-              variant="outline"
-              onClick={handleDecrease}
-            >
-              <Minus size={16} />
-            </Button>
-            <span className="h-6 w-8 border text-center">{item.quantity}</span>
-            <Button
-              className="h-6 w-6"
-              size="icon"
-              variant="outline"
-              onClick={handleIncrease}
-            >
-              <Plus size={16} />
-            </Button>
+            <div className="grid grid-cols-2">
+              <Button
+                onClick={() => setIsOpen(true)}
+                className="text-xs text-slate-500 underline underline-offset-4"
+                variant={"ghost"}
+                size="sm"
+              >
+                옵션변경
+              </Button>
+              <p className="pl-4 pt-2">
+                {productData ? productData.discountPrice : " "}원
+              </p>
+              <p className="pl-4 pt-2">
+                {productData ? productData.price * item.quantity : " "}원
+              </p>
+            </div>
+            <div className="flex justify-end pr-3 pt-2">
+              <Button
+                className={`h-6 w-6 ${quantity < 2 && "opacity-40 cursor-not-allowed"}`}
+                size="icon"
+                variant="outline"
+                onClick={() => quantity > 1 && handleCounter("decrease")}
+              >
+                <Minus size={16} />
+              </Button>
+              <span className="h-6 w-8 border text-center">{quantity}</span>
+              <Button
+                className="h-6 w-6"
+                size="icon"
+                variant="outline"
+                onClick={() => handleCounter("increase")}
+              >
+                <Plus size={16} />
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
+      <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
+    </>
   );
 }
