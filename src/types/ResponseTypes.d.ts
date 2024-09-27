@@ -10,7 +10,7 @@ export type CommonResType<T> = commonResType<T>;
 
 // auth
 
-export type UserUUID = Record<"uuid", string>;
+export type UserUUID = Record<uuid, string>;
 
 // category
 
@@ -21,4 +21,49 @@ export interface CategoryType {
   parent_ctg_name: string | null;
   parent_ctg_no: string | null;
   is_leaf: boolean;
+}
+
+// cart
+
+export interface cartItemType {
+  cartUuid: string;
+  productUuid: string;
+  productOptionUuid: String;
+  quantity: number;
+  isSelected: boolean;
+
+  // id: string;
+  // name: string;
+  // price: number;
+  // discountPrice: number;
+  // quantity: number;
+  // isChecked: boolean;
+}
+
+export interface cartItemDataType {
+  totalPrice: number;
+  disCountTotalPrice: number;
+  shippingFee: number;
+  cartItemList: cartItemType[];
+}
+
+export interface ProductDataType {
+  productId: number;
+  productUuid: string;
+  brandUuid: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ProductOptionDataType {
+  productOptionUuid: string;
+  productId: number;
+  sizeId: number;
+  colorId: number;
+  etcOptionId: number;
+  saleStatus: string;
+  price: number;
+  discountRate: number;
+  discountPrice: number;
 }
