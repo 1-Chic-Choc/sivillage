@@ -7,16 +7,15 @@ import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 
 interface pageProps {
-  params: { brandName: string };
+  params: { keyword: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export default async function page({
-  params: { brandName },
+  params: { keyword },
   searchParams,
 }: pageProps) {
-  brandName = decodeURI(brandName).replace("_", "/");
-  const filtering = { ...searchParams };
+  const filtering = { ...searchParams, keywords: decodeURI(keyword) };
   const products = (await getProductList(filtering)) || [];
 
   return (
