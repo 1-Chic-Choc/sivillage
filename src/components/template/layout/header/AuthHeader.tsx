@@ -6,6 +6,7 @@ import PathText from "./PathText";
 import HistoryBackButton from "@/components/molecule/button/HistoryBackButton";
 import SearchIcon from "@/components/atom/icon/SearchIcon";
 import ShoppingBagIcon from "@/components/atom/icon/ShoppingBagIcon";
+import SearchButton from "@/components/molecule/button/SeachButton";
 
 export default function AuthHeader() {
   return (
@@ -34,9 +35,7 @@ export default function AuthHeader() {
             "absolute w-20 h-8",
           )}
         >
-          <Link href="/search">
-            <SearchIcon />
-          </Link>
+          <SearchButton />
           <Link href="/cart">
             <ShoppingBagIcon />
           </Link>

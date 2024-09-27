@@ -15,22 +15,15 @@ export default async function page({
   params: { brandName },
   searchParams,
 }: pageProps) {
-  const categories = searchParams.categories;
   brandName = decodeURI(brandName).replace("_", "/");
-  const filtering = { ...searchParams, brands: [brandName] };
+  const filtering = { ...searchParams };
   const products = (await getProductList(filtering)) || [];
 
   return (
     <main className="w-full">
       <h2 className={cn(sectionHead.h2, "px-[24px]")}>
-        <span className={sectionHead.title}>
-          All Product
-          <span className="font-[500]">
-            {categories ? `- ${categories}` : ""}
-          </span>
-        </span>
+        <span className={sectionHead.title}>All Product</span>
       </h2>
-      {/* {searchParams.categories && <div className="px-[24px]">{`${searchParams.categories} 관련 상품입니다.`}</div>} */}
       <div className={productClassName.list}>
         {products.length > 0 ? (
           products.map((product) => (
