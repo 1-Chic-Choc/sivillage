@@ -17,16 +17,7 @@ export default function AuthHeader() {
           className={cn("absolute left-[16px]", "w-[32px] h-[32px] p-0")}
         />
 
-        <Link
-          href={"./sign-in"}
-          className={cn(
-            "w-[calc(100%-190px)] h-[26px]",
-            "font-[500] text-[18px] text-center",
-            "leading-[normal]",
-          )}
-        >
-          <PathText />
-        </Link>
+        <PathText />
 
         <div
           className={cn(
