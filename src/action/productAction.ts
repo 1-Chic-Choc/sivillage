@@ -87,7 +87,7 @@ export async function getCategoryByPath(
   const method = "GET";
   const { path } = req;
   const res = await fetch(
-    `${process.env.BACKEND_BASE_URL}/api/v1/category/path?path=${path}`,
+    `${process.env.BACKEND_BASE_URL}/api/v1/category/path?path=${path.join(",")}`,
     {
       method,
       headers,
