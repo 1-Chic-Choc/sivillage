@@ -17,10 +17,10 @@ export const options: NextAuthOptions = {
       credentials: {
         email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },
-        // autoSignIn: { label: "autoSignIn", type: "boolean" },
-        // oauthProvider: { label: "oauthProvider", type: "string" },
-        // oauthId: { label: "oauthId", type: "string" },
-        // oauthEmail: { label: "oauthEmail", type: "string" },
+        autoSignIn: { label: "autoSignIn", type: "boolean" },
+        oauthProvider: { label: "oauthProvider", type: "string" },
+        oauthId: { label: "oauthId", type: "string" },
+        oauthEmail: { label: "oauthEmail", type: "string" },
       },
 
       async authorize(credentials): Promise<any> {
@@ -28,38 +28,22 @@ export const options: NextAuthOptions = {
           return null;
         }
 
-        console.log(credentials);
+        if (!["kakao", "naver"].includes(credentials.oauthProvider)) {
+          credentials.oauthProvider = "";
+          credentials.oauthId = "";
+          credentials.oauthEmail = "";
+        }
 
         try {
-          const res = await fetch(
-            "https://sivillage.shop/api/v1/auth/sign-in",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-                oauthId: "string",
-                oauthProvider: "string",
-                oauthEmail: "string",
-                autoSignIn: true,
-              }),
-            },
-          );
-
-          if (res.ok) {
-            const response = (await res.json()) as CommonResType<authResType>;
-            const data = response.result;
-            console.log(res.headers);
-            const user = {
-              uuid: data.uuid,
-              email: "null",
-              accssToken: res.headers.get("authorization"),
-            };
-            return user;
-          }
+          const res = await signInAction(credentials);
+          const { result } = (await res.json()) as CommonResType<UserUUID>;
+          console.log(result);
+          return {
+            uuid: result.uuid,
+            email: credentials.email,
+            accessToken: res.headers.get("authorization"),
+            // refreshToken: res.headers.get("x-refresh-token"),
+          };
         } catch (error) {
           console.error("error", error);
         }
@@ -68,11 +52,11 @@ export const options: NextAuthOptions = {
     }),
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID || "",
-      clientSecret: process.env.KAKAO_CLIENT_SECERET || "",
+      clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
     }),
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID || "",
-      clientSecret: process.env.NAVER_CLIENT_SECERET || "",
+      clientSecret: process.env.NAVER_CLIENT_SECRET || "",
     }),
   ],
   callbacks: {

@@ -58,7 +58,6 @@ export default async function CategoryTopNavBar({ categories }: Props) {
   console.log(categories);
 
   const sub_cat_links = sub_cat_datas.map((sub_cat_data) => {
-    console.log(sub_cat_data);
     const text = sub_cat_data.name;
     const path = [
       categories[categories.length - 1],

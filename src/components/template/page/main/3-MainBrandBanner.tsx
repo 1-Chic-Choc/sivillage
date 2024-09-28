@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function MainBrandBanner() {
   return (
     <div className="relative w-[100%-48px] aspect-[327/184] mx-[24px] mb-[48px]">
-      <Link href="/">
+      <Link href="/search/스니커즈">
         <Image
           src={
             "https://image.sivillage.com/upload/C00001/s3/dspl/banner/90/972/30/240900000508972_20240911110342.jpg"

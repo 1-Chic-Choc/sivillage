@@ -92,3 +92,21 @@ export interface BrandMedia {
   mediaId: number;
   mediaOrder: number;
 }
+
+export interface ProductListCount {
+  totalCount: number;
+  totalPages: number;
+}
+
+export interface ProductSizesPerColor {
+  color: Color;
+  sizes: Size[];
+}
+
+export interface ProductCategoryFilteringValues {
+  colorIds: string[];
+  sizeIds: string[];
+  brandUuids: string[];
+}
+
+export type ProductLike = boolean;

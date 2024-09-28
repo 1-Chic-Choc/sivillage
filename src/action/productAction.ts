@@ -8,13 +8,18 @@ import {
   ColorRequestType,
   EtcOptionRequestType,
   MediaRequestType,
+  ProductBest100RequestType,
+  ProductCategoryFilteringValuesRequestType,
   ProductCategoryRequestType,
   ProductDetailRequestType,
   ProductInfoListRequestType,
+  ProductLikeRequestType,
+  ProductListCountRequestType,
   ProductListRequestType,
   ProductMediaRequestType,
   ProductOptionListRequestType,
   ProductSingleRequestType,
+  ProductSizesPerColorResquestType,
   SizeRequestType,
 } from "@/types/RequestTypes";
 import {
@@ -25,14 +30,20 @@ import {
   Media,
   Product,
   ProductCategory,
+  ProductCategoryFilteringValues,
   ProductDetail,
   ProductHashtag,
   ProductInfo,
+  ProductLike,
+  ProductListCount,
   ProductMedia,
   ProductOption,
+  ProductSizesPerColor,
   Size,
 } from "@/types/ProductTypes";
 import { CommonResType } from "@/types/ResponseTypes";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
 
 const headers = { "Content-Type": "application/json" };
 
@@ -49,6 +60,9 @@ export async function getCategoryList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -72,6 +86,9 @@ export async function getProuctCategory(
     },
   );
 
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -95,6 +112,9 @@ export async function getCategoryByPath(
     },
   );
 
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -117,6 +137,84 @@ export async function getProductList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductBest100(
+  req: ProductBest100RequestType,
+): Promise<Product[] | null> {
+  const method = "GET";
+  const searchParams = new URLSearchParams(Object.entries(req));
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/products/best?${searchParams}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductCategoryFilteringValues(
+  req: ProductCategoryFilteringValuesRequestType,
+): Promise<ProductCategoryFilteringValues | null> {
+  const method = "GET";
+  const searchParams = new URLSearchParams(Object.entries(req));
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/products/attributes?${searchParams}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductListCount(
+  req: ProductListCountRequestType,
+): Promise<ProductListCount | null> {
+  const method = "GET";
+  const searchParams = new URLSearchParams(Object.entries(req));
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/products/count?${searchParams}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -139,6 +237,34 @@ export async function getProductSingle(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductSizesPerColor(
+  req: ProductSizesPerColorResquestType,
+): Promise<ProductSizesPerColor | null> {
+  const method = "GET";
+  const { productUuid } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/products/colors-sizes/${productUuid}`,
+    {
+      method,
+      headers,
+      cache: "default",
+    },
+  );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -161,6 +287,9 @@ export async function getProductOptionList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -183,6 +312,9 @@ export async function getProductInfoList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -205,6 +337,9 @@ export async function getProductHashtagList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -227,6 +362,9 @@ export async function getProductDetailList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -249,6 +387,9 @@ export async function getProductMediaList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -269,6 +410,9 @@ export async function getMedia(req: MediaRequestType): Promise<Media | null> {
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -285,6 +429,9 @@ export async function getColorList(): Promise<Color[] | null> {
     headers,
     cache: "default",
   });
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -305,6 +452,9 @@ export async function getColor(req: ColorRequestType): Promise<Color | null> {
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -320,6 +470,9 @@ export async function getSizeList(): Promise<Size[] | null> {
     headers,
     cache: "default",
   });
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -340,6 +493,9 @@ export async function getSize(req: SizeRequestType): Promise<Size | null> {
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -356,6 +512,9 @@ export async function getEtcOptionList(): Promise<EtcOption[] | null> {
     headers,
     cache: "default",
   });
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -378,6 +537,9 @@ export async function getEtcOption(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -398,6 +560,9 @@ export async function getBrand(req: BrandRequestType): Promise<Brand | null> {
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -414,6 +579,9 @@ export async function getBrandList(): Promise<Brand[] | null> {
     headers,
     cache: "default",
   });
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   if (data.httpStatus === "OK") {
     const { result } = data;
@@ -436,7 +604,61 @@ export async function getBrandMediaList(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductLike(
+  req: ProductLikeRequestType,
+): Promise<ProductLike | null> {
+  const method = "GET";
+  const { productUuid } = req;
+  const session = await getServerSession(options);
+  const token = session?.user?.accessToken;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/product/like/${productUuid}`,
+    {
+      method,
+      headers: { ...headers, Authorization: `Bearer ${token}` },
+      cache: "default",
+    },
+  );
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+export async function postProductLike(
+  req: ProductLikeRequestType,
+): Promise<{} | null> {
+  const method = "POST";
+  const { productUuid } = req;
+  const session = await getServerSession(options);
+  const token = session?.user?.accessToken;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/product/like/${productUuid}`,
+    {
+      method,
+      headers: { ...headers, Authorization: `Bearer ${token}` },
+      cache: "default",
+    },
+  );
+  const data = (await res.json()) as CommonResType<any>;
+  console.log(data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;

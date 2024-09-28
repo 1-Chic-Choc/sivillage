@@ -1,7 +1,6 @@
 import Footer from "@/components/template/layout/Footer";
 import TitleHeader from "@/components/template/layout/header/TitleHeader";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
-import SearchTopNavBar from "@/components/template/layout/navbar/SearchTopNavBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,22 +10,16 @@ export const metadata: Metadata = {
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: { keyword: string };
+  params: { promotionUuid: string };
 }
 
 export default function RootLayout({
   children,
-  params: { keyword },
+  params: { promotionUuid },
 }: LayoutProps) {
-  keyword = decodeURI(keyword);
-
-  // const categories = path.map((i) => decodeURI(i));
-  // const filtering = { ...searchParams, categories };
-
   return (
     <>
       <TitleHeader />
-      <SearchTopNavBar keywords={keyword} />
       {children}
       <BottomNavigationBar />
       <Footer />
