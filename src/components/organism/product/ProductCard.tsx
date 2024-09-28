@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { productClassName } from "@/lib/classNames";
 import Link from "next/link";
+import PriceDisplay from "@/components/molecule/PriceDisplay";
 
 interface ProductCardProps {
   product: Product;
@@ -29,7 +30,9 @@ export default async function ProductCard({
   const { productOptionUuid, price, discountPrice, discountRate } =
     productOptionList[0];
 
-  const colorIds = productOptionList.map(({ colorId }) => colorId);
+  const colorIds = Array.from(
+    new Set(productOptionList.map(({ colorId }) => colorId)),
+  );
 
   return (
     <Link href={`/product/${productUuid}`} className={productClassName.item}>
@@ -49,13 +52,15 @@ export default async function ProductCard({
               {discountRate}
             </span>
           )}
-          <span>{discountPrice || price}</span>
+          <PriceDisplay price={discountPrice || price} />
         </p>
-        {/* {colorIds.length > 1
+      </div>
+      <div className="flex gap-x-[8px] pl-[8px]">
+        {colorIds.length > 1
           ? colorIds.map((colorId) => (
               <ProductColor key={colorId} {...{ colorId }} />
             ))
-          : null} */}
+          : null}
       </div>
     </Link>
   );

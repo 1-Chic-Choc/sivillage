@@ -9,7 +9,6 @@ import ProductCard, {
 } from "@/components/organism/product/ProductCard";
 import YouMayALsoLike from "@/components/organism/product/YouMayALsoLike";
 import FilteringComponent from "@/components/template/layout/filtering/FilteringComponent";
-import ProductList from "@/components/template/page/main/reuable/ProductList";
 import { productClassName, sectionHead } from "@/lib/classNames";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
@@ -25,7 +24,6 @@ export default async function page({
 }: pageProps) {
   const categories = path.map((i) => decodeURI(i).replace("_", "/"));
   const filtering = { ...searchParams, categories };
-  // const products = (await getProductList(filtering)) || [];
   const [products, productCount, productBest, productCategoryFilteringValues] =
     await Promise.all([
       getProductList(filtering),
@@ -46,14 +44,12 @@ export default async function page({
         <div>총 {productCount?.totalCount}개의 상품</div>
       </h2>
 
-      {(products || []).length > 0 ? (
-        <FilteringComponent
-          path={`/category/${path.join("/")}`}
-          productCategoryFilteringValues={
-            productCategoryFilteringValues || undefined
-          }
-        />
-      ) : null}
+      <FilteringComponent
+        path={`/category/${path.join("/")}`}
+        productCategoryFilteringValues={
+          productCategoryFilteringValues || undefined
+        }
+      />
       <div className={productClassName.list}>
         {(products || []).length > 0 ? (
           (products || []).map((product) => (

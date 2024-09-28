@@ -6,6 +6,7 @@ import {
   getProductOptionList,
   getProductSingle,
 } from "@/action/productAction";
+import PriceDisplay from "@/components/molecule/PriceDisplay";
 import ProductDetailVi from "@/components/template/page/product/ProductDetailVi";
 import { productDetailClassName } from "@/lib/classNames";
 import Link from "next/link";
@@ -45,7 +46,9 @@ export default async function page({
         <div className={productDetailClassName.infoPrice}>
           <div className={productDetailClassName.infoPriceMember}>
             <span className={productDetailClassName.infoPriceCurrent}>
-              <b>{productOptionList[0].price}</b>
+              <b>
+                <PriceDisplay price={productOptionList[0].price} />
+              </b>
               <span>원</span>
             </span>
           </div>
