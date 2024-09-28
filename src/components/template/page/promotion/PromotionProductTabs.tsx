@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SectionWrapper from "./reuable/SectionWrapper";
+import SectionWrapper from "@/components/template/page/main/reuable/SectionWrapper";
 import Link from "next/link";
-import ProductList from "./reuable/ProductList";
+import ProductList from "@/components/template/page/main/reuable/ProductList";
 import { Product } from "@/types/ProductTypes";
 import { getProductList } from "@/action/productAction";
 import { Suspense } from "react";
@@ -17,17 +17,17 @@ interface CurationData {
   products: Product[];
 }
 
-interface MainCurationProps {
+interface PromotionProductTabsProps {
   title?: string;
   defaultIndex?: number;
   page?: number;
 }
 
-export default async function MainCuration({
+export default async function PromotionProductTabs({
   title = "따뜻한 감성, 섬세한 이야기",
   defaultIndex = 0,
   page = 1,
-}: MainCurationProps) {
+}: PromotionProductTabsProps) {
   const productsList = await Promise.all([
     getProductList({ brands: ["UGG"], perPage: 6, page }),
     getProductList({ keywords: "니트웨어", perPage: 6, page }),
@@ -82,46 +82,43 @@ export default async function MainCuration({
 
   return (
     <Suspense fallback={null}>
-      <SectionWrapper title={title}>
-        <Tabs defaultValue={curationDatas[0].title}>
-          <TabsList className="px-[24px] mb-[16px] bg-white ">
-            {curationDatas.map((data, index) => (
-              <TabsTrigger
-                key={index}
-                value={data.title}
-                className={cn(
-                  "border-[1px] rounded-full border-[#E5E7EB",
-                  "px-[11px] py-[11px] mr-[8px]",
-                  "text-[14px] font-[400] leading-[17px]",
-                  "text-[#131922] bg-white",
-                  "data-[state=active]:bg-[#131922] data-[state=active]:text-white",
-                )}
-              >
-                {data.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {curationDatas.map(({ title, banner, products }, index) => (
-            <TabsContent key={index} value={title}>
-              <div className="mx-[24px] mb-[12px]">
-                <Link href={banner.href}>
-                  <div className="p-[16px] pr-[48px] bg-[#F8F8F8]">
-                    <div className="text-[16px] text-[#131922] font-[700] leading-[20px]">
-                      {banner.title}
-                    </div>
-                    <div className="text-[14px] text-[#787878] font-[400] leading-[20px]">
-                      {banner.subtitle}
-                    </div>
-                  </div>
-                </Link>
-              </div>
-              <div className="mx-[24px]">
-                <ProductList products={products} />
-              </div>
-            </TabsContent>
+      <Tabs defaultValue={curationDatas[0].title}>
+        <TabsList
+          className={cn(
+            "mt-[64px] px-[24px] flex justify-between border-0 bg-white shadow-none",
+          )}
+        >
+          {curationDatas.map((data, index) => (
+            <TabsTrigger
+              key={index}
+              value={data.title}
+              className={cn(
+                "w-full rounded-none",
+                "border-y-[1px] border-t-[1px] border-[#E5E7EB]",
+                "bordoer-b-[#131922]",
+                "px-[11px] py-[11px]",
+                "text-[14px] font-[500] leading-[17px]",
+                "text-[#929292] bg-white",
+                // "data-[state=active]:bg-[#131922]",
+                // "data-[state=active]:text-white",
+                "data-[state=active]:border-[#131922]",
+                "data-[state=active]:border-b-0",
+                "data-[state=active]:text-[700]",
+                "data-[state=active]:text-[#131922]",
+              )}
+            >
+              {data.title}
+            </TabsTrigger>
           ))}
-        </Tabs>
-      </SectionWrapper>
+        </TabsList>
+        {curationDatas.map(({ title, banner, products }, index) => (
+          <TabsContent key={index} value={title}>
+            <div className="mx-[24px]">
+              <ProductList products={products} />
+            </div>
+          </TabsContent>
+        ))}
+      </Tabs>
     </Suspense>
   );
 }

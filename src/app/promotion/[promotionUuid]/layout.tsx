@@ -1,8 +1,6 @@
 import Footer from "@/components/template/layout/Footer";
-import BrandProductHeader from "@/components/template/layout/header/BrandProductHeader";
-import MainHeader from "@/components/template/layout/header/MainHeader";
+import TitleHeader from "@/components/template/layout/header/TitleHeader";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
-import BrandProductTopNavBar from "@/components/template/layout/navbar/BrandPoructTopNavBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,7 +19,7 @@ export default function RootLayout({
 }: LayoutProps) {
   return (
     <>
-      <MainHeader />
+      <TitleHeader />
       {children}
       <BottomNavigationBar />
       <Footer />

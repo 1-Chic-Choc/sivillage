@@ -1,3 +1,5 @@
+import { Product } from "./ProductTypes";
+
 export interface SignUpResquestType {
   email: string;
   password: string;
@@ -44,6 +46,20 @@ export interface ProductListRequestType {
   keywords?: string;
 }
 
+export type ProductListCountRequestType = ProductListRequestType;
+
+export type ProductSizesPerColorResquestType = ProductUUID;
+
+export interface ProductBest100RequestType {
+  categories?: string[];
+  page?: number;
+  perPage?: number;
+}
+
+export interface ProductCategoryFilteringValuesRequestType {
+  categories?: string[];
+}
+
 export type CategoryByPathRequestType = Record<"path", string[]>;
 export type CategpryListRequestType = Record<"parentId", number>;
 
@@ -73,6 +89,8 @@ export type BrandRequestType = Record<"brandUuid", string>;
 export type BrandMediaListRequestType = Record<"brandUuid", string>;
 
 export type ProductReviewListRequestType = ProductUUID;
+
+export type ProductLikeRequestType = ProductUUID;
 
 // promotion
 export type PromotionUUID = Record<"promotionUuid", string>;

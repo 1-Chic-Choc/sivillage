@@ -57,7 +57,7 @@ export default async function SearchTopNavBar({
   const paths = [
     {
       text: "전체",
-      path: `/search?keywords=${keywords}`,
+      path: `/search/${keywords}`,
       is_current: true,
     },
     ...sub_cat_links,

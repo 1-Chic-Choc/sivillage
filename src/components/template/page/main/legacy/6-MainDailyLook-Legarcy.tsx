@@ -1,7 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SectionWrapper from "./reuable/SectionWrapper";
+import SectionWrapper from "@/components/template/page/main/reuable/SectionWrapper";
 import Image from "next/image";
 import { Autoplay } from "swiper/modules";
 
@@ -56,27 +56,17 @@ const dailyLookItems: DailyLookItem[] = [
   },
 ];
 
-interface MainDailyLookProps {
-  title?: string;
-  start?: number;
-  end?: number;
-}
-
-export default function MainDailyLook({
-  title = "이번 주 소식",
-  start = 10,
-  end = 20,
-}: MainDailyLookProps) {
+export default function MainDailyLook() {
   const [promotionList, setPromotionList] = useState<Promotion[]>([]);
   useEffect(() => {
     getPromotionList().then((data) => {
       if (data) {
-        setPromotionList(data.slice(start, end));
+        setPromotionList(data.slice(10, 20));
       }
     });
   }, []);
   return (
-    <SectionWrapper title={title}>
+    <SectionWrapper title="이번 주 소식">
       <Swiper autoplay={{ delay: 4800 }} speed={1200} modules={[Autoplay]}>
         {promotionList.length > 0
           ? promotionList.map(

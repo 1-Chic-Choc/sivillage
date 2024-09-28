@@ -52,7 +52,6 @@ export default async function BrandProductTopNavBar({
 }) {
   const sub_cat_datas = (await getCategoryList()) || [];
   const sub_cat_links = sub_cat_datas.map((sub_cat_data) => {
-    console.log(sub_cat_data);
     const text = sub_cat_data.name;
     const path = `/brand/${brandName}?categories=${sub_cat_data.name}`;
     const is_current = false;
