@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CircleDashed, Minus, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { cartItemType } from "@/types/ResponseTypes";
-import { getProductData } from "@/action/cart/cartActions";
+import { getProductData, updateQuantity } from "@/action/cart/cartActions";
 import CartDrawer from "./CartDrawer";
 
 export default function CartItem({
@@ -63,16 +63,43 @@ export default function CartItem({
 
   useEffect(() => {
     if (clickCount > 0) {
-      setTimeout(() => {
-        console.log("fetch...");
-        setClickCount(0);
-      }, 1000);
-      return;
-    } else {
-      setIsThrottling(false);
-      console.log("wating");
+      const timer = setTimeout(async () => {
+        try {
+          console.log("fetch...");
+
+          // 수량 업데이트 API 호출
+          await updateQuantity({
+            cartUuid: item.cartUuid,
+            quantity,
+          });
+
+          console.log("Quantity updated successfully!");
+        } catch (error) {
+          console.error("Failed to update quantity:", error);
+        } finally {
+          setIsThrottling(false); // API 호출 완료 후 스로틀링 해제
+          setClickCount(0); // 클릭 카운트 리셋
+        }
+      }, 1000); // 1초 동안 변화가 없으면 API 호출
+
+      return () => clearTimeout(timer); // 컴포넌트가 언마운트되면 타이머 정리
     }
-  }, [clickCount]);
+
+    return undefined;
+  }, [clickCount, quantity, item.cartUuid]); // 의존성 배열에 필요한 값들 추가
+
+  // useEffect(() => {
+  //   if (clickCount > 0) {
+  //     setTimeout(async () => {
+  //       console.log("fetch...");
+  //       setClickCount(0);
+  //     }, 1000);
+  //     return;
+  //   } else {
+  //     setIsThrottling(false);
+  //     console.log("wating");
+  //   }
+  // }, [clickCount]);
 
   // 가격 정보 출력
   const priceInfo = productData

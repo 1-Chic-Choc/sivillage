@@ -68,35 +68,36 @@ export async function getProductData(
 
 export const updateQuantity = async (items: {
   cartUuid: string;
-  quantity: number; // corrected to lowercase
+  quantity: number;
 }) => {
   try {
     const res = await fetch(
-      `${process.env.BACKEND_BASE_URL}/api/v1/cart/quantity`,
+      `${process.env.BACKEND_BASE_URL}/api/v1/cart/quantity`, // 템플릿 리터럴로 수정
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(items), // sending the items payload
+        body: JSON.stringify(items),
       },
     );
 
     if (!res.ok) {
-      throw new Error(`Failed to update quantity. Status: ${res.status}`);
+      const errorResponse = await res.text(); // 응답 본문을 텍스트로 받기
+      throw new Error(
+        `Failed to update quantity. Status: ${res.status}. Response: ${errorResponse}`, // 템플릿 리터럴로 수정
+      );
     }
 
-    const data = await res.json(); // convert response to JSON
-
-    // Optional: Check if the response has expected fields
+    const data = await res.json();
     if (!data || typeof data !== "object") {
       throw new Error("Unexpected response format");
     }
 
-    return data; // return the parsed data
+    return data.result;
   } catch (error: any) {
     console.error("Error updating quantity:", error);
-    throw new Error(`Failed to update quantity: ${error.message || error}`);
+    throw new Error(`Failed to update quantity: ${error.message || error}`); // 템플릿 리터럴로 수정
   }
 };
 
