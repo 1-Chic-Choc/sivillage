@@ -1,8 +1,10 @@
 import { BrandApiResponse } from "@/types/ResponseTypes";
+import { getServerSession } from "next-auth";
+import { getSession } from "next-auth/react";
 
 // 브랜드 목록을 가져오는 API 함수
 export async function fetchBrandList(): Promise<BrandApiResponse> {
-  const apiUrl = "https://sivillage.shop/api/v1/brand"; // 환경 변수에서 URL 가져오기
+  const apiUrl = `https://sivillage.shop/api/v1/brand`; // 환경 변수에서 URL 가져오기
 
   try {
     const response = await fetch(apiUrl, {
@@ -36,15 +38,23 @@ export async function fetchBrandList(): Promise<BrandApiResponse> {
 // /api/v1/brand/like/{brandUuid} 호출하는 함수
 export const likeBrand = async (brandUuid: string) => {
   try {
-    const res = await fetch(
-      `${process.env.BACKEND_BASE_URL}/api/v1/brand/like/${brandUuid}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const session = await getServerSession(); // 인증된 세션을 가져옴
+    if (!session) {
+      throw new Error("로그인이 필요합니다.");
+    }
+    console.log("session:", JSON.stringify(session, null, 2));
+
+    const token = session?.user?.accssToken;
+    console.log("session:", token);
+    const apiUrl = `https://sivillage.shop/api/v1/brand/like/${brandUuid}`;
+
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
       },
-    );
+    });
 
     if (!res.ok) {
       const errorResponse = await res.text();
@@ -60,3 +70,30 @@ export const likeBrand = async (brandUuid: string) => {
     throw new Error(`Failed to like brand: ${error.message || error}`);
   }
 };
+
+// export async function getCartData(): Promise<cartItemType[]> {
+//   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/cart`; // 실제 API 엔드포인트로 변경 필요
+
+//   console.log(apiUrl);
+//   const session = await getServerSession(options);
+
+//   const token = session?.user?.accssToken;
+//   console.log("session:", JSON.stringify(session, null, 2));
+
+//   const response = await fetch(apiUrl, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+
+//   if (!response.ok) {
+//     throw new Error("fail");
+//   }
+
+//   const res = (await response.json()) as commonResType<cartItemType[]>;
+//   const data = res.result;
+
+//   return data;
+// }
