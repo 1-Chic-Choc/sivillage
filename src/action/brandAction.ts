@@ -32,3 +32,31 @@ export async function fetchBrandList(): Promise<BrandApiResponse> {
     throw error;
   }
 }
+
+// /api/v1/brand/like/{brandUuid} 호출하는 함수
+export const likeBrand = async (brandUuid: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.BACKEND_BASE_URL}/api/v1/brand/like/${brandUuid}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!res.ok) {
+      const errorResponse = await res.text();
+      throw new Error(
+        `Failed to like brand. Status: ${res.status}. Response: ${errorResponse}`,
+      );
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error("Error liking brand:", error);
+    throw new Error(`Failed to like brand: ${error.message || error}`);
+  }
+};
