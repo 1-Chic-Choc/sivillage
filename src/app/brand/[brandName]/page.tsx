@@ -29,7 +29,7 @@ export default async function page({
       : [categories]
     : [];
   brandName = decodeURI(brandName).replace("_", "/");
-  const filtering = { ...searchParams, brands: [brandName] };
+  const filtering = { perPage: 100, ...searchParams, brands: [brandName] };
   const [products, productCount, productBest, productCategoryFilteringValues] =
     await Promise.all([
       getProductList(filtering),

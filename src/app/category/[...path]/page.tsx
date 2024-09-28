@@ -23,7 +23,7 @@ export default async function page({
   searchParams,
 }: pageProps) {
   const categories = path.map((i) => decodeURI(i).replace("_", "/"));
-  const filtering = { ...searchParams, categories };
+  const filtering = { perPage: 100, ...searchParams, categories };
   const [products, productCount, productBest, productCategoryFilteringValues] =
     await Promise.all([
       getProductList(filtering),

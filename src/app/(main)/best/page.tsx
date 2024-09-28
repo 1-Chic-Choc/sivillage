@@ -25,17 +25,13 @@ export default async function page({ searchParams }: pageProps) {
       : [categories]
     : ["여성의류"];
   const filtering = { ...searchParams };
-  const [products, productCount, productBest, productCategoryFilteringValues] =
-    await Promise.all([
-      getProductList(filtering),
-      getProductListCount(filtering),
-      getProductBest100({
-        categories: categoryArray,
-        page: 1,
-        perPage: 100,
-      }),
-      getProductCategoryFilteringValues({ categories: categoryArray }),
-    ]);
+  const [productBest] = await Promise.all([
+    getProductBest100({
+      categories: categoryArray,
+      page: 1,
+      perPage: 100,
+    }),
+  ]);
   return (
     <main className="w-full">
       <h2 className={cn(sectionHead.h2, "px-[24px]")}>
