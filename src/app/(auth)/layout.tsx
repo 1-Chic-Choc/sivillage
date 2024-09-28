@@ -1,5 +1,5 @@
 import Footer from "@/components/template/layout/Footer";
-import AuthHeader from "@/components/template/layout/header/AuthHeader";
+import TitleHeader from "@/components/template/layout/header/TitleHeader";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import type { Metadata } from "next";
 
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <AuthHeader />
+      <TitleHeader />
       {children}
       <BottomNavigationBar />
       <Footer />

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 export const productClassName = {
   list: cn("flex flex-wrap justify-between px-[24px]"),
-  item: cn("w-[calc(50%-4.5px)] mb-[36px]"),
+  item: cn("relative w-[calc(50%-4.5px)] mb-[36px]"),
   image: cn("relative w-full aspect-[2/3]"),
   blend: cn("absolute bottom-[0px] w-full aspect-[2/3] bg-[rgba(0,0,0,0.03)]"),
   textContainer: cn("h-[96px] px-[8px] py-[16px]"),

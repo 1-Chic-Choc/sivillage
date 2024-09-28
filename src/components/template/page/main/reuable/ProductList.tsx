@@ -4,6 +4,7 @@ import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/organism/product/ProductCard";
 import { cn } from "@/lib/utils";
+import ProductLikeButton from "@/components/molecule/button/ProductLikeButton";
 
 export default function ProductList({ products }: { products: Product[] }) {
   return (
@@ -14,7 +15,14 @@ export default function ProductList({ products }: { products: Product[] }) {
       )}
     >
       {products.map((product, i) => (
-        <div key={i} className={cn("w-[calc(50%-4.5px)] flex-shrink-0")}>
+        <div
+          key={i}
+          className={cn("relative w-[calc(50%-4.5px)] flex-shrink-0")}
+        >
+          <ProductLikeButton
+            productUuid={product.productUuid}
+            className="absolute top-2 right-2 z-10"
+          />
           <Suspense fallback={<ProductCardSkeleton />}>
             <ProductCard product={product} />
           </Suspense>

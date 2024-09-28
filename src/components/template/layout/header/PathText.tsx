@@ -18,8 +18,10 @@ export default function PathText() {
       {pathname === "/sign-in" && "로그인"}
       {pathname === "/sign-up" && "온라인 간편가입"}
       {pathname === "/oauth" && "계정 연동하기"}
-      {pathname.startsWith("/search") && "키워드 검색"}
+      {pathname.startsWith("/search") &&
+        `키워드 검색 - ${pathname.split("/")[2]}`}
       {pathname.startsWith("/promotion") && "Event"}
+      {pathname.startsWith("/brand") && `${pathname.split("/")[2]}`}
     </Link>
   );
 }

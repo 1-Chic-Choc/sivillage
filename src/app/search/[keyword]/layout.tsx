@@ -1,6 +1,5 @@
 import Footer from "@/components/template/layout/Footer";
-import AuthHeader from "@/components/template/layout/header/AuthHeader";
-import BrandProductHeader from "@/components/template/layout/header/BrandProductHeader";
+import TitleHeader from "@/components/template/layout/header/TitleHeader";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
 import SearchTopNavBar from "@/components/template/layout/navbar/SearchTopNavBar";
 import type { Metadata } from "next";
@@ -26,7 +25,7 @@ export default function RootLayout({
 
   return (
     <>
-      <AuthHeader />
+      <TitleHeader />
       <SearchTopNavBar keywords={keyword} />
       {children}
       <BottomNavigationBar />

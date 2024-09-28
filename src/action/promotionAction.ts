@@ -87,7 +87,6 @@ export async function getPromotionMediaList(
     },
   );
   const data = (await res.json()) as CommonResType<any>;
-  console.log("promotion media", data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
@@ -110,8 +109,6 @@ export async function getPromotionBenefitList(
     },
   );
   const data = (await res.json()) as CommonResType<any>;
-
-  console.log("benefit", data);
 
   if (data.httpStatus === "OK") {
     const { result } = data;
