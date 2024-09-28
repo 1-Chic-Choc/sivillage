@@ -12,7 +12,7 @@ function Search() {
     router.push(`/brandAtoZ?keyword=${e.target.value}`);
   };
   return (
-    <div>
+    <div className="pb-4">
       <form>
         <Input
           type="text"
