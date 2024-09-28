@@ -7,7 +7,7 @@ export default function HeartLightOnIcon() {
         height="24"
         viewBox="0 0 24 24"
       >
-        <g fill="none" fill-rule="evenodd" opacity=".85">
+        <g fill="none" fillRule="evenodd" opacity=".85">
           <g>
             <g>
               <g>
