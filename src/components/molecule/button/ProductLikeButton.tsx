@@ -1,48 +1,18 @@
-"use client";
-
-import { getProductLike, postProductLike } from "@/action/productAction";
-import HeartLightOffIcon from "@/components/atom/icon/HeartLightOffIcon";
-import HeartLightOnIcon from "@/components/atom/icon/HeartLightOnIcon";
-import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import ProductLikeButtonContent from "./ProductLikeButtonContent";
 
 interface ProductLikeButtonProps {
   className?: string;
   productUuid: string;
 }
 
-export default function ProductLikeButton({
+export default async function ProductLikeButton({
   className,
   productUuid,
 }: ProductLikeButtonProps) {
-  const [isActive, setIsActive] = useState(false);
-  const [isOn, setIsOn] = useState(false);
+  const session = await getServerSession(options);
+  const token = session?.user?.accessToken;
 
-  useEffect(() => {
-    getProductLike({ productUuid }).then((isOn) => {
-      setIsOn(isOn || false);
-      setIsActive(true);
-    });
-  }, []);
-
-  const handleClick = () => {
-    if (isActive) {
-      setIsOn((isOn) => !isOn);
-    }
-  };
-
-  useEffect(() => {
-    if (isActive) {
-      setIsActive(false);
-      postProductLike({ productUuid }).then(() => {
-        setIsActive(true);
-      });
-    }
-  }, [isOn]);
-
-  return (
-    <div onClick={handleClick} className={className}>
-      {isOn ? <HeartLightOnIcon /> : <HeartLightOffIcon />}
-    </div>
-  );
+  return <ProductLikeButtonContent {...{ className, productUuid, token }} />;
 }
