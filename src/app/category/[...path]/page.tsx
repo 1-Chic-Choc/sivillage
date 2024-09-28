@@ -4,6 +4,7 @@ import {
   getProductList,
   getProductListCount,
 } from "@/action/productAction";
+import ProductLikeButton from "@/components/molecule/button/ProductLikeButton";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/organism/product/ProductCard";
@@ -23,7 +24,7 @@ export default async function page({
   searchParams,
 }: pageProps) {
   const categories = path.map((i) => decodeURI(i).replace("_", "/"));
-  const filtering = { ...searchParams, categories };
+  const filtering = { perPage: 100, ...searchParams, categories };
   const [products, productCount, productBest, productCategoryFilteringValues] =
     await Promise.all([
       getProductList(filtering),
@@ -53,12 +54,23 @@ export default async function page({
       <div className={productClassName.list}>
         {(products || []).length > 0 ? (
           (products || []).map((product) => (
-            <Suspense
+            <div
               key={product.productUuid}
-              fallback={<ProductCardSkeleton />}
+              className={cn(
+                "relative w-[calc(50%-4.5px)] flex-shrink-0 mb-[36px]",
+              )}
             >
-              <ProductCard product={product} />
-            </Suspense>
+              <ProductLikeButton
+                productUuid={product.productUuid}
+                className="absolute top-2 right-2 z-10"
+              />
+              <Suspense
+                key={product.productUuid}
+                fallback={<ProductCardSkeleton />}
+              >
+                <ProductCard product={product} />
+              </Suspense>
+            </div>
           ))
         ) : (
           <div
