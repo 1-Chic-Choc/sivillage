@@ -4,11 +4,13 @@ import {
   getProductList,
   getProductListCount,
 } from "@/action/productAction";
+import ProductLikeButton from "@/components/molecule/button/ProductLikeButton";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/organism/product/ProductCard";
 import YouMayALsoLike from "@/components/organism/product/YouMayALsoLike";
 import FilteringComponent from "@/components/template/layout/filtering/FilteringComponent";
+import BestProductTopNavBar from "@/components/template/layout/navbar/BestPoructTopNavBar";
 import { productClassName, sectionHead } from "@/lib/classNames";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
@@ -34,18 +36,42 @@ export default async function page({ searchParams }: pageProps) {
   ]);
   return (
     <main className="w-full">
+      <BestProductTopNavBar />
       <h2 className={cn(sectionHead.h2, "px-[24px]")}>
         <span className={sectionHead.title}>Best Product</span>
       </h2>
       <div className={productClassName.list}>
         {(productBest || []).length > 0 ? (
-          (productBest || []).map((product) => (
-            <Suspense
+          (productBest || []).map((product, i) => (
+            <div
               key={product.productUuid}
-              fallback={<ProductCardSkeleton />}
+              className={cn(
+                "relative flex-shrink-0 mb-[36px]",
+                i < 2 && "w-[calc(50%-4.5px)]",
+                i >= 2 && "w-[calc((100%-9px)/3)]",
+              )}
             >
-              <ProductCard product={product} />
-            </Suspense>
+              <div
+                className={cn(
+                  "absolute p-2 z-10",
+                  "font-[700] font-regular-bold-cell text-white text-center",
+                  i === 0 && "bg-[#D99C63]",
+                  i !== 0 && "bg-[#929292]",
+                )}
+              >
+                {i + 1}
+              </div>
+              <ProductLikeButton
+                productUuid={product.productUuid}
+                className="absolute top-2 right-2 z-10"
+              />
+              <Suspense
+                key={product.productUuid}
+                fallback={<ProductCardSkeleton />}
+              >
+                <ProductCard product={product} />
+              </Suspense>
+            </div>
           ))
         ) : (
           <div
