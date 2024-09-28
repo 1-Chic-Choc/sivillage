@@ -657,6 +657,9 @@ export async function postProductLike(
       cache: "default",
     },
   );
+  if (!res.ok) {
+    return null;
+  }
   const data = (await res.json()) as CommonResType<any>;
   console.log(data);
   if (data.httpStatus === "OK") {
