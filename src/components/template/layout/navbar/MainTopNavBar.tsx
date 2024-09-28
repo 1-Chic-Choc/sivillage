@@ -56,7 +56,7 @@ export default function MainNavBar() {
   return (
     <TopNavigationBar
       className={cn(
-        "flex flex-nowrap items-center px-[15px] leading-[normal] overflow-x-auto scrollbar-hide",
+        "flex flex-nowrap items-center px-[15px] leading-[normal] overflow-x-auto scrollbar-hide z-50",
       )}
     >
       {paths.map(({ text, path }) => (
