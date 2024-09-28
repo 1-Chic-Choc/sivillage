@@ -1,49 +1,8 @@
 import React from "react";
 import TopNavigationBar from "./TopNavigationBar";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { getCategoryByPath, getCategoryList } from "@/action/productAction";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-
-function MainNavBarLink({
-  href,
-  text,
-  is_current,
-}: {
-  href: string;
-  text: string;
-  is_current: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "h-[48px] mx-[9px]",
-        "inline-flex flex-shrink-0 flex-wrap items-center",
-        "overflow-hidden",
-        text === "Home" && "px-[1px]",
-      )}
-      target={text === "SSG DF" ? "_blank" : ""}
-      rel={text === "SSG DF" ? "noopener noreferrer" : ""}
-    >
-      <span
-        className={cn(
-          "text-[16px] font-[500] leading-[24px] tracking-[0.4px] text-nowrap",
-          is_current ? "text-[#131922]" : "text-[#929292]",
-        )}
-      >
-        {is_current ? <strong>{text}</strong> : text}
-      </span>
-    </Link>
-  );
-}
+import { getCategoryList } from "@/action/productAction";
+import ParamCategoryLink from "@/components/molecule/navbar/ParamCategoryLink";
 
 export default async function BrandProductTopNavBar({
   brandName,
@@ -80,7 +39,7 @@ export default async function BrandProductTopNavBar({
       >
         {paths.length > 1
           ? paths.map(({ text, path, is_current }) => (
-              <MainNavBarLink
+              <ParamCategoryLink
                 key={text}
                 href={path}
                 text={text}

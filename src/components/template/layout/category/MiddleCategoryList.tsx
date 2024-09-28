@@ -43,7 +43,12 @@ function MiddleCategoryList({
           {subCategories.map((category) => (
             <li key={category.ctg_no} className="py-2">
               <Link
-                href={`/category/${formatCategoryName(category.parent_ctg_name)}/${formatCategoryName(category.ctg_name)}`}
+                href={
+                  `/category/${formatCategoryName(category.parent_ctg_name)}` +
+                  (category.ctg_name === "전체"
+                    ? ""
+                    : `/${formatCategoryName(category.ctg_name)}`)
+                }
                 className="text-gray-700 hover:text-black"
               >
                 {category.ctg_name}
