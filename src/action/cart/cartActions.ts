@@ -1,10 +1,15 @@
 "use server";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import {
+  BrandDataType,
   cartItemType,
+  ColorDataType,
   commonResType,
+  MediaDataType,
   ProductDataType,
+  productMediaType,
   ProductOptionDataType,
+  SizeDataType,
 } from "@/types/ResponseTypes";
 import { getServerSession } from "next-auth";
 import { revalidateTag } from "next/cache";
@@ -16,7 +21,7 @@ export async function getCartData(): Promise<cartItemType[]> {
   const session = await getServerSession(options);
 
   const token = session?.user?.accssToken;
-  console.log("session:" + session);
+  console.log("session:", JSON.stringify(session, null, 2));
 
   const response = await fetch(apiUrl, {
     method: "GET",
@@ -37,34 +42,55 @@ export async function getCartData(): Promise<cartItemType[]> {
 }
 
 export async function getProductData(
-  productOptionUuid: String,
-): Promise<ProductOptionDataType[]> {
-  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/products/option/${productOptionUuid}`;
-  const session = await getServerSession(options);
+  productUuid: String,
+): Promise<ProductDataType> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/products/one/${productUuid}`;
 
   console.log(apiUrl);
 
-  const token = session?.user?.accssToken;
   const response = await fetch(apiUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
   });
 
-  console.log(response);
+  const res = (await response.json()) as commonResType<ProductDataType>;
+  const data = res.result;
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch product data. Status: ${response.status}`);
-  }
-
-  const res = (await response.json()) as commonResType<ProductOptionDataType[]>;
-  const data = res.result ?? [];
-
-  console.log("data:", JSON.stringify(data, null, 2));
+  // console.log("data:", JSON.stringify(data, null, 1));
   return data;
 }
+
+// export async function getProductData(
+//   productOptionUuid: String,
+// ): Promise<ProductOptionDataType[]> {
+//   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/products/option/${productOptionUuid}`;
+//   const session = await getServerSession(options);
+
+//   console.log(apiUrl);
+
+//   const token = session?.user?.accssToken;
+//   const response = await fetch(apiUrl, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+
+//   console.log(response);
+
+//   if (!response.ok) {
+//     throw new Error(`Failed to fetch product data. Status: ${response.status}`);
+//   }
+
+//   const res = (await response.json()) as commonResType<ProductOptionDataType[]>;
+//   const data = res.result ?? [];
+
+//   console.log("data:", JSON.stringify(data, null, 2));
+//   return data;
+// }
 
 export const updateQuantity = async (items: {
   cartUuid: string;
@@ -201,3 +227,124 @@ export const addCartItem = async (item: cartItemType): Promise<boolean> => {
   revalidateTag("cartCount");
   return true;
 };
+
+export async function getBrandName(brandUuid: String): Promise<BrandDataType> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/brand/${brandUuid}`;
+
+  console.log(apiUrl);
+
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const res = (await response.json()) as commonResType<BrandDataType>;
+  const data = res.result;
+
+  // console.log("data:", JSON.stringify(data, null, 1));
+  return data;
+}
+
+export async function getMeida(mediaId: Number): Promise<MediaDataType> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/media/${mediaId}`;
+
+  console.log(apiUrl);
+
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const res = (await response.json()) as commonResType<MediaDataType>;
+  const data = res.result;
+
+  return data;
+}
+
+export async function getSizeName(sizeId: Number): Promise<SizeDataType> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/sizes/${sizeId}`;
+
+  console.log(apiUrl);
+
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const res = (await response.json()) as commonResType<SizeDataType>;
+  const data = res.result;
+
+  // console.log("data:", JSON.stringify(data, null, 1));
+  return data;
+}
+
+export async function getColorName(colorId: Number): Promise<ColorDataType> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/colors/${colorId}`;
+
+  console.log(apiUrl);
+
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const res = (await response.json()) as commonResType<ColorDataType>;
+  const data = res.result;
+
+  // console.log("data:", JSON.stringify(data, null, 1));
+  return data;
+}
+
+export async function getProductOptionData(
+  productOptionUuid: String,
+): Promise<ProductOptionDataType> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/products/option/${productOptionUuid}`;
+
+  // console.log(apiUrl);
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // console.log(response);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch product data");
+  }
+
+  const res = (await response.json()) as commonResType<ProductOptionDataType>;
+  const data = res.result ?? [];
+
+  // console.log("data:", JSON.stringify(data, null, 2));
+  return data;
+}
+
+export async function getProductMedia(
+  productOptionUuid: String,
+): Promise<productMediaType[]> {
+  const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/product-media/${productOptionUuid}`;
+
+  console.log(apiUrl);
+
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const res = (await response.json()) as commonResType<productMediaType[]>;
+  const data = res.result;
+
+  return data;
+}
