@@ -8,7 +8,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
@@ -50,18 +49,16 @@ interface Props {
 }
 
 export default async function CategoryTopNavBar({ categories }: Props) {
-  const path = categories.map((cat) => cat.replace("_", "/"));
+  const path = categories.map((cat) => cat.replaceAll("_", "/"));
   const current_cat = await getCategoryByPath({ path });
   const sub_cat_datas =
     (await getCategoryList({ parentId: current_cat!.id })) || [];
-
-  console.log(categories);
 
   const sub_cat_links = sub_cat_datas.map((sub_cat_data) => {
     const text = sub_cat_data.name;
     const path = [
       categories[categories.length - 1],
-      sub_cat_data.name.replace("/", "_"),
+      sub_cat_data.name.replaceAll("/", "_"),
     ].join("/");
     const is_current = false;
     return {
@@ -74,7 +71,7 @@ export default async function CategoryTopNavBar({ categories }: Props) {
   const paths = [
     {
       text: "전체",
-      path: `${categories.join("/")}`,
+      path: `/category/${categories.join("/")}`,
       is_current: true,
     },
     ...sub_cat_links,
