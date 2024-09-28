@@ -8,7 +8,7 @@ import SearchIcon from "@/components/atom/icon/SearchIcon";
 import ShoppingBagIcon from "@/components/atom/icon/ShoppingBagIcon";
 import SearchButton from "@/components/molecule/button/SeachButton";
 
-export default function AuthHeader() {
+export default function TitleHeader() {
   return (
     <Header>
       <div className={cn("h-[56px]", "flex justify-center items-center")}>
