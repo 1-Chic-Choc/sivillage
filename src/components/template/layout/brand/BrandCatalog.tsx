@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { fetchBrandList } from "@/action/brandAction"; // API 호출 함수 임포트
+import { fetchBrandList, likeBrand } from "@/action/brandAction"; // API 호출 함수 임포트
 import { brandNameType } from "@/types/ResponseTypes";
 
 interface BrandCatalogProps {
@@ -131,11 +131,19 @@ function BrandCatalog({ data }: BrandCatalogProps) {
   };
 
   // 즐겨찾기 토글 기능
-  const toggleFavorite = (brandUuid: string) => {
-    setFavorites((prev) => ({
-      ...prev,
-      [brandUuid]: !prev[brandUuid],
-    }));
+  const toggleFavorite = async (brandUuid: string) => {
+    try {
+      setFavorites((prev) => ({
+        ...prev,
+        [brandUuid]: !prev[brandUuid],
+      }));
+
+      // API 호출
+      await likeBrand(brandUuid);
+      console.log(`Liked brand with UUID: ${brandUuid}`);
+    } catch (error) {
+      console.error(`Failed to like brand with UUID: ${brandUuid}`, error);
+    }
   };
 
   // 브랜드 이름 포맷팅 함수
