@@ -31,13 +31,6 @@ export interface cartItemType {
   productOptionUuid: String;
   quantity: number;
   isSelected: boolean;
-
-  // id: string;
-  // name: string;
-  // price: number;
-  // discountPrice: number;
-  // quantity: number;
-  // isChecked: boolean;
 }
 
 export interface cartItemDataType {
@@ -66,4 +59,38 @@ export interface ProductOptionDataType {
   price: number;
   discountRate: number;
   discountPrice: number;
+}
+
+export interface SizeDataType {
+  name: number;
+  value: string;
+}
+
+export interface ColorDataType {
+  name: number;
+  value: string;
+}
+
+export interface productMediaType {
+  mediaId: number;
+  mediaOrder: number;
+}
+
+export interface MediaDataType {
+  mediaUrl: string;
+  mediaType: string;
+  description: string;
+}
+
+export interface unsignedMemberDataType {
+  userUuid: string;
+}
+
+export interface BrandDataType {
+  brandUuid: string;
+  name: string;
+  nameKo: string;
+  logoUrl: string;
+  brandListType: string;
+  brandIndexLetter: string;
 }
