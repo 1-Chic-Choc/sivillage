@@ -92,6 +92,8 @@ export type ProductReviewListRequestType = ProductUUID;
 
 export type ProductLikeRequestType = ProductUUID;
 
+export type ProductScoreRequestType = ProductUUID;
+
 // promotion
 export type PromotionUUID = Record<"promotionUuid", string>;
 
