@@ -11,7 +11,7 @@ import { getCartData, getProductData } from "@/action/cart/cartActions";
 
 async function page() {
   const cartItemList = await getCartData();
-  console.log(cartItemList);
+  console.log("cart", cartItemList);
 
   const selectedItem: cartItemType[] = cartItemList.filter(
     (item: cartItemType) => item.isSelected,

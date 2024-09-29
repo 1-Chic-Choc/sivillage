@@ -249,7 +249,7 @@ export default function ProductDetailBottomButton({
                 <div className={cn("text-[16px] font-[500] leading-[normal]")}>
                   <PriceDisplay
                     className={cn("text-[24px] font-[700] leading-[30px]")}
-                    price={price}
+                    price={price * count}
                   />{" "}
                   원
                 </div>

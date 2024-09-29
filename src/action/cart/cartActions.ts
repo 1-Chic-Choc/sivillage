@@ -21,6 +21,7 @@ export async function getCartData(): Promise<cartItemType[]> {
   const session = await getServerSession(options);
 
   const token = session?.user?.accssToken;
+  const userUuid = session?.user?.uuid;
   console.log("session:", JSON.stringify(session, null, 2));
 
   const response = await fetch(apiUrl, {
@@ -28,6 +29,7 @@ export async function getCartData(): Promise<cartItemType[]> {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      "X-Unsigned-User-UUID": userUuid,
     },
   });
 
