@@ -1,5 +1,5 @@
 import Footer from "@/components/template/layout/Footer";
-import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
+import ProductDetailHeader from "@/components/template/layout/header/ProductDetailHeader";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,8 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <>
+      <ProductDetailHeader />
       {children}
-      <BottomNavigationBar />
       <Footer />
     </>
   );
