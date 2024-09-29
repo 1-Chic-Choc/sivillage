@@ -14,7 +14,9 @@ import {
 import { getServerSession } from "next-auth";
 import { revalidateTag } from "next/cache";
 
-export async function getCartData(): Promise<cartItemType[]> {
+export async function getCartData(
+  unsignedMemberUuid: String,
+): Promise<cartItemType[]> {
   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/cart`; // 실제 API 엔드포인트로 변경 필요
 
   console.log(apiUrl);

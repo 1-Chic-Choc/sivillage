@@ -10,7 +10,8 @@ import { cartItemType } from "@/types/ResponseTypes";
 import { getCartData, getProductData } from "@/action/cart/cartActions";
 
 async function page() {
-  const cartItemList = await getCartData();
+  const unsignedMemberUuid = localStorage.getItem("X-Unsigned-User-UUID");
+  const cartItemList = await getCartData(unsignedMemberUuid!);
   console.log(cartItemList);
 
   const selectedItem: cartItemType[] = cartItemList.filter(
