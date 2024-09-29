@@ -22,7 +22,7 @@ export default function PathText() {
       {pathname.startsWith("/search") &&
         `키워드 검색 - ${decodeURI(pathname.split("/")[2])}`}
       {pathname.startsWith("/promotion") && "Event"}
-      {pathname.startsWith("/brand") && `${pathname.split("/")[2]}`}
+      {pathname.startsWith("/brand") && `${decodeURI(pathname.split("/")[2])}`}
     </Link>
   );
 }
