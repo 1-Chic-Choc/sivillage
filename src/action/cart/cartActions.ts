@@ -58,39 +58,8 @@ export async function getProductData(
   const res = (await response.json()) as commonResType<ProductDataType>;
   const data = res.result;
 
-  // console.log("data:", JSON.stringify(data, null, 1));
   return data;
 }
-
-// export async function getProductData(
-//   productOptionUuid: String,
-// ): Promise<ProductOptionDataType[]> {
-//   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/products/option/${productOptionUuid}`;
-//   const session = await getServerSession(options);
-
-//   console.log(apiUrl);
-
-//   const token = session?.user?.accssToken;
-//   const response = await fetch(apiUrl, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-
-//   console.log(response);
-
-//   if (!response.ok) {
-//     throw new Error(`Failed to fetch product data. Status: ${response.status}`);
-//   }
-
-//   const res = (await response.json()) as commonResType<ProductOptionDataType[]>;
-//   const data = res.result ?? [];
-
-//   console.log("data:", JSON.stringify(data, null, 2));
-//   return data;
-// }
 
 export const updateQuantity = async (items: {
   cartUuid: string;
