@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 
 import LeftArrowBracketIcon from "@/components/atom/icon/LeftArrowBracketIcon";
-import HomeIcon from "@/components/atom/icon/main-nav/HomeIcon";
 import Header from "../header/Header";
+import HomemainIcon from "@/components/atom/icon/HomemainIcon";
 
 export default function CartHeader() {
   return (
@@ -16,7 +16,7 @@ export default function CartHeader() {
         </div>
         <div className="flex items-center ml-4">
           <Link href="/">
-            <HomeIcon />
+            <HomemainIcon />
           </Link>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2 font-bold text-lg">
