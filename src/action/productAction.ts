@@ -6,6 +6,7 @@ import {
   CategoryByPathRequestType,
   CategpryListRequestType,
   ColorRequestType,
+  CreateCartItemResquestType,
   EtcOptionRequestType,
   MediaRequestType,
   ProductBest100RequestType,
@@ -18,6 +19,7 @@ import {
   ProductListRequestType,
   ProductMediaRequestType,
   ProductOptionListRequestType,
+  ProductScoreRequestType,
   ProductSingleRequestType,
   ProductSizesPerColorResquestType,
   SizeRequestType,
@@ -38,6 +40,7 @@ import {
   ProductListCount,
   ProductMedia,
   ProductOption,
+  ProductScore,
   ProductSizesPerColor,
   Size,
 } from "@/types/ProductTypes";
@@ -57,7 +60,7 @@ export async function getCategoryList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -82,7 +85,7 @@ export async function getProuctCategory(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
 
@@ -108,7 +111,7 @@ export async function getCategoryByPath(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
 
@@ -134,7 +137,7 @@ export async function getProductList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -159,7 +162,7 @@ export async function getProductBest100(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -184,7 +187,7 @@ export async function getProductCategoryFilteringValues(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -209,7 +212,7 @@ export async function getProductListCount(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -234,7 +237,7 @@ export async function getProductSingle(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -249,9 +252,9 @@ export async function getProductSingle(
   }
 }
 
-export async function getProductSizesPerColor(
+export async function getProductSizesPerColorList(
   req: ProductSizesPerColorResquestType,
-): Promise<ProductSizesPerColor | null> {
+): Promise<ProductSizesPerColor[] | null> {
   const method = "GET";
   const { productUuid } = req;
   const res = await fetch(
@@ -259,13 +262,14 @@ export async function getProductSizesPerColor(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
     return null;
   }
   const data = (await res.json()) as CommonResType<any>;
+  console.log(data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
@@ -284,7 +288,7 @@ export async function getProductOptionList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -309,7 +313,7 @@ export async function getProductInfoList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -334,7 +338,7 @@ export async function getProductHashtagList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -359,7 +363,7 @@ export async function getProductDetailList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -384,7 +388,7 @@ export async function getProductMediaList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -407,7 +411,7 @@ export async function getMedia(req: MediaRequestType): Promise<Media | null> {
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -427,7 +431,7 @@ export async function getColorList(): Promise<Color[] | null> {
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/colors`, {
     method,
     headers,
-    cache: "default",
+    cache: "force-cache",
   });
   if (!res.ok) {
     return null;
@@ -449,7 +453,7 @@ export async function getColor(req: ColorRequestType): Promise<Color | null> {
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -468,7 +472,7 @@ export async function getSizeList(): Promise<Size[] | null> {
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/sizes`, {
     method,
     headers,
-    cache: "default",
+    cache: "force-cache",
   });
   if (!res.ok) {
     return null;
@@ -490,7 +494,7 @@ export async function getSize(req: SizeRequestType): Promise<Size | null> {
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -510,7 +514,7 @@ export async function getEtcOptionList(): Promise<EtcOption[] | null> {
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/etcoptions`, {
     method,
     headers,
-    cache: "default",
+    cache: "force-cache",
   });
   if (!res.ok) {
     return null;
@@ -534,7 +538,7 @@ export async function getEtcOption(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -557,7 +561,7 @@ export async function getBrand(req: BrandRequestType): Promise<Brand | null> {
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -577,7 +581,7 @@ export async function getBrandList(): Promise<Brand[] | null> {
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/brand`, {
     method,
     headers,
-    cache: "default",
+    cache: "force-cache",
   });
   if (!res.ok) {
     return null;
@@ -601,7 +605,7 @@ export async function getBrandMediaList(
     {
       method,
       headers,
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -628,7 +632,7 @@ export async function getProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
@@ -654,18 +658,71 @@ export async function postProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "default",
+      cache: "force-cache",
     },
   );
   if (!res.ok) {
     return null;
   }
   const data = (await res.json()) as CommonResType<any>;
-  console.log(data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
   } else {
     return null;
   }
+}
+
+export async function postCartItem(
+  req: CreateCartItemResquestType,
+): Promise<{} | null> {
+  const method = "POST";
+  const session = await getServerSession(options);
+  const token = session?.user?.accessToken;
+  const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/cart`, {
+    method,
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    body: JSON.stringify(req),
+    cache: "force-cache",
+  });
+  // if (!res.ok) {
+  //   return null;
+  // }
+  const data = (await res.json()) as CommonResType<any>;
+  console.log(data);
+  return data.code;
+  // if (data.httpStatus === "OK") {
+  //   const { result } = data;
+  //   return result;
+  // } else {
+  //   return null;
+  // }
+}
+
+export async function getProductScore(
+  req: ProductScoreRequestType,
+): Promise<ProductScore | null> {
+  const method = "GET";
+  const { productUuid } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/product-scores/${productUuid}`,
+    {
+      method,
+      headers,
+      cache: "force-cache",
+    },
+  );
+
+  const data = (await res.json()) as ProductScore;
+  return data;
+  // if (!res.ok) {
+  //   return null;
+  // }
+  // const data = (await res.json()) as CommonResType<any>;
+  // if (data.httpStatus === "OK") {
+  //   const { result } = data;
+  //   return result;
+  // } else {
+  //   return null;
+  // }
 }

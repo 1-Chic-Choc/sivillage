@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -321,7 +322,9 @@ export default function FilteringComponent({
                 </TabsContent>
               </Tabs>
               <SheetFooter>
-                <Button type="submit">적용</Button>
+                <SheetClose>
+                  <Button type="submit">적용</Button>
+                </SheetClose>
               </SheetFooter>
             </form>
           </SheetContent>

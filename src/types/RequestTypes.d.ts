@@ -92,6 +92,8 @@ export type ProductReviewListRequestType = ProductUUID;
 
 export type ProductLikeRequestType = ProductUUID;
 
+export type ProductScoreRequestType = ProductUUID;
+
 // promotion
 export type PromotionUUID = Record<"promotionUuid", string>;
 
@@ -101,3 +103,8 @@ export type PromotionMediaListRequestType = PromotionUUID;
 export type PromotionBenefitListRequestType = PromotionUUID;
 
 //cart
+export interface CreateCartItemResquestType {
+  productUuid: string;
+  productOptionUuid: string;
+  quantity: number;
+}

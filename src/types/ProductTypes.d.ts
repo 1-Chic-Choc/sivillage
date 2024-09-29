@@ -110,3 +110,10 @@ export interface ProductCategoryFilteringValues {
 }
 
 export type ProductLike = boolean;
+
+export interface ProductScore {
+  likeCount: number;
+  reviewCount: number;
+  starPointAverage: number;
+  totalScore: number;
+}
