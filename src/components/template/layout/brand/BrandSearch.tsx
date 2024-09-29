@@ -1,7 +1,6 @@
 "use client";
 
 import SearchIcon from "@/components/atom/icon/SearchIcon";
-import { brandNameType } from "@/types/initialType";
 import Search from "./Search";
 
 function BrandSearch() {
