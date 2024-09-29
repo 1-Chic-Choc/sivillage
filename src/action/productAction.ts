@@ -19,6 +19,9 @@ import {
   ProductListRequestType,
   ProductMediaRequestType,
   ProductOptionListRequestType,
+  ProductReviewListRequestType,
+  ProductReviewMediaListRequestType,
+  ProductReviewRequestType,
   ProductScoreRequestType,
   ProductSingleRequestType,
   ProductSizesPerColorResquestType,
@@ -47,6 +50,11 @@ import {
 import { CommonResType } from "@/types/ResponseTypes";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import {
+  ProductReview,
+  ProductReviewList,
+  ProductReviewMedia,
+} from "@/types/ReviewTypes";
 
 const headers = { "Content-Type": "application/json" };
 
@@ -269,7 +277,6 @@ export async function getProductSizesPerColorList(
     return null;
   }
   const data = (await res.json()) as CommonResType<any>;
-  console.log(data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
@@ -658,7 +665,7 @@ export async function postProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "force-cache",
+      cache: "default",
     },
   );
   if (!res.ok) {
@@ -683,13 +690,12 @@ export async function postCartItem(
     method,
     headers: { ...headers, Authorization: `Bearer ${token}` },
     body: JSON.stringify(req),
-    cache: "force-cache",
+    cache: "default",
   });
   // if (!res.ok) {
   //   return null;
   // }
   const data = (await res.json()) as CommonResType<any>;
-  console.log(data);
   return data.code;
   // if (data.httpStatus === "OK") {
   //   const { result } = data;
@@ -725,4 +731,83 @@ export async function getProductScore(
   // } else {
   //   return null;
   // }
+}
+
+export async function getProductReviewList(
+  req: ProductReviewListRequestType,
+): Promise<ProductReviewList | null> {
+  const method = "GET";
+  const { productUuid } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/review/productUuid?productUuid=${productUuid}`,
+    {
+      method,
+      headers,
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductReview(
+  req: ProductReviewRequestType,
+): Promise<ProductReview | null> {
+  const method = "GET";
+  const { reviewUuid } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/review/${reviewUuid}`,
+    {
+      method,
+      headers,
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
+}
+
+export async function getProductReviewMediaList(
+  req: ProductReviewMediaListRequestType,
+): Promise<ProductReviewMedia[] | null> {
+  const method = "GET";
+  const { reviewUuid } = req;
+  const res = await fetch(
+    `${process.env.BACKEND_BASE_URL}/api/v1/review/Media/${reviewUuid}`,
+    {
+      method,
+      headers,
+      cache: "force-cache",
+    },
+  );
+
+  if (!res.ok) {
+    return null;
+  }
+  const data = (await res.json()) as CommonResType<any>;
+  if (data.httpStatus === "OK") {
+    const { result } = data;
+    return result;
+  } else {
+    return null;
+  }
 }

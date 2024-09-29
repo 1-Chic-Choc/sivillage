@@ -11,6 +11,7 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import PriceDisplay from "@/components/molecule/PriceDisplay";
 import ProductDetailBottomButton from "@/components/template/layout/navbar/ProductDetailBottomButton";
 import ProductDetailVi from "@/components/template/page/product/ProductDetailVi";
+import ProductReviewComponent from "@/components/template/page/product/ProductReviewComponent";
 import { productDetailClassName } from "@/lib/classNames";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
@@ -36,7 +37,6 @@ export default async function page({
     return null;
   }
 
-  console.log(productOptionList.length);
   let cartOptionCount = 0;
   const cartOptions = (productSizesPerColorList || []).map(
     (productSizesPerColor) => ({
@@ -101,22 +101,7 @@ export default async function page({
           </div>
         ) : null}
 
-        <div className={productDetailClassName.tabReviewBasic}>
-          <div className={productDetailClassName.wrap}>
-            <div className={productDetailClassName.wrapTitle}>
-              <p>리뷰</p>
-              <div className={productDetailClassName.wrapTitleButton}>
-                리뷰 혜택보기
-              </div>
-            </div>
-          </div>
-
-          <div className={productDetailClassName.tabReviewBasicText}>
-            <p className={productDetailClassName.tabReviewBasicTextStrong}>
-              첫 번째 상품리뷰를 작성해 주세요.
-            </p>
-          </div>
-        </div>
+        <ProductReviewComponent productUuid={productUuid} />
 
         <div className={productDetailClassName.tabReviewBasic}>
           <div className={productDetailClassName.wrap}>
