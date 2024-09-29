@@ -5,7 +5,7 @@ export const productClassName = {
   item: cn("relative w-[calc(50%-4.5px)] mb-[36px]"),
   image: cn("relative w-full aspect-[2/3]"),
   blend: cn("absolute bottom-[0px] w-full aspect-[2/3] bg-[rgba(0,0,0,0.03)]"),
-  textContainer: cn("h-[96px] px-[8px] py-[16px]"),
+  textContainer: cn("px-[8px] py-[16px]"),
   brand: cn("mb-[6px]", "text-[14px] font-[700]", "leading-[normal]"),
   name: cn(
     "h-[18px] mb-[2px]",
