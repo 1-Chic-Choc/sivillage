@@ -93,7 +93,7 @@ export default function ProductDetailBottomButton({
       setCount(1);
       alert("해당 상품의 최소구매수량은 1개입니다.");
     }
-  }, [count]);
+  }, [count, focus]);
 
   const handleSubmit = () => {
     if (token) {

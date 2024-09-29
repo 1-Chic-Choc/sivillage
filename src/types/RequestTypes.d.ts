@@ -108,3 +108,18 @@ export interface CreateCartItemResquestType {
   productOptionUuid: string;
   quantity: number;
 }
+
+// review
+export interface ProductReviewListRequestType {
+  productUuid: string;
+  page: number;
+  perSize: number;
+}
+
+export interface ProductReviewRequestType {
+  reviewUuid: string;
+}
+
+export interface ProductReviewMediaListRequestType {
+  reviewUuid: string;
+}

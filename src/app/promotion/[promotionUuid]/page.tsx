@@ -4,7 +4,10 @@ import {
   getPromotionMediaList,
   getPromotionProductList,
 } from "@/action/promotionAction";
+import BandShapeBanner from "@/components/template/page/main/reuable/BandShapeBanner";
+import SectionWrapper from "@/components/template/page/main/reuable/SectionWrapper";
 import PromotionImage from "@/components/template/page/promotion/PromotionImage";
+import PromotionProductList from "@/components/template/page/promotion/PromotionProductList";
 import PromotionProductTabs from "@/components/template/page/promotion/PromotionProductTabs";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -14,28 +17,25 @@ interface pageProps {
 }
 
 export default async function page({ params: { promotionUuid } }: pageProps) {
-  const [
-    promotion,
-    promotionProductList,
-    promotionMediaList,
-    promotionBenefitList,
-  ] = await Promise.all([
-    getPromotion({ promotionUuid }),
-    getPromotionProductList({ promotionUuid }),
-    getPromotionMediaList({ promotionUuid }),
-    getPromotionBenefitList({ promotionUuid }),
-  ]);
+  const [promotion, promotionProductList, promotionMediaList] =
+    await Promise.all([
+      getPromotion({ promotionUuid }),
+      getPromotionProductList({ promotionUuid }),
+      getPromotionMediaList({ promotionUuid }),
+    ]);
 
   if (!promotion) {
     return <main>존재하지 않는 프로모션입니다.</main>;
   }
 
+  const productSet = new Set<string>();
   const productMap = new Map<string, string[]>();
   (promotionProductList || []).forEach(
     ({ productUuid, promotionType }: PromotionProduct) => {
       const productUuids = productMap.get(promotionType) || [];
       productUuids.push(productUuid);
       productMap.set(promotionType, productUuids);
+      productSet.add(productUuid);
     },
   );
 
@@ -45,7 +45,7 @@ export default async function page({ params: { promotionUuid } }: pageProps) {
       : a.mediaOrder - b.mediaOrder,
   );
 
-  const { thumbnailUrl, title, description } = promotion;
+  const { thumbnailUrl, title } = promotion;
 
   return (
     <main className="w-full">
@@ -76,19 +76,21 @@ export default async function page({ params: { promotionUuid } }: pageProps) {
           <PromotionImage mediaId={mediaId} />
         </div>
       ))}
-      <PromotionProductTabs />
-      {/* <div>
-        {promotionProductList &&
-          promotionProductList.map(({ productUuid, promotionType }) => (
-            <div key={productUuid}>{promotionType} - {productUuid}</div>
-          ))}
-      </div> */}
-      {/* <div>
-        {promotionBenefitList &&
-          promotionBenefitList.map(({ benefitContent }) => (
-            <div key={benefitContent}>{benefitContent}</div>
-          ))}
-      </div> */}
+
+      <SectionWrapper title={promotion.title}>
+        <div className="px-[24px]">
+          <PromotionProductList productSet={productSet} />
+        </div>
+      </SectionWrapper>
+
+      <BandShapeBanner />
+
+      {/* {Array.from(productMap.entries()).map(([promotionType, productUuids]) => (
+        <PromotionProductTabs
+          key={promotionType}
+          {...{ promotionType, productUuids }}
+        />
+      ))} */}
     </main>
   );
 }
