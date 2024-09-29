@@ -37,6 +37,7 @@ export default async function PromotionCard({ promotion }: PromotionCardProps) {
           <div className="flex">
             {benefitList.map((benefit) => (
               <div
+                key={benefit.benefitContent}
                 className={cn(
                   "px-[6px] mr-[3px]",
                   "text-[10px] font-[700] leading-[20px]",
