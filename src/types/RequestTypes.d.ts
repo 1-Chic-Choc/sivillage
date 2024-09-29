@@ -101,3 +101,8 @@ export type PromotionMediaListRequestType = PromotionUUID;
 export type PromotionBenefitListRequestType = PromotionUUID;
 
 //cart
+export interface CreateCartItemResquestType {
+  productUuid: string;
+  productOptionUuid: string;
+  quantity: number;
+}

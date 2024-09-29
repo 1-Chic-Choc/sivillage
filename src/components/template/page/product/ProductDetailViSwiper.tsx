@@ -19,7 +19,6 @@ export default function ProductDetailViSwiper({
   productMediaList,
 }: ProductDetailViProps) {
   const mediaList = productMediaList.length > 0 ? productMediaList : [null];
-  console.log(mediaList);
   return (
     <Swiper pagination={{ type: "bullets" }} modules={[Pagination]} loop>
       {mediaList.map((media, i) =>

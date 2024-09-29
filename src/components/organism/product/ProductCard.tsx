@@ -55,7 +55,7 @@ export default async function ProductCard({
           <PriceDisplay price={discountPrice || price} />
         </p>
       </div>
-      <div className="flex gap-x-[8px] pl-[8px]">
+      <div className="flex gap-[8px] pl-[8px] flex-wrap overflow-hidden">
         {colorIds.length > 1
           ? colorIds.map((colorId) => (
               <ProductColor key={colorId} {...{ colorId }} />
@@ -68,7 +68,8 @@ export default async function ProductCard({
 
 export async function ProductCardSkeleton() {
   return (
-    <div className={productClassName.item}>
+    // <div className={productClassName.item}>
+    <div className="relative mb-[36px]">
       <div className={productClassName.image}>
         <Skeleton className="size-full" />
       </div>

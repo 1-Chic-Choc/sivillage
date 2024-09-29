@@ -6,6 +6,7 @@ import {
   CategoryByPathRequestType,
   CategpryListRequestType,
   ColorRequestType,
+  CreateCartItemResquestType,
   EtcOptionRequestType,
   MediaRequestType,
   ProductBest100RequestType,
@@ -249,9 +250,9 @@ export async function getProductSingle(
   }
 }
 
-export async function getProductSizesPerColor(
+export async function getProductSizesPerColorList(
   req: ProductSizesPerColorResquestType,
-): Promise<ProductSizesPerColor | null> {
+): Promise<ProductSizesPerColor[] | null> {
   const method = "GET";
   const { productUuid } = req;
   const res = await fetch(
@@ -266,6 +267,7 @@ export async function getProductSizesPerColor(
     return null;
   }
   const data = (await res.json()) as CommonResType<any>;
+  console.log(data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
@@ -661,11 +663,36 @@ export async function postProductLike(
     return null;
   }
   const data = (await res.json()) as CommonResType<any>;
-  console.log(data);
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
   } else {
     return null;
   }
+}
+
+export async function postCartItem(
+  req: CreateCartItemResquestType,
+): Promise<{} | null> {
+  const method = "POST";
+  const session = await getServerSession(options);
+  const token = session?.user?.accessToken;
+  const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/cart`, {
+    method,
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    body: JSON.stringify(req),
+    cache: "default",
+  });
+  // if (!res.ok) {
+  //   return null;
+  // }
+  const data = (await res.json()) as CommonResType<any>;
+  console.log(data);
+  return data.code;
+  // if (data.httpStatus === "OK") {
+  //   const { result } = data;
+  //   return result;
+  // } else {
+  //   return null;
+  // }
 }
