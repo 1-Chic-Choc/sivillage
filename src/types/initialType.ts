@@ -18,3 +18,11 @@ export interface quickMenuType {
   imgUrl: string;
   link: string;
 }
+
+export interface dummyBrandNameType {
+  brand_list_type: string;
+  brand_index_letter: string;
+  brand_name: string;
+  brand_name_ko: string;
+  ctg_no: string;
+}
