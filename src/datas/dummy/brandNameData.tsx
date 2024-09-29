@@ -1,10 +1,10 @@
-import { brandNameType } from "@/types/initialType";
+import { dummyBrandNameType } from "@/types/initialType";
 
 export function brandDataModi(type: string) {
   return brandTabMenuData.filter((item) => item.brand_list_type === type);
 }
 
-export const brandTabMenuData: brandNameType[] = [
+export const brandTabMenuData: dummyBrandNameType[] = [
   {
     brand_list_type: "en",
     brand_index_letter: "A",

@@ -1,3 +1,4 @@
+import { fetchBrandList } from "@/action/brandAction";
 import BrandCatalog from "@/components/template/layout/brand/BrandCatalog";
 import BrandSearch from "@/components/template/layout/brand/BrandSearch";
 import BottomNavigationBar from "@/components/template/layout/navbar/BottomNavigationBar";
@@ -5,8 +6,9 @@ import { brandDataModi } from "@/datas/dummy/brandNameData";
 import { brandNameType } from "@/types/ResponseTypes";
 import React from "react";
 
-function page() {
-  const data: brandNameType[] = brandDataModi("en");
+async function page() {
+  // const data: brandNameType[] = brandDataModi("en");
+  const data: brandNameType[] = (await fetchBrandList()).result;
 
   return (
     <main>
