@@ -5,9 +5,15 @@ import {
   getProductHashtagList,
   getProductOptionList,
   getProductSingle,
+  getProductSizesPerColorList,
 } from "@/action/productAction";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import PriceDisplay from "@/components/molecule/PriceDisplay";
+import ProductDetailBottomButton from "@/components/template/layout/navbar/ProductDetailBottomButton";
 import ProductDetailVi from "@/components/template/page/product/ProductDetailVi";
+import ProductReviewComponent from "@/components/template/page/product/ProductReviewComponent";
 import { productDetailClassName } from "@/lib/classNames";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 export default async function page({
@@ -15,15 +21,33 @@ export default async function page({
 }: {
   params: { productUuid: string };
 }) {
-  const [product, productOptionList, productHashtagList] = await Promise.all([
+  const [
+    product,
+    productOptionList,
+    productHashtagList,
+    productSizesPerColorList,
+  ] = await Promise.all([
     getProductSingle({ productUuid }),
     getProductOptionList({ productUuid }),
     getProductHashtagList({ productUuid }),
+    getProductSizesPerColorList({ productUuid }),
   ]);
 
   if (!productOptionList) {
     return null;
   }
+
+  let cartOptionCount = 0;
+  const cartOptions = (productSizesPerColorList || []).map(
+    (productSizesPerColor) => ({
+      color: productSizesPerColor.color,
+      sizes: productSizesPerColor.sizes.map((size) => ({
+        ...size,
+        productOptionUuid:
+          productOptionList[cartOptionCount++].productOptionUuid,
+      })),
+    }),
+  );
 
   const { productOptionUuid } = productOptionList[0];
   // const productDetailList =
@@ -34,74 +58,72 @@ export default async function page({
     getColor({ id: productOptionList[0].colorId }),
   ]);
 
-  return (
-    <main>
-      <ProductDetailVi productOptionUuid={productOptionUuid} />
-      <div className={productDetailClassName.infoContainer}>
-        <h2 className={productDetailClassName.infoBrand}>{brand?.name}</h2>
-        <p className={productDetailClassName.infoDescription}>
-          {product?.name}
-        </p>
-        <div className={productDetailClassName.infoPrice}>
-          <div className={productDetailClassName.infoPriceMember}>
-            <span className={productDetailClassName.infoPriceCurrent}>
-              <b>{productOptionList[0].price}</b>
-              <span>원</span>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className={productDetailClassName.hashtagContainer}>
-        {productHashtagList?.map((hashtag) => (
-          <Link
-            href={`/search?keywords=${hashtag}`}
-            key={hashtag.id}
-            className={productDetailClassName.hastag}
-          >
-            {hashtag.hashtagContent}
-          </Link>
-        ))}
-      </div>
-      <div className={productDetailClassName.tapInfoDetail}>
-        <iframe
-          src={productDetailList![0].productDetailUrl}
-          className="w-full h-[2000px]"
-        />
-        {/* <ProductDetailIframe
-          productDetailUrl={productDetailList[0].productDetailUrl}
-        /> */}
-      </div>
+  const session = await getServerSession(options);
+  const token = session?.user?.accessToken;
 
-      <div className={productDetailClassName.tabReviewBasic}>
-        <div className={productDetailClassName.wrap}>
-          <div className={productDetailClassName.wrapTitle}>
-            <p>리뷰</p>
-            <div className={productDetailClassName.wrapTitleButton}>
-              리뷰 혜택보기
+  return (
+    <>
+      <main>
+        <ProductDetailVi productOptionUuid={productOptionUuid} />
+        <div className={productDetailClassName.infoContainer}>
+          <h2 className={productDetailClassName.infoBrand}>{brand?.name}</h2>
+          <p className={productDetailClassName.infoDescription}>
+            {product?.name}
+          </p>
+          <div className={productDetailClassName.infoPrice}>
+            <div className={productDetailClassName.infoPriceMember}>
+              <span className={productDetailClassName.infoPriceCurrent}>
+                <b>
+                  <PriceDisplay price={productOptionList[0].price} />
+                </b>
+                <span>원</span>
+              </span>
             </div>
           </div>
         </div>
-
-        <div className={productDetailClassName.tabReviewBasicText}>
-          <p className={productDetailClassName.tabReviewBasicTextStrong}>
-            첫 번째 상품리뷰를 작성해 주세요.
-          </p>
+        <div className={productDetailClassName.hashtagContainer}>
+          {productHashtagList?.map((hashtag) => (
+            <Link
+              href={`/search/${hashtag.hashtagContent.replace("#", "")}`}
+              key={hashtag.id}
+              className={productDetailClassName.hastag}
+            >
+              {hashtag.hashtagContent}
+            </Link>
+          ))}
         </div>
-      </div>
+        {productDetailList![0]?.productDetailUrl ? (
+          <div className={productDetailClassName.tapInfoDetail}>
+            <iframe
+              src={productDetailList![0]?.productDetailUrl}
+              className="w-full h-[2000px]"
+            />
+          </div>
+        ) : null}
 
-      <div className={productDetailClassName.tabReviewBasic}>
-        <div className={productDetailClassName.wrap}>
-          <div className={productDetailClassName.wrapTitle}>
-            <p>Q&A</p>
+        <ProductReviewComponent productUuid={productUuid} />
+
+        <div className={productDetailClassName.tabReviewBasic}>
+          <div className={productDetailClassName.wrap}>
+            <div className={productDetailClassName.wrapTitle}>
+              <p>Q&A</p>
+            </div>
+          </div>
+
+          <div className={productDetailClassName.tabReviewBasicText}>
+            <p className={productDetailClassName.tabReviewBasicTextStrong}>
+              등록된 Q&A가 없습니다.
+            </p>
           </div>
         </div>
-
-        <div className={productDetailClassName.tabReviewBasicText}>
-          <p className={productDetailClassName.tabReviewBasicTextStrong}>
-            등록된 Q&A가 없습니다.
-          </p>
-        </div>
-      </div>
-    </main>
+      </main>
+      <ProductDetailBottomButton
+        token={token}
+        cartOptions={cartOptions}
+        price={productOptionList[0].price}
+        productUuid={productUuid}
+        defaultProductOptionUuid={productOptionUuid}
+      />
+    </>
   );
 }

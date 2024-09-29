@@ -12,7 +12,7 @@ export default async function ProductThumbnail({
     (await getProductMediaList({ productOptionUuid })) || []
   ).sort((a, b) => a.mediaOrder - b.mediaOrder);
 
-  const { mediaId } = productMediaList[0];
+  const { mediaId } = productMediaList[0] || { mediaId: null };
   const media = await getMedia({ mediaId });
 
   if (!media) return null;

@@ -32,13 +32,27 @@ export default function Home() {
         </FadeUp>
 
         {/* 4-MainHighlight */}
-        <FadeUp>
+        {/* <FadeUp>
           <MainHighlight />
-        </FadeUp>
+        </FadeUp> */}
 
         {/* 5-MainCuration */}
         <FadeUp>
           <MainCuration />
+        </FadeUp>
+
+        {/* 6-MainDailyLook */}
+        <FadeUp>
+          <MainDailyLook start={10} end={18} />
+        </FadeUp>
+
+        {/* 5-MainCuration */}
+        <FadeUp>
+          <MainCuration
+            title="니트로 느끼는 가을 감촉"
+            defaultIndex={1}
+            page={3}
+          />
         </FadeUp>
 
         {/* 띠배너 */}
@@ -46,55 +60,38 @@ export default function Home() {
           <BandShapeBanner />
         </div>
 
+        {/* 5-MainCuration */}
+        <FadeUp>
+          <MainCuration
+            title="설레는 가을 향기, 함께 떠나는 캠핑"
+            defaultIndex={2}
+            page={1}
+          />
+        </FadeUp>
+
         {/* 6-MainDailyLook */}
         <FadeUp>
-          <MainDailyLook />
+          <MainDailyLook title="최신 트렌드 세일" start={18} end={26} />
         </FadeUp>
 
-        {/* 7-MainTodayBest */}
+        {/* 5-MainCuration */}
         <FadeUp>
-          <MainTodayBest />
+          <MainCuration
+            title="나의 일상에서 차분히 스며들 향기"
+            defaultIndex={3}
+            page={2}
+          />
         </FadeUp>
 
-        {/* 8-MainTimeDeal */}
+        {/* 6-MainDailyLook */}
         <FadeUp>
-          <MainTimeDeal />
+          <MainDailyLook title="가을 향이 가득 풍기는" start={26} end={34} />
         </FadeUp>
 
-        {/* 9-MainPromotion */}
-        <FadeUp>
-          <MainPromotion />
-        </FadeUp>
-
-        {/* A-MainBrandPick */}
-        <FadeUp>
-          <MainBrandPick />
-        </FadeUp>
-
-        {/* B-StyleNow */}
-        <FadeUp>
-          <StyleNow />
-        </FadeUp>
-
-        {/* C-MainReview */}
-        <FadeUp>
-          <MainReview />
-        </FadeUp>
-
-        {/* D-MainVTV */}
-        <FadeUp>
-          <MainVTV />
-        </FadeUp>
-
-        {/* E-MainHotVideo */}
-        <FadeUp>
-          <MainHotVideo />
-        </FadeUp>
-
-        {/* F-MainBrandLink */}
-        <FadeUp>
-          <MainBrandLink />
-        </FadeUp>
+        {/* 띠배너 */}
+        <div className="mb-[48px]">
+          <BandShapeBanner />
+        </div>
       </div>
     </main>
   );

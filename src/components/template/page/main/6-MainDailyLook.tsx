@@ -7,6 +7,9 @@ import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/autoplay";
+import { useEffect, useState } from "react";
+import { getPromotionList } from "@/action/promotionAction";
+import Link from "next/link";
 
 interface DailyLookItem {
   img_src: string;
@@ -53,26 +56,75 @@ const dailyLookItems: DailyLookItem[] = [
   },
 ];
 
-export default function MainDailyLook() {
+interface MainDailyLookProps {
+  title?: string;
+  start?: number;
+  end?: number;
+}
+
+export default function MainDailyLook({
+  title = "이번 주 소식",
+  start = 10,
+  end = 20,
+}: MainDailyLookProps) {
+  const [promotionList, setPromotionList] = useState<Promotion[]>([]);
+  useEffect(() => {
+    getPromotionList().then((data) => {
+      if (data) {
+        setPromotionList(data.slice(start, end));
+      }
+    });
+  }, [start, end]);
   return (
-    <SectionWrapper title="이번 주 소식">
+    <SectionWrapper title={title}>
       <Swiper autoplay={{ delay: 4800 }} speed={1200} modules={[Autoplay]}>
-        {dailyLookItems.map(({ img_src, strong, description }, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full aspect-[375/574]">
-              <Image src={img_src} alt={strong} fill />
-            </div>
-            <div className="absolute bottom-[0px] w-full aspect-[375/574] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.4)]"></div>
-            <div className="absolute bottom-[56px] px-[24px]">
-              <p className="text-[22px] text-white font-[700] leading-[30px] mb-[7px]">
-                {strong}
-              </p>
-              <p className="text-[16px] text-white font-[400] leading-[22px]">
-                {description}
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
+        {promotionList.length > 0
+          ? promotionList.map(
+              ({ promotionUuid, thumbnailUrl, title, description }, index) => (
+                <SwiperSlide key={index}>
+                  <Link href={`/promotion/${promotionUuid}`}>
+                    <div className="relative w-full aspect-[375/574]">
+                      <Image
+                        src={thumbnailUrl}
+                        alt={title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="absolute bottom-[0px] w-full aspect-[375/574] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.4)]"></div>
+                    <div className="absolute bottom-[56px] px-[24px]">
+                      <p className="text-[22px] text-white font-[700] leading-[30px] mb-[7px]">
+                        {title}
+                      </p>
+                      <p className="text-[16px] text-white font-[400] leading-[22px]">
+                        {description}
+                      </p>
+                    </div>
+                  </Link>
+                </SwiperSlide>
+              ),
+            )
+          : dailyLookItems.map(({ img_src, strong, description }, index) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full aspect-[375/574]">
+                  <Image
+                    src={img_src}
+                    alt={strong}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="absolute bottom-[0px] w-full aspect-[375/574] bg-gradient-to-b from-transparent to-[rgba(0,0,0,0.4)]"></div>
+                <div className="absolute bottom-[56px] px-[24px]">
+                  <p className="text-[22px] text-white font-[700] leading-[30px] mb-[7px]">
+                    {strong}
+                  </p>
+                  <p className="text-[16px] text-white font-[400] leading-[22px]">
+                    {description}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
       </Swiper>
     </SectionWrapper>
   );

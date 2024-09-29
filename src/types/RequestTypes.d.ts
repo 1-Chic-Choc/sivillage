@@ -1,3 +1,5 @@
+import { Product } from "./ProductTypes";
+
 export interface SignUpResquestType {
   email: string;
   password: string;
@@ -44,6 +46,20 @@ export interface ProductListRequestType {
   keywords?: string;
 }
 
+export type ProductListCountRequestType = ProductListRequestType;
+
+export type ProductSizesPerColorResquestType = ProductUUID;
+
+export interface ProductBest100RequestType {
+  categories?: string[];
+  page?: number;
+  perPage?: number;
+}
+
+export interface ProductCategoryFilteringValuesRequestType {
+  categories?: string[];
+}
+
 export type CategoryByPathRequestType = Record<"path", string[]>;
 export type CategpryListRequestType = Record<"parentId", number>;
 
@@ -74,4 +90,36 @@ export type BrandMediaListRequestType = Record<"brandUuid", string>;
 
 export type ProductReviewListRequestType = ProductUUID;
 
+export type ProductLikeRequestType = ProductUUID;
+
+export type ProductScoreRequestType = ProductUUID;
+
+// promotion
+export type PromotionUUID = Record<"promotionUuid", string>;
+
+export type PromotionRequestType = PromotionUUID;
+export type PromotionProductListRequestType = PromotionUUID;
+export type PromotionMediaListRequestType = PromotionUUID;
+export type PromotionBenefitListRequestType = PromotionUUID;
+
 //cart
+export interface CreateCartItemResquestType {
+  productUuid: string;
+  productOptionUuid: string;
+  quantity: number;
+}
+
+// review
+export interface ProductReviewListRequestType {
+  productUuid: string;
+  page: number;
+  perSize: number;
+}
+
+export interface ProductReviewRequestType {
+  reviewUuid: string;
+}
+
+export interface ProductReviewMediaListRequestType {
+  reviewUuid: string;
+}

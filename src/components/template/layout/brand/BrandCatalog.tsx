@@ -1,12 +1,17 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { brandDataModi } from "@/datas/dummy/brandNameData";
 import Link from "next/link";
 import Image from "next/image";
-import { brandNameType } from "@/types/initialType";
 import { useSearchParams } from "next/navigation";
+import { fetchBrandList, likeBrand } from "@/action/brandAction"; // API 호출 함수 임포트
+import { brandNameType } from "@/types/ResponseTypes";
 
+interface BrandCatalogProps {
+  data: brandNameType[];
+}
+
+// 스크롤 부드럽게 이동하는 함수
 const smoothScrollTo = (targetY: number, duration: number) => {
   const startY = window.scrollY;
   const distance = targetY - startY;
@@ -32,19 +37,62 @@ const easeInOutQuad = (t: number) => {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 };
 
-function BrandCatalog({ data }: { data: brandNameType[] }) {
+function BrandCatalog({ data }: BrandCatalogProps) {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword");
-  const [filteredData, setFilteredData] = useState<brandNameType[]>(data);
+
+  const [brandData, setBrandData] = useState<brandNameType[]>(data); // API 데이터를 저장
+  const [filteredData, setFilteredData] = useState<
+    Map<string, brandNameType[]>
+  >(new Map()); // 알파벳 그룹화된 데이터
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const korean = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ".split("");
   const [currentSet, setCurrentSet] = useState<string>("alphabet");
-  const [brandData, setBrandData] = useState(brandDataModi("en"));
+
   const sectionRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  // 스크롤 스무스
+  // API에서 브랜드 목록을 불러오는 함수
+  useEffect(() => {
+    const fetchBrands = async () => {
+      const response = await fetchBrandList();
+      const brands = response.result;
+
+      // 데이터를 그룹화
+      const groupedBrands = groupBrandsByAlphabet(brands);
+      setBrandData(brands);
+      setFilteredData(groupedBrands); // 그룹화된 데이터를 저장
+    };
+
+    fetchBrands();
+  }, []);
+
+  // 브랜드 목록을 알파벳 또는 한글로 그룹화하는 함수
+  const groupBrandsByAlphabet = (brands: brandNameType[]) => {
+    const grouped = new Map<string, brandNameType[]>();
+
+    brands.forEach((brand) => {
+      const name = brand.name || ""; // 기본값 설정
+      const indexLetter = brand.brandIndexLetter || ""; // 기본값 설정
+
+      const firstLetter =
+        currentSet === "alphabet"
+          ? name.charAt(0).toUpperCase() === "&"
+            ? "A"
+            : name.charAt(0).toUpperCase()
+          : indexLetter.charAt(0); // 한글 인덱스 처리/ brandIndexLetter가 undefined인 경우 방지
+
+      if (!grouped.has(firstLetter)) {
+        grouped.set(firstLetter, []);
+      }
+      grouped.get(firstLetter)?.push(brand);
+    });
+
+    return grouped;
+  };
+
+  // 스크롤 섹션 이동 함수
   const scrollToSection = (char: string) => {
     const section = sectionRef.current[char];
     if (section) {
@@ -53,90 +101,86 @@ function BrandCatalog({ data }: { data: brandNameType[] }) {
     }
   };
 
-  // 브랜드 검색할 키워드
+  // 검색어가 브랜드 이름에 포함되면 해당 부분을 주황색으로 강조하는 함수
+  const highlightKeyword = (text: string, keyword: string | null) => {
+    if (!keyword) return text; // 키워드가 없으면 그냥 텍스트 반환
+    const regex = new RegExp(`(${keyword})`, "gi"); // 대소문자 구분 없이 검색
+    return text.replace(regex, `<span style="color: orange;">$1</span>`); // 일치하는 부분 주황색으로 스타일링
+  };
+
+  // 검색 키워드에 따른 필터링 처리
   useEffect(() => {
     if (keyword) {
       const lowerKeyword = keyword.toLowerCase();
-      const filtered = data.filter(
+      const filtered = brandData.filter(
         (brand) =>
-          brand.brand_name.toLowerCase().includes(lowerKeyword) ||
-          brand.brand_name_ko.includes(lowerKeyword),
+          brand.name?.toLowerCase().includes(lowerKeyword) ||
+          brand.nameKo?.includes(lowerKeyword),
       );
-      setFilteredData(filtered);
+
+      setFilteredData(groupBrandsByAlphabet(filtered));
     } else {
-      setFilteredData(data);
+      setFilteredData(groupBrandsByAlphabet(brandData)); // 키워드가 없을 때는 전체 데이터
     }
-  }, [keyword, data]);
+  }, [keyword, brandData, currentSet]);
 
-  // 검색 키워드 강조
-  const handleColorChange = (target: string, current: string) => {
-    const regex = new RegExp(`(${current})`, "gi");
-    return target.replace(regex, '<span class="text-red-400">$1</span>');
-  };
-
-  const brands = brandData.reduce((acc: any, brand) => {
-    const firstLetter = brand.brand_index_letter[0].toUpperCase();
-    const koreanFirstLetter = brand.brand_index_letter.charAt(0);
-
-    if (alphabet.includes(firstLetter)) {
-      acc[firstLetter] = acc[firstLetter] || [];
-      acc[firstLetter].push(brand);
-    } else if (korean.includes(koreanFirstLetter)) {
-      acc[koreanFirstLetter] = acc[koreanFirstLetter] || [];
-      acc[koreanFirstLetter].push(brand);
-    }
-    return acc;
-  }, {});
-
-  Object.keys(brands).forEach((key) => {
-    brands[key].sort((a: any, b: any) => {
-      return a.brand_name_ko.localeCompare(b.brand_name_ko, "ko-KR");
-    });
-  });
-
-  const getCurrentSet = () => {
-    return currentSet === "alphabet" ? alphabet : korean;
-  };
-
+  // 알파벳/한글 탭 전환
   const handleSetChange = (set: string) => {
     setCurrentSet(set);
-    if (set === "alphabet") {
-      setBrandData(brandDataModi("en"));
-    } else {
-      setBrandData(brandDataModi("ko"));
+    setFilteredData(groupBrandsByAlphabet(brandData));
+  };
+
+  // 즐겨찾기 토글 기능
+  const toggleFavorite = async (brandUuid: string) => {
+    try {
+      setFavorites((prev) => ({
+        ...prev,
+        [brandUuid]: !prev[brandUuid],
+      }));
+
+      // API 호출
+      await likeBrand(brandUuid);
+      console.log(`Liked brand with UUID: ${brandUuid}`);
+    } catch (error) {
+      console.error(`Failed to like brand with UUID: ${brandUuid}`, error);
     }
   };
 
-  const toggleFavorite = (brandNo: string) => {
-    setFavorites((prev) => ({
-      ...prev,
-      [brandNo]: !prev[brandNo],
-    }));
+  // 브랜드 이름 포맷팅 함수
+  const formatBrandName = (name: string | undefined) => {
+    return name ? name.replace(/\//g, "_") : "";
   };
-
-  const formatbrandName = (name: any) => name.replace(/\//g, "_");
 
   return (
     <div className="px-4 pt-1">
-      <p className="pb-5 pl-9">
-        <span>{keyword}</span>로 검색한 결과입니다.
-      </p>
+      {/* 검색 결과 표시 */}
+      {keyword && (
+        <p className="pb-5 pl-9">
+          <span>{keyword}</span>로 검색한 결과입니다.
+        </p>
+      )}
+
+      {/* 알파벳/한글 선택 탭 */}
       <div className="flex gap-2 mb-2 items-center">
         <button
-          className={`min-w-[40px] h-9 border ${currentSet === "alphabet" ? "font-bold" : ""}`}
+          className={`min-w-[40px] h-9 border ${
+            currentSet === "alphabet" ? "font-bold" : ""
+          }`}
           onClick={() => handleSetChange("alphabet")}
         >
           A-Z
         </button>
         <button
-          className={`min-w-[40px] h-9 text-sm border ${currentSet === "korean" ? "font-bold" : ""}`}
+          className={`min-w-[40px] h-9 text-sm border ${
+            currentSet === "korean" ? "font-bold" : ""
+          }`}
           onClick={() => handleSetChange("korean")}
         >
           ㄱ-ㅎ
         </button>
         <div className="w-21 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           <div className="flex gap-2 ml-4">
-            {getCurrentSet().map((char) => (
+            {(currentSet === "alphabet" ? alphabet : korean).map((char) => (
               <button
                 key={char}
                 className="p-1 border min-w-[35px] text-center"
@@ -149,66 +193,48 @@ function BrandCatalog({ data }: { data: brandNameType[] }) {
         </div>
       </div>
 
-      {keyword ? (
-        <>
-          {filteredData.map((brand, idx) => {
-            const highlightedText = handleColorChange(
-              brand.brand_name,
-              keyword,
-            );
-            return (
-              <div key={idx} className="p-2">
-                <p dangerouslySetInnerHTML={{ __html: highlightedText }} />
-                <p>{brand.brand_name_ko}</p>
+      {/* 브랜드 목록 */}
+      <div>
+        {Array.from(filteredData.keys()).map((letter) => (
+          <div
+            key={letter}
+            ref={(el) => {
+              sectionRef.current[letter] = el; // 반환값 제거
+            }}
+          >
+            <h2 className="text-xl font-bold mb-2">{letter}</h2>
+            {filteredData.get(letter)?.map((brand, idx) => (
+              <div key={idx} className="p-2 flex justify-between">
+                <Link href={`/brand/${formatBrandName(brand.name)}`}>
+                  <div>
+                    <span
+                      className="font-bold"
+                      dangerouslySetInnerHTML={{
+                        __html: highlightKeyword(brand.name || "", keyword),
+                      }}
+                    />
+                    <p>{brand.nameKo}</p>
+                  </div>
+                </Link>
+                <button onClick={() => toggleFavorite(brand.brandUuid)}>
+                  <Image
+                    src={
+                      favorites[brand.brandUuid]
+                        ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
+                        : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
+                    }
+                    alt="heart-icon"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6"
+                  />
+                </button>
               </div>
-            );
-          })}
-        </>
-      ) : (
-        <div>
-          {Object.keys(brands).map((char) => (
-            <div
-              key={char}
-              ref={(el) => {
-                sectionRef.current[char] = el;
-              }}
-              className="mb-6"
-            >
-              <h2 className="text-xl font-bold mb-2">{char}</h2>
-              <ul>
-                {brands[char].map((brand: any) => (
-                  <li
-                    key={brand.ctg_no}
-                    className="flex justify-between items-center py-2"
-                  >
-                    <Link href={`/brand/${formatbrandName(brand.brand_name)}`}>
-                      <div>
-                        <span className="font-bold">{brand.brand_name}</span>
-                        <p className="text-sm text-gray-500">
-                          {brand.brand_name_ko}
-                        </p>
-                      </div>
-                    </Link>
-                    <button onClick={() => toggleFavorite(brand.ctg_no)}>
-                      <Image
-                        src={
-                          favorites[brand.ctg_no]
-                            ? "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_on.svg"
-                            : "https://cdn-mo.sivillage.com/mo/assets/comm/image/icon_heart_light_off.svg"
-                        }
-                        alt="heart-icon"
-                        width={24}
-                        height={24}
-                        className="w-6 h-6"
-                      />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+            <hr className="border-gray-300 my-2" /> {/* 구분선 */}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

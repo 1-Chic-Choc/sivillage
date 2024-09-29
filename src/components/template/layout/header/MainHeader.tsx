@@ -5,6 +5,8 @@ import Header from "./Header";
 import { cn } from "@/lib/utils";
 import SearchIcon from "@/components/atom/icon/SearchIcon";
 import ShoppingBagIcon from "@/components/atom/icon/ShoppingBagIcon";
+import { Button } from "@/components/ui/button";
+import SearchButton from "@/components/molecule/button/SeachButton";
 
 export default function MainHeader() {
   return (
@@ -20,9 +22,7 @@ export default function MainHeader() {
           />
         </Link>
         <div className="w-20 h-8 flex justify-between items-center">
-          <Link href="/search">
-            <SearchIcon />
-          </Link>
+          <SearchButton />
 
           <Link href="/cart">
             <ShoppingBagIcon />

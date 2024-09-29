@@ -1,7 +1,15 @@
-import { getProductList } from "@/action/productAction";
+import {
+  getProductBest100,
+  getProductCategoryFilteringValues,
+  getProductList,
+  getProductListCount,
+} from "@/action/productAction";
+import ProductLikeButton from "@/components/molecule/button/ProductLikeButton";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/organism/product/ProductCard";
+import YouMayALsoLike from "@/components/organism/product/YouMayALsoLike";
+import FilteringComponent from "@/components/template/layout/filtering/FilteringComponent";
 import { productClassName, sectionHead } from "@/lib/classNames";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
@@ -16,23 +24,64 @@ export default async function page({
   searchParams,
 }: pageProps) {
   const categories = path.map((i) => decodeURI(i).replace("_", "/"));
-  const filtering = { ...searchParams, categories };
-  const products = (await getProductList(filtering)) || [];
+  const filtering = { perPage: 100, ...searchParams, categories };
+  const [products, productCount, productBest, productCategoryFilteringValues] =
+    await Promise.all([
+      getProductList(filtering),
+      getProductListCount(filtering),
+      getProductBest100({
+        categories: categories,
+        page: 1,
+        perPage: 10,
+      }),
+      getProductCategoryFilteringValues({ categories }),
+    ]);
 
   return (
     <main className="w-full">
+      <YouMayALsoLike products={productBest || []} />
       <h2 className={cn(sectionHead.h2, "px-[24px]")}>
-        <span className={sectionHead.title}>You May Also Like</span>
+        <span className={sectionHead.title}>All Product</span>
+        <div>총 {productCount?.totalCount}개의 상품</div>
       </h2>
+
+      <FilteringComponent
+        path={`/category/${path.join("/")}`}
+        productCategoryFilteringValues={
+          productCategoryFilteringValues || undefined
+        }
+      />
       <div className={productClassName.list}>
-        {products.map((product) => (
-          <Suspense
-            key={product.productUuid}
-            fallback={<ProductCardSkeleton />}
+        {(products || []).length > 0 ? (
+          (products || []).map((product) => (
+            <div
+              key={product.productUuid}
+              className={cn(
+                "relative w-[calc(50%-4.5px)] flex-shrink-0 mb-[36px]",
+              )}
+            >
+              <ProductLikeButton
+                productUuid={product.productUuid}
+                className="absolute top-2 right-2 z-10"
+              />
+              <Suspense
+                key={product.productUuid}
+                fallback={<ProductCardSkeleton />}
+              >
+                <ProductCard product={product} />
+              </Suspense>
+            </div>
+          ))
+        ) : (
+          <div
+            className={cn(
+              "w-full h-[100px]",
+              "flex justify-center items-center",
+            )}
           >
-            <ProductCard product={product} />
-          </Suspense>
-        ))}
+            관련 상품이 없습니다.
+          </div>
+        )}
       </div>
     </main>
   );
