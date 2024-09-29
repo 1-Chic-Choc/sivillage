@@ -74,7 +74,7 @@ export default function MainDailyLook({
         setPromotionList(data.slice(start, end));
       }
     });
-  }, []);
+  }, [start, end]);
   return (
     <SectionWrapper title={title}>
       <Swiper autoplay={{ delay: 4800 }} speed={1200} modules={[Autoplay]}>

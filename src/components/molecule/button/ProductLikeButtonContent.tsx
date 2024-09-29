@@ -25,7 +25,7 @@ export default function ProductLikeButtonContent({
         setIsActive(true);
       });
     }
-  }, []);
+  }, [token, productUuid]);
 
   const handleClick = () => {
     console.log("token", token);
@@ -45,7 +45,7 @@ export default function ProductLikeButtonContent({
         setIsActive(true);
       });
     }
-  }, [isOn]);
+  }, [isOn, token, productUuid]);
 
   return (
     <div onClick={handleClick} className={className}>

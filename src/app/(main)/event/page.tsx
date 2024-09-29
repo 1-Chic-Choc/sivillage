@@ -43,7 +43,7 @@ export default async function page() {
         className={cn("w-full p-[24px]", "flex justify-center items-center")}
       >
         {eventTabList.map((tab) => (
-          <div className={cn("flex flex-col items-center")}>
+          <div key={tab.title} className={cn("flex flex-col items-center")}>
             <div
               className={cn(
                 "mx-[6px] mb-[8px]",
