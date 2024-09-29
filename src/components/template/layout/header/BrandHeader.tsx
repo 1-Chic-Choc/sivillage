@@ -1,9 +1,10 @@
 import React from "react";
 import Header from "./Header";
-import LeftArrowBracketIcon from "@/components/atom/icon/LeftArrowBracketIcon";
-import SearchIcon from "@/components/atom/icon/SearchIcon";
 import ShoppingBagIcon from "@/components/atom/icon/ShoppingBagIcon";
 import SearchButton from "@/components/molecule/button/SeachButton";
+import HistoryBackButton from "@/components/molecule/button/HistoryBackButton";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function BrandHeader() {
   return (
@@ -11,7 +12,10 @@ export default function BrandHeader() {
       <nav className="p-4">
         <ul className="flex justify-between">
           <li>
-            <LeftArrowBracketIcon />
+            <HistoryBackButton
+              variant="ghost"
+              className={cn("absolute left-[16px]", "w-[32px] h-[32px] p-0")}
+            />
           </li>
           <li className="absolute left-[50%] translate-x-[-50%] text-2xl">
             Brand
@@ -21,7 +25,9 @@ export default function BrandHeader() {
               <SearchButton />
             </li>
             <li>
-              <ShoppingBagIcon />
+              <Link href="/cart">
+                <ShoppingBagIcon />
+              </Link>
             </li>
           </ul>
         </ul>

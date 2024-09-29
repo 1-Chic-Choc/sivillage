@@ -1,3 +1,5 @@
+import { brandNameType } from "./initialType";
+
 export interface commonResType<T> {
   httpStatus: string;
   isSuccess: boolean;
@@ -21,6 +23,30 @@ export interface CategoryType {
   parent_ctg_name: string | null;
   parent_ctg_no: string | null;
   is_leaf: boolean;
+}
+//brand
+export interface brandNameType {
+  brandUuid: string;
+  name: string;
+  nameKo: string;
+  logoUrl: string;
+  brandListType: string;
+  brandIndexLetter: string;
+}
+
+export interface BrandApiResponse {
+  httpStatus: {
+    error: boolean;
+    is4xxClientError: boolean;
+    is5xxServerError: boolean;
+    is1xxInformational: boolean;
+    is2xxSuccessful: boolean;
+    is3xxRedirection: boolean;
+  };
+  isSuccess: boolean;
+  message: string;
+  code: number;
+  result: brandNameType[];
 }
 
 // cart
