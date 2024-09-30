@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -27,10 +28,11 @@ export default function RecommandBanner() {
         {imageSrcArray.map((src, index) => (
           <SwiperSlide key={index}>
             <div className="w-full h-48">
-              <img
+              <Image
                 src={src}
                 alt={`Slide ${index}`}
                 className="w-full h-full pb-10 object-cover"
+                fill
               />
             </div>
           </SwiperSlide>

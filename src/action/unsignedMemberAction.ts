@@ -20,13 +20,10 @@ export async function getUnsisngedMemberUuid(): Promise<unsignedMemberDataType> 
     throw new Error("fail");
   }
 
-  const res = (await response.json()) as commonResType<unsignedMemberDataType>;
-  // console.log("response", response);
-  // const data = res.result;
+  const res = (await response.json()) as unsignedMemberDataType;
+  console.log("uuid data", res);
 
-  // const cookieStore = cookies().set("X-Unsigned-User-UUID", "")
-
-  return res.result;
+  return res;
 }
 
 export async function updateUnsignedUser() {

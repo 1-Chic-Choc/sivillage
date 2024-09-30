@@ -40,13 +40,6 @@ export const options: NextAuthOptions = {
           const res = await signInAction(credentials);
           const { result } = (await res.json()) as CommonResType<UserUUID>;
           console.log(result);
-
-          const unsignedMember = cookies().get("X-Unsigned-User-UUID");
-          await migrateCart(
-            res.headers.get("authorization"),
-            unsignedMember?.value,
-          );
-
           return {
             uuid: result.uuid,
             email: credentials.email,
@@ -96,6 +89,9 @@ export const options: NextAuthOptions = {
           return "/sign-up";
         }
       }
+      const unsignedMember = cookies().get("X-Unsigned-User-UUID");
+      await migrateCart(user.accessToken, unsignedMember?.value);
+
       return true;
     },
 

@@ -22,8 +22,6 @@ async function page() {
 
   const cartItemList = await getCartData(unsignedMember?.value);
 
-  console.log("cart", cartItemList);
-
   const selectedItem: cartItemType[] = cartItemList.filter(
     (item: cartItemType) => item.isSelected,
   );

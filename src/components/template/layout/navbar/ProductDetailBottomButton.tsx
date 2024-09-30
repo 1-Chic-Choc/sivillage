@@ -34,6 +34,7 @@ interface ProductDetailBottomButtonProps {
   cartOptions: cartOption[];
   productUuid: string;
   defaultProductOptionUuid: string;
+  unsignedMemberUuid: string;
 }
 
 export default function ProductDetailBottomButton({
@@ -42,6 +43,7 @@ export default function ProductDetailBottomButton({
   cartOptions,
   productUuid,
   defaultProductOptionUuid,
+  unsignedMemberUuid,
 }: ProductDetailBottomButtonProps) {
   const router = useRouter();
   const [count, setCount] = useState(1);
@@ -96,23 +98,20 @@ export default function ProductDetailBottomButton({
   }, [count, focus]);
 
   const handleSubmit = () => {
-    if (token) {
-      postCartItem({
+    postCartItem(
+      {
         productUuid: productUuid,
         productOptionUuid: selectedProductOptionUuid,
         quantity: count,
-      }).then((httpCode) => {
-        if (httpCode === 200) {
-          router.push("/cart");
-        } else {
-          alert("장바구니 담기에 실패했습니다. 다시 시도해주세요.");
-        }
-      });
-    } else {
-      alert(
-        "비회원 장바구니 기능은 현재 준비중입니다. 로그인 후 이용해주세요.",
-      );
-    }
+      },
+      unsignedMemberUuid,
+    ).then((httpCode) => {
+      if (httpCode === 200) {
+        router.push("/cart");
+      } else {
+        alert("장바구니 담기에 실패했습니다. 다시 시도해주세요.");
+      }
+    });
   };
 
   return (
