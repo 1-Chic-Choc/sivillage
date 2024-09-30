@@ -198,10 +198,8 @@ export async function getProductCategoryFilteringValues(
       cache: "force-cache",
     },
   );
-  if (!res.ok) {
-    return null;
-  }
   const data = (await res.json()) as CommonResType<any>;
+
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
