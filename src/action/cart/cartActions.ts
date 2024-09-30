@@ -14,14 +14,17 @@ import {
 import { getServerSession } from "next-auth";
 import { revalidateTag } from "next/cache";
 
-export async function getCartData(): Promise<cartItemType[]> {
+export async function getCartData(
+  unsignedUserUuid: String,
+): Promise<cartItemType[]> {
   const apiUrl = `${process.env.BACKEND_BASE_URL}/api/v1/cart`; // 실제 API 엔드포인트로 변경 필요
 
   console.log(apiUrl);
   const session = await getServerSession(options);
 
-  const token = session?.user?.accssToken;
+  const token = session?.user?.accessToken;
   const userUuid = session?.user?.uuid;
+
   console.log("session:", JSON.stringify(session, null, 2));
 
   const response = await fetch(apiUrl, {
@@ -29,7 +32,7 @@ export async function getCartData(): Promise<cartItemType[]> {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-      "X-Unsigned-User-UUID": userUuid,
+      "X-Unsigned-User-UUID": `${unsignedUserUuid}`,
     },
   });
 
