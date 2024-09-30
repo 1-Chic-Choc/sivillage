@@ -79,8 +79,6 @@ export const options: NextAuthOptions = {
             user.email = user.email;
             user.accessToken = res.headers.get("authorization") || "";
             // user.refreshToken = res.headers.get("x-refresh-token") || "";
-
-            return true;
           } else {
             return `/oauth?oauthProvider=${account.provider}&oauthEmail=${user.email}&oauthId=${account.providerAccountId}`;
           }
