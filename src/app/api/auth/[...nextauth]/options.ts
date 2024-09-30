@@ -1,10 +1,12 @@
 import { signInAction } from "@/action/authAction";
 import { oauthUserInfoAction } from "@/action/oauthAction";
+import { migrateCart } from "@/action/unsignedMemberAction";
 import { CommonResType, UserUUID } from "@/types/ResponseTypes";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
+import { cookies } from "next/headers";
 
 interface authResType {
   uuid: string;
@@ -38,6 +40,13 @@ export const options: NextAuthOptions = {
           const res = await signInAction(credentials);
           const { result } = (await res.json()) as CommonResType<UserUUID>;
           console.log(result);
+
+          const unsignedMember = cookies().get("X-Unsigned-User-UUID");
+          await migrateCart(
+            res.headers.get("authorization"),
+            unsignedMember?.value,
+          );
+
           return {
             uuid: result.uuid,
             email: credentials.email,
