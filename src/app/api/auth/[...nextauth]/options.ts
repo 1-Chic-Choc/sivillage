@@ -1,10 +1,12 @@
 import { signInAction } from "@/action/authAction";
 import { oauthUserInfoAction } from "@/action/oauthAction";
+import { migrateCart } from "@/action/unsignedMemberAction";
 import { CommonResType, UserUUID } from "@/types/ResponseTypes";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
+import { cookies } from "next/headers";
 
 interface authResType {
   uuid: string;
@@ -87,6 +89,9 @@ export const options: NextAuthOptions = {
           return "/sign-up";
         }
       }
+      const unsignedMember = cookies().get("X-Unsigned-User-UUID");
+      await migrateCart(user.accessToken, unsignedMember?.value);
+
       return true;
     },
 

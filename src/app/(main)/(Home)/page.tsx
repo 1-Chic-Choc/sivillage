@@ -1,3 +1,6 @@
+"use server";
+import { getUnsisngedMemberUuid } from "@/action/unsignedMemberAction";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 import FadeUp from "@/components/aos/FadeUp";
 import MainVi from "@/components/template/page/main/1-MainVi";
 import MainCategory from "@/components/template/page/main/2-MainCategory";
@@ -15,11 +18,17 @@ import MainVTV from "@/components/template/page/main/D-MainVTV";
 import MainHotVideo from "@/components/template/page/main/E-MainHotVideo";
 import MainBrandLink from "@/components/template/page/main/F-MainBrandLink";
 import BandShapeBanner from "@/components/template/page/main/reuable/BandShapeBanner";
+import { getServerSession } from "next-auth";
+import { cookies, headers } from "next/headers";
 
-export default function Home() {
+import CookieComponent from "@/components/template/page/main/CookieComponent";
+
+export default async function Home() {
+  const uuid = await getUnsisngedMemberUuid();
   return (
     <main className="w-full flex min-h-screen flex-col items-center justify-between bg-white">
       <div className="w-full flex flex-col">
+        <CookieComponent uuid={uuid} />
         {/* 1-MainVi */}
         <MainVi />
 

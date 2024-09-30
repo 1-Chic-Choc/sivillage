@@ -14,6 +14,7 @@ import ProductDetailVi from "@/components/template/page/product/ProductDetailVi"
 import ProductReviewComponent from "@/components/template/page/product/ProductReviewComponent";
 import { productDetailClassName } from "@/lib/classNames";
 import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 export default async function page({
@@ -50,8 +51,6 @@ export default async function page({
   );
 
   const { productOptionUuid } = productOptionList[0];
-  // const productDetailList =
-  //   (await getProductDetailList({ productOptionUuid })) || [];
   const [productDetailList, brand, color] = await Promise.all([
     getProductDetailList({ productOptionUuid }),
     getBrand({ brandUuid: product!.brandUuid }),
@@ -60,6 +59,7 @@ export default async function page({
 
   const session = await getServerSession(options);
   const token = session?.user?.accessToken;
+  const unsignedMemberUuid = cookies().get("X-Unsigned-User-UUID")?.value || "";
 
   return (
     <>
@@ -123,6 +123,7 @@ export default async function page({
         price={productOptionList[0].price}
         productUuid={productUuid}
         defaultProductOptionUuid={productOptionUuid}
+        unsignedMemberUuid={unsignedMemberUuid}
       />
     </>
   );

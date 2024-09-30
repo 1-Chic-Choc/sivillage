@@ -680,24 +680,21 @@ export async function postProductLike(
 
 export async function postCartItem(
   req: CreateCartItemResquestType,
+  unsignedMemberUuid: string,
 ): Promise<{} | null> {
   const method = "POST";
   const session = await getServerSession(options);
   const token = session?.user?.accessToken;
-  const userUuid = session?.user.uuid;
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/cart`, {
     method,
     headers: {
       ...headers,
       Authorization: `Bearer ${token}`,
-      // "X-Unsigned-User-UUID": userUuid,
+      "X-Unsigned-User-UUID": unsignedMemberUuid,
     },
     body: JSON.stringify(req),
     cache: "no-cache",
   });
-  // if (!res.ok) {
-  //   return null;
-  // }
   const data = (await res.json()) as CommonResType<any>;
   return data.code;
   // if (data.httpStatus === "OK") {

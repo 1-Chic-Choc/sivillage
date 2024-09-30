@@ -6,6 +6,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 // Swiper 모듈 사용 설정 (CSS는 글로벌에 포함됨)
 import "swiper/swiper-bundle.css";
+import Image from "next/image";
 
 const imageSrcArray = [
   "https://image.sivillage.com/upload/C00001/s3/dspl/banner/90/426/00/240900000506426_20240905083503.jpg",
@@ -32,10 +33,11 @@ export default function ShoppingBanner() {
       >
         {imageSrcArray.map((src, index) => (
           <SwiperSlide key={index}>
-            <img
+            <Image
               src={src}
               alt={`Slide ${index}`}
               className="w-full pb-10 object-contain"
+              fill
             />
           </SwiperSlide>
         ))}
