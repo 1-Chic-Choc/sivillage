@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Category } from "@/types/ProductTypes";
-import { getCategoryList } from "@/action/categoryAction";
+import { getCategoryList } from "@/action/productAction";
 
 interface MiddleCategoryListProps {
   parentId: number;
-  parentCategoryName: string;
+  parentCategoryName: string; // TopCategoryList에서 전달받은 선택된 카테고리 이름
 }
 
 function MiddleCategoryList({

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import MiddleCategoryList from "./MiddleCategoryList";
 import { Category } from "@/types/ProductTypes";
-import { getCategoryList } from "@/action/categoryAction";
+import { getCategoryList } from "@/action/productAction";
 
 function TopCategoryList() {
   const [categories, setCategories] = useState<Category[]>([]);
