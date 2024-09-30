@@ -1,39 +1,67 @@
 "use client";
 
-import { categoryData } from "@/datas/dummy/categoriesData";
-import { CategoryType } from "@/types/ResponseTypes";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MiddleCategoryList from "./MiddleCategoryList";
+import { Category } from "@/types/ProductTypes";
+import { getCategoryList } from "@/action/productAction";
 
 function TopCategoryList() {
-  const data = categoryData as CategoryType[];
-  const [selectedCategory, setSelectedCategory] = useState<string>("여성의류");
-  const topLevelCategories = data.filter((category) => category.depth === 0);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
+  const [selectedCategoryName, setSelectedCategoryName] = useState<
+    string | undefined
+  >(undefined);
 
-  const handleCategoryClick = (categoryName: string) => {
-    setSelectedCategory(categoryName);
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      const categoryData = await getCategoryList();
+      if (categoryData) {
+        const topLevelCategories = categoryData.filter(
+          (category: Category) => category.depth === 0,
+        );
+        setCategories(topLevelCategories);
+
+        if (topLevelCategories.length > 0) {
+          setSelectedCategoryId(topLevelCategories[0].id);
+          setSelectedCategoryName(topLevelCategories[0].name);
+        }
+      }
+    };
+    fetchCategoryData();
+  }, []);
+
+  const handleCategoryClick = (categoryId: number, categoryName: string) => {
+    setSelectedCategoryId(categoryId);
+    setSelectedCategoryName(categoryName); // 선택된 카테고리 이름 변경
   };
 
   return (
     <section className="flex flex-row overflow-hidden">
       <nav className="w-[50%] overflow-clip">
         <ul>
-          {topLevelCategories.map((category: CategoryType) => (
+          {categories.map((category: Category) => (
             <li
-              key={category.ctg_no}
+              key={category.id}
               className={`p-4 cursor-pointer whitespace-nowrap ${
-                selectedCategory === category.ctg_name
+                selectedCategoryId === category.id
                   ? "bg-black text-white"
                   : "bg-white"
               }`}
-              onClick={() => handleCategoryClick(category.ctg_name)}
+              onClick={() => handleCategoryClick(category.id, category.name)}
             >
-              {category.ctg_name}
+              {category.name}
             </li>
           ))}
         </ul>
       </nav>
-      <MiddleCategoryList categoryName={selectedCategory} />
+      {selectedCategoryId !== null && selectedCategoryName && (
+        <MiddleCategoryList
+          parentId={selectedCategoryId}
+          parentCategoryName={selectedCategoryName} // 선택된 카테고리 이름 전달
+        />
+      )}
     </section>
   );
 }
