@@ -1,57 +1,45 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { quickMenuEventData } from "@/datas/dummy/quickMenuEventData";
-import { categoryData } from "@/datas/dummy/categoriesData";
+import { Category } from "@/types/ProductTypes";
+import { getCategoryList } from "@/action/categoryAction";
+
+interface MiddleCategoryListProps {
+  parentId: number;
+  parentCategoryName: string;
+}
 
 function MiddleCategoryList({
-  categoryName,
-}: {
-  categoryName?: string | null;
-}) {
-  const selectedCategory = categoryData.find(
-    (cat) => cat.ctg_name === categoryName,
-  );
-  const filteredImages = quickMenuEventData.filter(
-    (event) => event.ctg_no === selectedCategory?.ctg_no,
-  );
-  const subCategories = categoryData.filter(
-    (cat) => cat.parent_ctg_no === selectedCategory?.ctg_no,
-  );
+  parentId,
+  parentCategoryName,
+}: MiddleCategoryListProps) {
+  const [middleCategoryList, setMiddleCategoryList] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchMiddleCategories = async () => {
+      const categoryData = await getCategoryList({ parentId });
+      if (categoryData) {
+        setMiddleCategoryList(categoryData);
+      }
+    };
+
+    fetchMiddleCategories();
+  }, [parentId]);
 
   const formatCategoryName = (name: any) => name.replace(/\//g, "_");
+
   return (
     <div className="h-screen pl-4 col-span-9 border-l border-[#e0e0e0] overflow-y-auto">
-      <div className="py-4 pr-5">
-        {filteredImages.map((event) => (
-          <div key={event.id}>
-            <Link href={event.link}>
-              <Image
-                src={event.imgUrl}
-                alt={event.name}
-                width={600}
-                height={100}
-              />
-            </Link>
-          </div>
-        ))}
-      </div>
       <nav className="p-4">
         <ul className="list-none">
-          {subCategories.map((category) => (
-            <li key={category.ctg_no} className="py-2">
+          {middleCategoryList.map((category: Category) => (
+            <li key={category.id} className="py-2">
               <Link
-                href={
-                  `/category/${formatCategoryName(category.parent_ctg_name)}` +
-                  (category.ctg_name === "전체"
-                    ? ""
-                    : `/${formatCategoryName(category.ctg_name)}`)
-                }
+                href={`/category/${formatCategoryName(parentCategoryName)}/${formatCategoryName(category.name)}`}
                 className="text-gray-700 hover:text-black"
               >
-                {category.ctg_name}
+                {category.name}
               </Link>
             </li>
           ))}
