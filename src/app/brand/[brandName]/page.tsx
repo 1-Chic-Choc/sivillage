@@ -31,6 +31,7 @@ export default async function page({
     : [];
   brandName = decodeURI(brandName).replace("_", "/");
   const filtering = { perPage: 100, ...searchParams, brands: [brandName] };
+
   const [products, productCount, productBest, productCategoryFilteringValues] =
     await Promise.all([
       getProductList(filtering),
@@ -40,7 +41,9 @@ export default async function page({
         page: 1,
         perPage: 10,
       }),
-      getProductCategoryFilteringValues({ categories: categoryArray }),
+      getProductCategoryFilteringValues({
+        brands: [brandName],
+      }),
     ]);
   return (
     <main className="w-full">

@@ -19,7 +19,7 @@ export default async function PromotionCard({ promotion }: PromotionCardProps) {
         href={`/promotion/${promotion.promotionUuid}`}
         className="w-full flex mb-[20px]"
       >
-        <div className="relative w-[42%] aspect-[25/28] mr-[16px]">
+        <div className="relative w-[42%] aspect-[25/28] mr-[16px] shrink-0">
           <Image
             src={promotion.thumbnailUrl}
             alt={promotion.title}

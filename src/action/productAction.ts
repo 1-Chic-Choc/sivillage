@@ -198,10 +198,8 @@ export async function getProductCategoryFilteringValues(
       cache: "force-cache",
     },
   );
-  if (!res.ok) {
-    return null;
-  }
   const data = (await res.json()) as CommonResType<any>;
+
   if (data.httpStatus === "OK") {
     const { result } = data;
     return result;
@@ -639,7 +637,7 @@ export async function getProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "force-cache",
+      cache: "no-cache",
     },
   );
   if (!res.ok) {
@@ -665,7 +663,7 @@ export async function postProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "default",
+      cache: "no-cache",
     },
   );
   if (!res.ok) {
@@ -686,11 +684,16 @@ export async function postCartItem(
   const method = "POST";
   const session = await getServerSession(options);
   const token = session?.user?.accessToken;
+  const userUuid = session?.user.uuid;
   const res = await fetch(`${process.env.BACKEND_BASE_URL}/api/v1/cart`, {
     method,
-    headers: { ...headers, Authorization: `Bearer ${token}` },
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+      // "X-Unsigned-User-UUID": userUuid,
+    },
     body: JSON.stringify(req),
-    cache: "default",
+    cache: "no-cache",
   });
   // if (!res.ok) {
   //   return null;
