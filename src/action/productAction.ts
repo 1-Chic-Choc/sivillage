@@ -639,7 +639,7 @@ export async function getProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "force-cache",
+      cache: "no-cache",
     },
   );
   if (!res.ok) {
@@ -665,7 +665,7 @@ export async function postProductLike(
     {
       method,
       headers: { ...headers, Authorization: `Bearer ${token}` },
-      cache: "default",
+      cache: "no-cache",
     },
   );
   if (!res.ok) {
@@ -692,16 +692,15 @@ export async function postCartItem(
     headers: {
       ...headers,
       Authorization: `Bearer ${token}`,
-      "X-Unsigned-User-UUID": userUuid,
+      // "X-Unsigned-User-UUID": userUuid,
     },
     body: JSON.stringify(req),
-    cache: "default",
+    cache: "no-cache",
   });
   // if (!res.ok) {
   //   return null;
   // }
   const data = (await res.json()) as CommonResType<any>;
-  console.log(data);
   return data.code;
   // if (data.httpStatus === "OK") {
   //   const { result } = data;

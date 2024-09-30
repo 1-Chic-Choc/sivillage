@@ -20,24 +20,25 @@ export async function getCartData(): Promise<cartItemType[]> {
   console.log(apiUrl);
   const session = await getServerSession(options);
 
-  const token = session?.user?.accssToken;
+  const token = session?.user?.accessToken;
   const userUuid = session?.user?.uuid;
-  console.log("session:", JSON.stringify(session, null, 2));
+  // console.log("session:", JSON.stringify(session, null, 2));
 
   const response = await fetch(apiUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-      "X-Unsigned-User-UUID": userUuid,
+      // "X-Unsigned-User-UUID": userUuid,
     },
   });
 
-  if (!response.ok) {
-    throw new Error("fail");
-  }
+  // if (!response.ok) {
+  //   throw new Error("fail");
+  // }
 
   const res = (await response.json()) as commonResType<cartItemType[]>;
+  console.log(res);
   const data = res.result;
 
   return data;
