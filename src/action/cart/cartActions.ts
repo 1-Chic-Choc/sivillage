@@ -25,8 +25,6 @@ export async function getCartData(
   const token = session?.user?.accessToken;
   const userUuid = session?.user?.uuid;
 
-  console.log("session:", JSON.stringify(session, null, 2));
-
   const response = await fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -36,11 +34,12 @@ export async function getCartData(
     },
   });
 
-  if (!response.ok) {
-    throw new Error("fail");
-  }
+  // if (!response.ok) {
+  //   throw new Error("fail");
+  // }
 
   const res = (await response.json()) as commonResType<cartItemType[]>;
+  console.log(res);
   const data = res.result;
 
   return data;

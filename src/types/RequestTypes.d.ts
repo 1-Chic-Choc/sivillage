@@ -58,6 +58,7 @@ export interface ProductBest100RequestType {
 
 export interface ProductCategoryFilteringValuesRequestType {
   categories?: string[];
+  brands?: string[];
 }
 
 export type CategoryByPathRequestType = Record<"path", string[]>;

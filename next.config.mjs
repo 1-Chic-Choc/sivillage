@@ -11,7 +11,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://cdn-mo.sivillage.com",
+        hostname: "cdn-mo.sivillage.com",
         port: "",
         pathname: "/**",
       },

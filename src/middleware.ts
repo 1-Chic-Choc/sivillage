@@ -31,7 +31,11 @@ const withOutAuth = async (
 };
 
 const withAuthList = [routes.mypage];
-const withOutAuthList = [routes.signIn, routes.signup];
+const withOutAuthList = [
+  routes.signIn,
+  routes.signup,
+  routes.testAccountSignIn,
+];
 
 export default async function middleware(request: NextRequest) {
   const token = await getToken({
